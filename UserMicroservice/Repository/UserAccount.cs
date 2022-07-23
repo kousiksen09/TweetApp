@@ -1,0 +1,155 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using UserMicroservice.Context;
+using UserMicroservice.Model;
+
+namespace UserMicroservice.Repository
+{
+    public class UserAccount : IUserAccount
+    {
+        private readonly UserManager<UserDetails> _userManager;
+        private readonly TweetUserContext _tweetUser;
+        public UserAccount(UserManager<UserDetails> userManager, 
+           TweetUserContext tweetUserContext)
+            
+        {
+            _userManager= userManager;
+            _tweetUser= tweetUserContext;
+        }
+
+        public bool AddActiveStatus(string userId)
+        {
+           if(userId == null)
+            {
+                return false;
+            }
+            try
+            {
+                TweetUserActiveStatus tweetUserActiveStatus = new TweetUserActiveStatus
+                {
+                    userDetailsId = userId,
+                    ActiveStatus = true,
+                    LastSeen = DateTime.Now
+                };
+                _tweetUser.TweetUserActiveStatuses.Add(tweetUserActiveStatus);
+                var res = _tweetUser.SaveChanges();
+                if (res > 0)
+                    return true;
+
+                return false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<ActionStatusDTO> OnPostRegister(UserDetails userDetails)
+        {
+            if (userDetails == null)
+            {
+                return new ActionStatusDTO { Status=false, StatusCode=StatusCodes.Status400BadRequest,Message="Invalide User Input"};
+            }
+            MailAddress mailAddress = new MailAddress(userDetails.Email);
+            string userName = mailAddress.User + userDetails.DateOfBirth.Month.ToString();
+            try
+            {
+                UserDetails user = new UserDetails
+                {
+                    Id = userDetails.Id,
+                    UserName = userName,
+                    Email = userDetails.Email,
+                    Name = userDetails.Name,
+                    gender = userDetails.gender,
+                    DateOfBirth=userDetails.DateOfBirth,
+                    MobileNumber = userDetails.MobileNumber,
+                    Country = userDetails.Country,
+                    State = userDetails.State,
+                    ProfilePicture=userDetails.ProfilePicture
+
+                };
+                var userExists = await _userManager.FindByEmailAsync(userDetails.Email);
+                if (userExists != null)
+                {
+                    return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "Already there is an user with the same email" };
+                }
+                var result = await _userManager.CreateAsync(user, userDetails.PasswordHash);
+
+
+
+                if (!result.Succeeded)
+                {
+                    return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
+
+                }
+                else
+                {
+                    if (user.Id != null)
+                    {
+                        var activeStatusCreationStatus = AddActiveStatus(user.Id);
+                        if(activeStatusCreationStatus ==false)
+                        {
+                            return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
+                        }
+                    }
+                    return new ActionStatusDTO { Status = true, StatusCode = StatusCodes.Status201Created, Message = "User has been created successfully!!!" };
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = ex.Message};
+            }
+
+        }
+
+        public async Task<bool> UpdateActiveStatusLoggingIn(string userName)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(userName);
+                if (user == null)
+                    return false;
+                TweetUserActiveStatus activeStts = new TweetUserActiveStatus
+                {
+                    userDetailsId = user.Id,
+                    ActiveStatus = true,
+                    LastSeen = DateTime.Now
+                };
+                _tweetUser.TweetUserActiveStatuses.Update(activeStts);
+                var res = _tweetUser.SaveChanges();
+                if (res > 1)
+                    return true;
+                return false;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+
+            
+        }
+
+        public async Task<bool> UpdateActiveStatusLoggingOut(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+                return false;
+            TweetUserActiveStatus activeStts = new TweetUserActiveStatus
+            {
+                userDetailsId = user.Id,
+                ActiveStatus = false,
+                LastSeen = DateTime.Now
+            };
+            _tweetUser.TweetUserActiveStatuses.Update(activeStts);
+            var res = _tweetUser.SaveChanges();
+            if (res > 1)
+                return true;
+            return false;
+        }
+    }
+}
