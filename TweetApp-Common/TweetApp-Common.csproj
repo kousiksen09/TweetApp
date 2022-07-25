@@ -5,8 +5,4 @@
     <RootNamespace>TweetApp_Common</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
 </Project>

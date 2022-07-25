@@ -35,10 +35,11 @@ namespace UserMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             var key = Configuration["JWT:Secret"];
-            services.AddControllers();
+            
          
             services.AddAuthentication(options =>
             {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(x =>
@@ -48,12 +49,15 @@ namespace UserMicroservice
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
-                    ValidateIssuer = false,
-                    ValidateAudience=false
+                    ValidIssuer = Configuration["Jwt:Audience"],
+                    ValidAudience = Configuration["Jwt:Audience"]
 
                 };
             });
+            services.AddControllers();
             services.AddTransient<IUserAccount, UserAccount>();
             services.AddTransient<IJWTAutnenticationManager, JWTAutnenticationManager>();
             services.AddSwaggerGen(c =>
@@ -78,16 +82,17 @@ namespace UserMicroservice
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "UserMicroservice v1"));
             }
 
+            app.UseHsts();
             app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }

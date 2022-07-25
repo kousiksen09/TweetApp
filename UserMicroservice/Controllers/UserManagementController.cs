@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -7,8 +9,9 @@ using UserMicroservice.Repository;
 
 namespace UserMicroservice.Controllers
 {
-    [Route("api/v1.0/tweets")]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [ApiController]
+    [Route("api/v1.0/tweets")]
     public class UserManagementController : ControllerBase
     {
         static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(UserManagementController));
@@ -19,7 +22,7 @@ namespace UserMicroservice.Controllers
             _userAccount = userAccount;
             _authenticationManager = autnenticationManager; 
         }
-
+        [AllowAnonymous]
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> RegisterUser(UserDetails user)
@@ -47,6 +50,7 @@ namespace UserMicroservice.Controllers
      
 
         }
+        [AllowAnonymous]
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> LogIn(LogInDTO logInCred)
@@ -70,6 +74,48 @@ namespace UserMicroservice.Controllers
             catch (Exception ex)
             {
                 _log4net.Error("LogIn Attempt Failed " + ex.Message);
+                return BadRequest();
+            }
+        }
+      
+        [HttpGet]
+        [Route("getUsername/{name}")]
+        public IActionResult GetUserNamefromName(string name)
+        {
+            if(name == null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var userNameList = _userAccount.FindUserNameFromName(name);
+                if(userNameList == null)
+                    return NotFound("Nothing found with this name "+name);
+                return new OkObjectResult(userNameList);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,ex.Message);
+            }
+        }
+
+        
+        [HttpGet]
+        [Route("search/{username}")]
+        public async Task<IActionResult> SearchByUserName(string username)
+        {
+            try
+            {
+                var user = await _userAccount.SearchByUserName(username);
+                if (user == null)
+                {
+                   return NotFound();
+                }
+                return new OkObjectResult(user);
+            }
+            catch (Exception ex)
+            {
+                _log4net.Info("Error While Searching" + ex.Message);
                 return BadRequest();
             }
         }

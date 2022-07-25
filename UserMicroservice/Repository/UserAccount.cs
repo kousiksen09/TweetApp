@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using TweetApp_Common.DTO;
 using UserMicroservice.Context;
 using UserMicroservice.Model;
 
@@ -106,7 +110,57 @@ namespace UserMicroservice.Repository
             }
 
         }
+      
 
+        public async Task <TweeterUserProfile> SearchByUserName(string userName)
+        {
+            try
+            {
+                if (userName == null)
+                    return null;
+                //find user by username 
+                var user = await _userManager.FindByNameAsync(userName);
+                
+                
+                
+                if (user != null)
+                {
+                    var activeStts = await _tweetUser.TweetUserActiveStatuses.FirstOrDefaultAsync(n => n.userDetailsId == user.Id);
+
+                    TweeterUserProfile tweeterUserProfile = new TweeterUserProfile
+                    {
+                        Name = user.Name,
+                        UserName = user.UserName,
+                        MobileNumber = user.MobileNumber,
+                        Country = user.Country,
+                        State = user.State,
+                        ProfilePicture = user.ProfilePicture,
+                        IsActive = activeStts.ActiveStatus,
+                        LastSeen = activeStts.LastSeen
+                    };
+                    return tweeterUserProfile;
+                }
+              
+                
+                return null;
+            } catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
+        public List<string> FindUserNameFromName (string name)
+        {
+            List<string> userName= new List<string>();  
+            if (name == null)
+                return null;
+            var users = _userManager.Users.Where(x => x.Name.ToLower().StartsWith(name.ToLower())).ToList();
+            foreach (var user in users)
+            {
+                userName.Add(user.UserName);    
+            }
+            return userName;
+        }
         public async Task<bool> UpdateActiveStatusLoggingIn(string userName)
         {
             try

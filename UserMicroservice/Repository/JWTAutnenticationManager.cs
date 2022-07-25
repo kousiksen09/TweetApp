@@ -53,6 +53,8 @@ namespace UserMicroservice.Repository
                         {
                             new Claim(ClaimTypes.Name, userName)
                         }),
+                        Issuer = _configuration["Jwt:Audience"],
+                        Audience = _configuration["Jwt:Audience"],
                         Expires = DateTime.UtcNow.AddDays(3),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),
                         SecurityAlgorithms.HmacSha256Signature)

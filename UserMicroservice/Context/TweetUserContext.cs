@@ -46,5 +46,6 @@ namespace UserMicroservice.Context
         }
 
         public DbSet<TweetUserActiveStatus> TweetUserActiveStatuses { get; set; }
+   
     }
 }
