@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
+using UserMicroservice.Context;
 using UserMicroservice.Model;
 
 namespace UserMicroservice.Repository
@@ -14,5 +15,7 @@ namespace UserMicroservice.Repository
         public List<string> FindUserNameFromName(string name);
         public Task<bool> UpdateActiveStatusLoggingIn(string userName);
         public Task<bool> UpdateActiveStatusLoggingOut(string userName);
+        public Task<ActionStatusDTO> UpdatePassword(ResetPasswordDTO resetPasswordDTO);
+        public Task<List<TweeterUserProfile>> GetAllUsers();
     }
 }

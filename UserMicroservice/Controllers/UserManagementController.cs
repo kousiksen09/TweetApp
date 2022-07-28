@@ -120,6 +120,56 @@ namespace UserMicroservice.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPatch]
+        [Route("forgetPassword")]
+
+        public async Task<IActionResult> ForgetPassword(ResetPasswordDTO info)
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(info.Email) || String.IsNullOrEmpty(info.DOB.ToString()))
+                {
+                    _log4net.Info("Not all the feilds are filled");
+                    return BadRequest("Invalid Input");
+                    
+                }
+                var result = await _userAccount.UpdatePassword(info);
+                if (result.Status)
+                {
+                    return Ok(result);
+                }
+                _log4net.Error("No users with this informations");
+                return BadRequest(result);
+            }
+            catch(Exception ex)
+            {
+                _log4net.Error("Internal Errors" + ex.Message);
+                return BadRequest();
+            }
+
+        }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("getAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await _userAccount.GetAllUsers();
+                if (users == null)
+                {
+                    _log4net.Info("No Users are there");
+                    return NotFound("Opppsss!! No users are there");
+                }
+                return new OkObjectResult(users);
+            }
+            catch (Exception ex)
+            {
+                _log4net.Error("Error While Searching" + ex.Message);
+                return BadRequest();
+            }
+        }
     }
 
    

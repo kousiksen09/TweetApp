@@ -205,5 +205,92 @@ namespace UserMicroservice.Repository
                 return true;
             return false;
         }
+
+        public async Task<ActionStatusDTO> UpdatePassword(ResetPasswordDTO resetPasswordDTO)
+        {
+            if (resetPasswordDTO.Email == null)
+            {
+                return new ActionStatusDTO
+                {
+                    StatusCode = StatusCodes.Status400BadRequest,
+                    Status = false,
+                    Message = "Please enter a valid email"                
+                };
+            }
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(resetPasswordDTO.Email);
+                if (user == null)
+                {
+                    return new ActionStatusDTO
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        Status = false,
+                        Message = "Oppsss!!! No user is there with this mail ID"
+                    };
+                }
+                if (resetPasswordDTO.DOB == user.DateOfBirth)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var isChanged = await _userManager.ResetPasswordAsync(user, token, resetPasswordDTO.Confirmpassword);
+                    if (isChanged.Succeeded)
+                    {
+                        return new ActionStatusDTO
+                        {
+                            StatusCode = StatusCodes.Status200OK,
+                            Status = true,
+                            Message = "Password Reset Succesfully!!"
+                        };
+                    }
+                }
+                return new ActionStatusDTO
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Status = false,
+                    Message = "Oppsss!!! Something went wrong"
+                };
+            }
+            catch(Exception ex)
+            {
+                return new ActionStatusDTO
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                    Status = false,
+                    Message = "Oppsss!!! Something went wrong" + ex.Message
+                };
+            }
+
+        }
+
+        public async Task<List<TweeterUserProfile>> GetAllUsers()
+        {
+            List<TweeterUserProfile> allUsers = new List<TweeterUserProfile>();
+            try
+            {
+                var users = _userManager.Users.ToList();
+                foreach (var user in users)
+                {
+                    var activeStts = await _tweetUser.TweetUserActiveStatuses.FirstOrDefaultAsync(n => n.userDetailsId == user.Id);
+                    allUsers.Add(new TweeterUserProfile
+                    {
+                        UserName= user.UserName,
+                        Name = user.Name,
+                        MobileNumber = user.MobileNumber,
+                        State = user.State,
+                        Country = user.Country,
+                        ProfilePicture = user.ProfilePicture,
+                        IsActive = activeStts.ActiveStatus,
+                        LastSeen = activeStts.LastSeen
+                    }
+                    );
+                }
+                return allUsers;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
+            
     }
 }
