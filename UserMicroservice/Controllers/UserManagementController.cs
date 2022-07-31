@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using TweetApp_Common.DTO;
 using UserMicroservice.Model;
 using UserMicroservice.Repository;
 

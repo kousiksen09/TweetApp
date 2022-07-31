@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -59,7 +59,7 @@ namespace UserMicroservice.Repository
                 return new ActionStatusDTO { Status=false, StatusCode=StatusCodes.Status400BadRequest,Message="Invalide User Input"};
             }
             MailAddress mailAddress = new MailAddress(userDetails.Email);
-            string userName = mailAddress.User + userDetails.DateOfBirth.Month.ToString();
+            string userName = mailAddress.Address.Split('@')[0].ToLower() + userDetails.DateOfBirth.Day.ToString();
             try
             {
                 UserDetails user = new UserDetails

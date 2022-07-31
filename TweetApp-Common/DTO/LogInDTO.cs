@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace UserMicroservice.Model
+namespace TweetApp_Common.DTO
 {
     public class LogInDTO
     {

@@ -1,4 +1,4 @@
-﻿namespace UserMicroservice.Model
+﻿namespace TweetApp_Common.DTO
 {
     public class ActionStatusDTO
     {

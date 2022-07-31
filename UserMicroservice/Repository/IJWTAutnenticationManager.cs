@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using UserMicroservice.Model;
+using TweetApp_Common.DTO;
 
 namespace UserMicroservice.Repository
 {

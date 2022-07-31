@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System;
 using Microsoft.Extensions.Configuration;
+using TweetApp_Common.DTO;
 
 namespace UserMicroservice.Repository
 {
