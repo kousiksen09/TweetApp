@@ -5,17 +5,13 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice", "UserMicroservice\UserMicroservice.csproj", "{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetPostMicroservice", "TweetPostMicroservice\TweetPostMicroservice.csproj", "{CFDDF138-9E11-417A-8BD9-629E9E733D27}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetView_ReplyMicroservice", "TweetView_ReplyMicroservice\TweetView_ReplyMicroservice.csproj", "{6DD8AD46-6EB5-4CD3-A5C9-6229D6F34EBF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetAppAPIGateway", "TweetAppAPIGateway\TweetAppAPIGateway.csproj", "{5C90AC91-CEE8-4549-878B-05868213C357}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Test", "Unit Test", "{9F756BC1-4E81-49DB-8A75-8F4A930E7C50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetApp-Common", "TweetApp-Common\TweetApp-Common.csproj", "{66A5223F-5464-4705-B5C7-2E0DB7674A0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.TweetUserMicroservice", "Test.TweetUserMicroservice\Test.TweetUserMicroservice.csproj", "{6A16C04B-FBDA-46D0-BBE1-88507E0B7347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetUserMicroservice", "Test.TweetUserMicroservice\Test.TweetUserMicroservice.csproj", "{6A16C04B-FBDA-46D0-BBE1-88507E0B7347}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,14 +23,6 @@ Global
 		{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFDDF138-9E11-417A-8BD9-629E9E733D27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFDDF138-9E11-417A-8BD9-629E9E733D27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CFDDF138-9E11-417A-8BD9-629E9E733D27}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CFDDF138-9E11-417A-8BD9-629E9E733D27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6DD8AD46-6EB5-4CD3-A5C9-6229D6F34EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DD8AD46-6EB5-4CD3-A5C9-6229D6F34EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DD8AD46-6EB5-4CD3-A5C9-6229D6F34EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DD8AD46-6EB5-4CD3-A5C9-6229D6F34EBF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C90AC91-CEE8-4549-878B-05868213C357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C90AC91-CEE8-4549-878B-05868213C357}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C90AC91-CEE8-4549-878B-05868213C357}.Release|Any CPU.ActiveCfg = Release|Any CPU
