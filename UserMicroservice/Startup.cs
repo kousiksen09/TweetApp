@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -58,6 +59,9 @@ namespace UserMicroservice
                 };
             });
             services.AddControllers();
+            IMapper mapper = MappingConfig.RegisterMap().CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddTransient<IUserAccount, UserAccount>();
             services.AddTransient<IJWTAutnenticationManager, JWTAutnenticationManager>();
             services.AddSwaggerGen(c =>

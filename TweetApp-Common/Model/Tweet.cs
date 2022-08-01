@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,8 +19,9 @@ namespace TweetApp_Common.Model
         public int Like { get; set; }
         public string PostedOn { get; set; }
         [Required]
+        [ForeignKey("Id")]
         public string UserId { get; set; }
-        public IList<TweetReply> Replies { get; set; }
         public UserDetails User { get; set; }
+        public IList<TweetReply> Replies { get; set; }
     }
 }

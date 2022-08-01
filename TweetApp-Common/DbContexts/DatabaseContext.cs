@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TweetApp.DBContext;
 using TweetApp_Common.Model;
 
 namespace TweetApp_Common.DbContexts
 {
-    class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<UserDetails>
     {        
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {
@@ -18,18 +20,51 @@ namespace TweetApp_Common.DbContexts
         }
         public DbSet<TweetReply> TweetReplies { get; set; }
         public DbSet<Tweet> Tweets { get; set; }
+        public DbSet<TweetUserActiveStatus> TweetUserActiveStatuses { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            modelBuilder.Entity<TweetReply>()
+            base.OnModelCreating(builder);
+
+            builder.Entity<IdentityUser>(entity =>
+            {
+                entity.ToTable(name: "Tweeter_User");
+            });
+            builder.Entity<IdentityRole>(entity =>
+            {
+                entity.ToTable(name: "Tweeter_Role");
+            });
+            builder.Entity<IdentityUserRole<string>>(entity =>
+            {
+                entity.ToTable("Tweeter_UserRoles");
+            });
+            builder.Entity<IdentityUserClaim<string>>(entity =>
+            {
+                entity.ToTable("Tweeter_UserClaims");
+            });
+            builder.Entity<IdentityUserLogin<string>>(entity =>
+            {
+                entity.ToTable("Tweeter_UserLogins");
+            });
+            builder.Entity<IdentityRoleClaim<string>>(entity =>
+            {
+                entity.ToTable("Tweeter_RoleClaims");
+            });
+            builder.Entity<IdentityUserToken<string>>(entity =>
+            {
+                entity.ToTable("Tweeter_UserTokens");
+            });
+
+            builder.Entity<TweetReply>()
                 .HasOne<Tweet>(s => s.Tweet)
                 .WithMany(ad => ad.Replies)
                 .HasForeignKey(ad => ad.TweetId);
 
-            modelBuilder.Entity<Tweet>()
-                .HasOne<UserDetails>(s => s.User)
-                .WithMany(ad => ad.Tweets)
-                .HasForeignKey(ad => ad.UserId);
+            //builder.Entity<Tweet>()
+            //    .HasOne<IdentityUser>(s => s.User)
+            //    .WithMany(ad => ad.Tweets)
+            //    .HasForeignKey(ad => ad.UserId);
+
         }
     }    
 }

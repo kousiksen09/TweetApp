@@ -26,7 +26,7 @@ namespace UserMicroservice.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> RegisterUser(UserDetails user)
+        public async Task<IActionResult> RegisterUser(UserDetailsPostDTO user)
         {
             try
             {

@@ -1,4 +1,4 @@
-﻿
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,12 +17,14 @@ namespace UserMicroservice.Repository
     {
         private readonly UserManager<UserDetails> _userManager;
         private readonly TweetUserContext _tweetUser;
+        private IMapper _mapper;
         public UserAccount(UserManager<UserDetails> userManager, 
-           TweetUserContext tweetUserContext)
+           TweetUserContext tweetUserContext, IMapper mapper)
             
         {
             _userManager= userManager;
             _tweetUser= tweetUserContext;
+            _mapper = mapper;
         }
 
         public bool AddActiveStatus(string userId)
@@ -46,14 +48,15 @@ namespace UserMicroservice.Repository
 
                 return false;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return false;
             }
         }
 
-        public async Task<ActionStatusDTO> OnPostRegister(UserDetails userDetails)
+        public async Task<ActionStatusDTO> OnPostRegister(UserDetailsPostDTO userDetails)
         {
+            UserDetails user = _mapper.Map<UserDetailsPostDTO, UserDetails>(userDetails);
             if (userDetails == null)
             {
                 return new ActionStatusDTO { Status=false, StatusCode=StatusCodes.Status400BadRequest,Message="Invalide User Input"};
@@ -62,20 +65,21 @@ namespace UserMicroservice.Repository
             string userName = mailAddress.Address.Split('@')[0].ToLower() + userDetails.DateOfBirth.Day.ToString();
             try
             {
-                UserDetails user = new UserDetails
-                {
-                    Id = userDetails.Id,
-                    UserName = userName,
-                    Email = userDetails.Email,
-                    Name = userDetails.Name,
-                    gender = userDetails.gender,
-                    DateOfBirth=userDetails.DateOfBirth,
-                    MobileNumber = userDetails.MobileNumber,
-                    Country = userDetails.Country,
-                    State = userDetails.State,
-                    ProfilePicture=userDetails.ProfilePicture
+                //UserDetails user = new UserDetails
+                //{
+                //    Id = userDetails.Id,
+                //    UserName = userName,
+                //    Email = userDetails.Email,
+                //    Name = userDetails.Name,
+                //    gender = userDetails.gender,
+                //    DateOfBirth = userDetails.DateOfBirth,
+                //    MobileNumber = userDetails.MobileNumber,
+                //    Country = userDetails.Country,
+                //    State = userDetails.State,
+                //    ProfilePicture = userDetails.ProfilePicture
 
-                };
+                //};
+                user.UserName = userName;
                 var userExists = await _userManager.FindByEmailAsync(userDetails.Email);
                 if (userExists != null)
                 {
@@ -143,7 +147,7 @@ namespace UserMicroservice.Repository
               
                 
                 return null;
-            } catch (Exception ex)
+            } catch (Exception)
             {
                 return null;
             }
@@ -180,7 +184,7 @@ namespace UserMicroservice.Repository
                     return true;
                 return false;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return false;
             }
@@ -286,7 +290,7 @@ namespace UserMicroservice.Repository
                 }
                 return allUsers;
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 return null;
             }

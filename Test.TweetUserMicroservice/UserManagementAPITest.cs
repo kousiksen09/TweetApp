@@ -27,13 +27,13 @@ namespace Test.TweetUserMicroservice
         [Test]
         public void RegisterUserWithValidDetails_ReturnOKAsync()
         {
-            UserDetails us = new UserDetails
+            UserDetailsPostDTO us = new UserDetailsPostDTO
             {
-                Id = "hhgjghjgjgj",
-                UserName = "kousiksen09",
+                //Id = "hhgjghjgjgj",
+                //UserName = "kousiksen09",
                 Email = "kousiksen09@gmail.com",
                 Name = "Kousik",
-                gender = Gender.Male,
+                gender = TweetApp_Common.DTO.Gender.Male,
                 DateOfBirth = System.DateTime.Now,
                 MobileNumber = "923456789",
                 Country = "India",
