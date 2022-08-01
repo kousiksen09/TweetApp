@@ -16,8 +16,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TweetApp_Common.Model;
 using UserMicroservice.Context;
-using UserMicroservice.Model;
 using UserMicroservice.Repository;
 
 namespace UserMicroservice

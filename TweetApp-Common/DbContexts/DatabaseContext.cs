@@ -25,6 +25,11 @@ namespace TweetApp_Common.DbContexts
                 .HasOne<Tweet>(s => s.Tweet)
                 .WithMany(ad => ad.Replies)
                 .HasForeignKey(ad => ad.TweetId);
+
+            modelBuilder.Entity<Tweet>()
+                .HasOne<UserDetails>(s => s.User)
+                .WithMany(ad => ad.Tweets)
+                .HasForeignKey(ad => ad.UserId);
         }
     }    
 }

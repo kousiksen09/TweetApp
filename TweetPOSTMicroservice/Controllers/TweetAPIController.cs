@@ -44,7 +44,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpGet]
         [Route("{username}")]
-        public async Task<object> Get(int username)
+        public async Task<object> Get(string username)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpPost]
         [Route("{username}/add")]
-        public async Task<object> Post([FromBody] TweetUpsertDTO tweetDTO, int username)
+        public async Task<object> Post([FromBody] TweetUpsertDTO tweetDTO, string username)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpPut]
         [Route("{username}/update/{id}")]
-        public async Task<object> Put([FromBody] TweetUpsertDTO tweetDTO, int id, int username)
+        public async Task<object> Put([FromBody] TweetUpsertDTO tweetDTO, int id, string username)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpDelete]
         [Route("{username}/delete/{id}")]
-        public async Task<object> Delete(int id, int username)
+        public async Task<object> Delete(int id, string username)
         {
             try
             {

@@ -22,7 +22,7 @@ namespace TweetPOSTMicroservice.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> DeleteTweet(int tweetID, int username)
+        public async Task<bool> DeleteTweet(int tweetID, string username)
         {
             if(!Entry_Check_Update(tweetID, username))
             {
@@ -57,7 +57,7 @@ namespace TweetPOSTMicroservice.Repository
         }
 
         //All tweets for a single User
-        public async Task<IEnumerable<TweetReadDTO>> GetMyTweets(int userID)
+        public async Task<IEnumerable<TweetReadDTO>> GetMyTweets(string userID)
         {
             List<Tweet> tweetList = await _db.Tweets.Where(x => x.UserId == userID).ToListAsync();
             if(tweetList.Count<=0)
@@ -85,7 +85,7 @@ namespace TweetPOSTMicroservice.Repository
         }
 
         //Update an existing Tweet
-        public async Task<TweetReadDTO> UpdateTweet(TweetUpsertDTO tweetDTO, int id, int userID)
+        public async Task<TweetReadDTO> UpdateTweet(TweetUpsertDTO tweetDTO, int id, string userID)
         {
             if(Entry_Check_Update(id, userID))
             {
@@ -105,7 +105,7 @@ namespace TweetPOSTMicroservice.Repository
         }
 
         //Create a new Tweet
-        public async Task<TweetReadDTO> CreateTweet(TweetUpsertDTO tweetDTO, int userId)
+        public async Task<TweetReadDTO> CreateTweet(TweetUpsertDTO tweetDTO, string userId)
         {
             Tweet tweet = _mapper.Map<TweetUpsertDTO, Tweet>(tweetDTO);
             tweet.UserId = userId;
@@ -116,7 +116,7 @@ namespace TweetPOSTMicroservice.Repository
         }
 
 
-        public bool Entry_Check_Update(int id, int userId)
+        public bool Entry_Check_Update(int id, string userId)
         {
             var item =  _db.Tweets.AsNoTracking().FirstOrDefault(x => x.TweetID == id && x.UserId == userId);
             if (item == null)

@@ -8,8 +8,8 @@ namespace TweetView_ReplyMicroservice.Repository
 {
     public interface ITweetReplyRepository
     {
-        Task<bool> CreateTweetReply(ReplyDTO ReplyDTO, int userId);
+        Task<bool> CreateTweetReply(ReplyDTO ReplyDTO, string userId);
         Task<IEnumerable<ReplyDTO>> GetAllRepliesOfTweet(int TweetId);
-        Task<IEnumerable<ReplyDTO>> GetMyReplies(int userID);
+        Task<IEnumerable<ReplyDTO>> GetMyReplies(string userID);
     }
 }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserMicroservice.Model
+namespace TweetApp_Common.Model
 {
     public class TweetUserActiveStatus
     {

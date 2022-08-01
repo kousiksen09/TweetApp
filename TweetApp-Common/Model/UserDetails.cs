@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace UserMicroservice.Model
+namespace TweetApp_Common.Model
 {
     public enum Gender
     {
@@ -26,6 +27,7 @@ namespace UserMicroservice.Model
         [Required]
         public Gender gender { get; set; }
         public byte[] ProfilePicture { get; set; }
+        public IList<Tweet> Tweets { get; set; }
 
 
     }

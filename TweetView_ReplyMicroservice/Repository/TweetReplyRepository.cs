@@ -22,7 +22,7 @@ namespace TweetView_ReplyMicroservice.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateTweetReply(ReplyDTO ReplyDTO, int ReplyuserId)
+        public async Task<bool> CreateTweetReply(ReplyDTO ReplyDTO, string ReplyuserId)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace TweetView_ReplyMicroservice.Repository
             return _mapper.Map<List<ReplyDTO>>(replies);
         }
 
-        public async Task<IEnumerable<ReplyDTO>> GetMyReplies(int userID)
+        public async Task<IEnumerable<ReplyDTO>> GetMyReplies(string userID)
         {
             var myReplies = await _context.TweetReplies.Where(x => x.ReplyUserId == userID).ToListAsync();
             return _mapper.Map<List<ReplyDTO>>(myReplies);

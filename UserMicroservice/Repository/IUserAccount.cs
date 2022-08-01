@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
+using TweetApp_Common.Model;
 using UserMicroservice.Context;
-using UserMicroservice.Model;
+
 
 namespace UserMicroservice.Repository
 {

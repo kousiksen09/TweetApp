@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
-using UserMicroservice.Model;
+using TweetApp_Common.Model;
 using UserMicroservice.Repository;
 
 namespace UserMicroservice.Controllers

@@ -25,7 +25,7 @@ namespace TweetView_ReplyMicroservice.Controllers
 
         [HttpGet]
         [Route("{userid}")]
-        public async Task<object> GetReplies(int userid)
+        public async Task<object> GetReplies(string userid)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace TweetView_ReplyMicroservice.Controllers
 
         [HttpPost]
         [Route("{userid}/add")]
-        public async Task<object> PostReply([FromBody] ReplyDTO reply, int userid)
+        public async Task<object> PostReply([FromBody] ReplyDTO reply, string userid)
         {
             try
             {

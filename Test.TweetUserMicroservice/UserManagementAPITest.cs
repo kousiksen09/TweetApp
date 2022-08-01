@@ -3,8 +3,8 @@ using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
+using TweetApp_Common.Model;
 using UserMicroservice.Controllers;
-using UserMicroservice.Model;
 using UserMicroservice.Repository;
 
 namespace Test.TweetUserMicroservice

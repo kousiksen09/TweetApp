@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using UserMicroservice.Model;
 using TweetApp_Common;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,6 +8,7 @@ using System.Security.Claims;
 using System;
 using Microsoft.Extensions.Configuration;
 using TweetApp_Common.DTO;
+using TweetApp_Common.Model;
 
 namespace UserMicroservice.Repository
 {

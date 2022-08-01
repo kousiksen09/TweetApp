@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using UserMicroservice.Model;
+using TweetApp_Common.Model;
 
 namespace UserMicroservice.Context
 {

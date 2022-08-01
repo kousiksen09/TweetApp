@@ -9,10 +9,10 @@ namespace TweetPOSTMicroservice.Repository
     public interface ITweetRepository
     {
         Task<IEnumerable<TweetReadDTO>> GetAllTweets();
-        Task<IEnumerable<TweetReadDTO>> GetMyTweets(int userID);
+        Task<IEnumerable<TweetReadDTO>> GetMyTweets(string userID);
         Task<TweetReadDTO> GetTweetById(int tweetId);
-        Task<TweetReadDTO> UpdateTweet(TweetUpsertDTO tweetDTO, int id, int userID);
-        Task<TweetReadDTO> CreateTweet(TweetUpsertDTO tweetDTO, int userId);
-        Task<bool> DeleteTweet(int tweetID, int username);
+        Task<TweetReadDTO> UpdateTweet(TweetUpsertDTO tweetDTO, int id, string userID);
+        Task<TweetReadDTO> CreateTweet(TweetUpsertDTO tweetDTO, string userId);
+        Task<bool> DeleteTweet(int tweetID, string username);
     }
 }
