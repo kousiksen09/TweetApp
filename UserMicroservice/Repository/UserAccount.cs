@@ -65,20 +65,6 @@ namespace UserMicroservice.Repository
             string userName = mailAddress.Address.Split('@')[0].ToLower() + userDetails.DateOfBirth.Day.ToString();
             try
             {
-                //UserDetails user = new UserDetails
-                //{
-                //    Id = userDetails.Id,
-                //    UserName = userName,
-                //    Email = userDetails.Email,
-                //    Name = userDetails.Name,
-                //    gender = userDetails.gender,
-                //    DateOfBirth = userDetails.DateOfBirth,
-                //    MobileNumber = userDetails.MobileNumber,
-                //    Country = userDetails.Country,
-                //    State = userDetails.State,
-                //    ProfilePicture = userDetails.ProfilePicture
-
-                //};
                 user.UserName = userName;
                 var userExists = await _userManager.FindByEmailAsync(userDetails.Email);
                 if (userExists != null)
@@ -144,10 +130,9 @@ namespace UserMicroservice.Repository
                     };
                     return tweeterUserProfile;
                 }
-              
-                
                 return null;
-            } catch (Exception)
+            } 
+            catch (Exception)
             {
                 return null;
             }
