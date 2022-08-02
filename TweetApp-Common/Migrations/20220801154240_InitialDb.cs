@@ -180,7 +180,7 @@ namespace TweetApp_Common.Migrations
                         column: x => x.userDetailsId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

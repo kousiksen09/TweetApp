@@ -26,10 +26,10 @@ namespace TweetApp_Common.DbContexts
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<IdentityUser>(entity =>
-            {
-                entity.ToTable(name: "Tweeter_User");
-            });
+            //builder.Entity<IdentityUser>(entity =>
+            //{
+            //    entity.ToTable(name: "Tweeter_User");
+            //});
             builder.Entity<IdentityRole>(entity =>
             {
                 entity.ToTable(name: "Tweeter_Role");
