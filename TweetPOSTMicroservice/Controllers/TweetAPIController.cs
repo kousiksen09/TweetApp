@@ -103,6 +103,26 @@ namespace TweetPOSTMicroservice.Controllers
         }
 
         [HttpPut]
+        [Route("like/{id}")]
+        public async Task<object> Put(int id)
+        {
+            try
+            {
+                bool Issuccess = await _tweetRepository.AddLike(id);
+                _response.Result = Issuccess;
+                _log4net.Info("New likes added. ");
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+                _log4net.Error(_response.ErrorMessages);
+            }
+
+            return _response;
+        }
+
+        [HttpPut]
         [Route("{username}/update/{id}")]
         public async Task<object> Put([FromBody] TweetUpsertDTO tweetDTO, int id, string username)
         {

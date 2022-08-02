@@ -14,5 +14,6 @@ namespace TweetPOSTMicroservice.Repository
         Task<TweetReadDTO> UpdateTweet(TweetUpsertDTO tweetDTO, int id, string userID);
         Task<TweetReadDTO> CreateTweet(TweetUpsertDTO tweetDTO, string userId);
         Task<bool> DeleteTweet(int tweetID, string username);
+        Task<bool> AddLike(int tweetID);
     }
 }

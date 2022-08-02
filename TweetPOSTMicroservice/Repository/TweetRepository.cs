@@ -24,7 +24,8 @@ namespace TweetPOSTMicroservice.Repository
 
         public async Task<bool> DeleteTweet(int tweetID, string username)
         {
-            if(!Entry_Check_Update(tweetID, username))
+            var item = _db.Tweets.AsNoTracking().FirstOrDefault(x => x.TweetID == tweetID && x.UserId == username);
+            if (item == null)
             {
                 throw new Exception("Invalid TweetID / useid");
             }
@@ -32,14 +33,13 @@ namespace TweetPOSTMicroservice.Repository
             {
                 try
                 {
-                    Tweet tweet = await _db.Tweets.FirstOrDefaultAsync(x => x.TweetID == tweetID);
-                    if (tweet == null)
+                    _db.Tweets.Remove(item);
+                    var value = await _db.SaveChangesAsync();
+                    if (value > 0)
                     {
-                        return false;
+                        return true;
                     }
-                    _db.Tweets.Remove(tweet);
-                    await _db.SaveChangesAsync();
-                    return true;
+                    throw new Exception("Something went wrong with the database please check.");
                 }
                 catch (Exception)
                 {
@@ -47,6 +47,34 @@ namespace TweetPOSTMicroservice.Repository
                 }
             }
             
+        }
+
+        public async Task<bool> AddLike(int tweetID)
+        {
+            var item = _db.Tweets.AsNoTracking().FirstOrDefault(x => x.TweetID == tweetID);
+            if(item == null)
+            {
+                throw new Exception("Tweet Dosnt exist.");
+            }
+            else
+            {
+                try
+                {
+                    item.Like += 1;
+                    _db.Tweets.Update(item);
+                    var value = await _db.SaveChangesAsync();
+                    if(value>0)
+                    {
+                        return true;
+                    }
+                    throw new Exception("Something went wrong with the database please check.");
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
         }
 
         //All Tweets for all user
@@ -94,8 +122,12 @@ namespace TweetPOSTMicroservice.Repository
                 new_tweet.PostedOn = DateTime.Now.ToString();
                 new_tweet.UserId = userID;
                 _db.Tweets.Update(new_tweet);
-                await _db.SaveChangesAsync();
-                return _mapper.Map<Tweet, TweetReadDTO>(new_tweet);
+                var value = await _db.SaveChangesAsync();
+                if (value > 0)
+                {
+                    return _mapper.Map<Tweet, TweetReadDTO>(new_tweet);
+                }
+                throw new Exception("Something went wrong with the database please check.");
             }
             else
             {
@@ -111,8 +143,12 @@ namespace TweetPOSTMicroservice.Repository
             tweet.UserId = userId;
             tweet.PostedOn = DateTime.Now.ToString();
             _db.Tweets.Add(tweet);
-            await _db.SaveChangesAsync();
-            return _mapper.Map<Tweet, TweetReadDTO>(tweet);
+            var value = await _db.SaveChangesAsync();
+            if (value > 0)
+            {
+                return _mapper.Map<Tweet, TweetReadDTO>(tweet);
+            }
+            throw new Exception("Something went wrong with the database please check.");  
         }
 
 
