@@ -41,7 +41,11 @@ namespace UserMicroservice.Controllers
                     return BadRequest();
                 }
                 _log4net.Info(creationStatus.Message);
-                return StatusCode(creationStatus.StatusCode, creationStatus);
+                if (creationStatus.StatusCode == 201)
+                {
+                    return Ok(creationStatus);
+                }
+                return BadRequest(creationStatus);
             }
             catch(Exception ex)
             {
