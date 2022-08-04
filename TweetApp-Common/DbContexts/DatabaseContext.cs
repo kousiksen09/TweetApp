@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TweetApp.DBContext;
+using TweetApp_Common.DBContext;
 using TweetApp_Common.Model;
 
 namespace TweetApp_Common.DbContexts

@@ -15,6 +15,7 @@ using TweetApp_Common;
 using TweetApp_Common.Model;
 using UserMicroservice.Context;
 using UserMicroservice.Repository;
+using TweetApp_Common.DBContext;
 
 namespace UserMicroservice
 {
@@ -63,8 +64,9 @@ namespace UserMicroservice
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserMicroservice", Version = "v1" });
             });
+            Connection connection = new Connection();
             services.AddDbContext<TweetUserContext>(
-              x => x.UseSqlServer(Configuration.GetConnectionString("dbconn"))
+              x => x.UseSqlServer(connection.ConnectionString)
               );
             services.AddIdentity<UserDetails, IdentityRole>()
                 .AddEntityFrameworkStores<TweetUserContext>()

@@ -16,14 +16,18 @@ namespace UserMicroservice.Repository
     public class UserAccount : IUserAccount
     {
         private readonly UserManager<UserDetails> _userManager;
+        private readonly IJWTAutnenticationManager _jwtAuthenticationManager;
         private readonly TweetUserContext _tweetUser;
         private IMapper _mapper;
         public UserAccount(UserManager<UserDetails> userManager,
-           TweetUserContext tweetUserContext, IMapper mapper)
+           TweetUserContext tweetUserContext, IJWTAutnenticationManager jWTAutnenticationManager,
+           IMapper mapper
+           )
 
         {
             _userManager = userManager;
             _tweetUser = tweetUserContext;
+            _jwtAuthenticationManager = jWTAutnenticationManager;
             _mapper = mapper;
         }
 
@@ -77,6 +81,7 @@ namespace UserMicroservice.Repository
 
                 if (!result.Succeeded)
                 {
+                   
                     return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
 
                 }
@@ -90,7 +95,15 @@ namespace UserMicroservice.Repository
                             return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
                         }
                     }
-                    return new ActionStatusDTO { Status = true, StatusCode = StatusCodes.Status201Created, Message = "User has been created successfully!!!" };
+                   string token= await _jwtAuthenticationManager.Authenticate(new LogInDTO
+                    {
+                        UserName = userName,
+                        PassWord = userDetails.PasswordHash,
+                        RememberMe = true
+                    });
+                    
+                    return new ActionStatusDTO { Status = true, StatusCode = StatusCodes.Status201Created, 
+                        Message = "User has been created successfully!!!    "+"TokenForAuth:"+token.ToString() };
 
                 }
             }
@@ -144,11 +157,18 @@ namespace UserMicroservice.Repository
             if (name == null)
                 return null;
             var users = _userManager.Users.Where(x => x.Name.ToLower().StartsWith(name.ToLower())).ToList();
-            foreach (var user in users)
+            if (userName != null)
             {
-                userName.Add(user.UserName);
+                foreach (var user in users)
+                {
+                    userName.Add(user.UserName);
+                }
+                return userName;
             }
-            return userName;
+            else
+            {
+                throw new Exception("No User Found with this name");
+            }
         }
         public async Task<bool> UpdateActiveStatusLoggingIn(string userName)
         {

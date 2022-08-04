@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
 using TweetApp_Common;
+using TweetApp_Common.DBContext;
 using TweetView_ReplyMicroservice.DbContexts;
 using TweetView_ReplyMicroservice.Repository;
 
@@ -25,8 +26,10 @@ namespace TweetView_ReplyMicroservice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TweetReplyContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("Connection")));
+            Connection connection = new Connection();
+            services.AddDbContext<TweetReplyContext>(
+              x => x.UseSqlServer(connection.ConnectionString)
+              );
             services.AddControllers();
             IMapper mapper = MappingConfig.RegisterMap().CreateMapper();
             services.AddSingleton(mapper);

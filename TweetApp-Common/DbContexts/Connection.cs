@@ -1,6 +1,6 @@
-﻿namespace TweetApp.DBContext
+﻿namespace TweetApp_Common.DBContext
 {
-    internal class Connection
+    public class Connection
     {
         public string ConnectionString { get; set; }
         public Connection()
