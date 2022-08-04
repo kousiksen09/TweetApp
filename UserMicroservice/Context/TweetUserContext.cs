@@ -5,16 +5,16 @@ using TweetApp_Common.Model;
 
 namespace UserMicroservice.Context
 {
-    public class TweetUserContext:IdentityDbContext<UserDetails>
+    public class TweetUserContext : IdentityDbContext<UserDetails>
     {
-        public TweetUserContext(DbContextOptions<TweetUserContext> options):base(options)
+        public TweetUserContext(DbContextOptions<TweetUserContext> options) : base(options)
         {
 
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            
+
             builder.Entity<IdentityUser>(entity =>
             {
                 entity.ToTable(name: "Tweeter_User");
@@ -46,6 +46,6 @@ namespace UserMicroservice.Context
         }
 
         public DbSet<TweetUserActiveStatus> TweetUserActiveStatuses { get; set; }
-   
+
     }
 }

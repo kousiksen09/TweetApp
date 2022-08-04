@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 using TweetApp_Common.Model;
 
-namespace TweetPOSTMicroservice
+namespace TweetApp_Common
 {
     public class MappingConfig
     {
@@ -17,7 +13,10 @@ namespace TweetPOSTMicroservice
                 config.CreateMap<TweetDTO, Tweet>().ReverseMap();
                 config.CreateMap<TweetReadDTO, Tweet>().ReverseMap();
                 config.CreateMap<TweetUpsertDTO, Tweet>().ReverseMap();
-                //config.CreateMap<TweetDetailDTO, TweetDetail>().ReverseMap();
+                config.CreateMap<ReplyDTO, TweetReply>().ReverseMap();
+                config.CreateMap<UserDetailsPostDTO, UserDetails>().ReverseMap();
+                config.CreateMap<LogInDTO, Tweet>().ReverseMap();
+                config.CreateMap<TweeterUserProfile, UserDetails>().ReverseMap();
             });
 
             return mappingConfig;

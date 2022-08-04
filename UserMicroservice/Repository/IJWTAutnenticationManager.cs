@@ -5,6 +5,6 @@ namespace UserMicroservice.Repository
 {
     public interface IJWTAutnenticationManager
     {
-       public Task<string> Authenticate(LogInDTO logIn);
+        public Task<string> Authenticate(LogInDTO logIn);
     }
 }

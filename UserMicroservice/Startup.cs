@@ -2,21 +2,16 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using TweetApp_Common;
 using TweetApp_Common.Model;
 using UserMicroservice.Context;
 using UserMicroservice.Repository;
@@ -36,8 +31,8 @@ namespace UserMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             var key = Configuration["JWT:Secret"];
-            
-         
+
+
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -71,7 +66,7 @@ namespace UserMicroservice
             services.AddDbContext<TweetUserContext>(
               x => x.UseSqlServer(Configuration.GetConnectionString("dbconn"))
               );
-            services.AddIdentity<UserDetails,IdentityRole>()
+            services.AddIdentity<UserDetails, IdentityRole>()
                 .AddEntityFrameworkStores<TweetUserContext>()
                 .AddDefaultTokenProviders();
         }
@@ -96,7 +91,7 @@ namespace UserMicroservice
             {
                 endpoints.MapControllers();
             });
-            
+
         }
     }
 }

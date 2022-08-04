@@ -18,18 +18,18 @@ namespace UserMicroservice.Repository
         private readonly UserManager<UserDetails> _userManager;
         private readonly TweetUserContext _tweetUser;
         private IMapper _mapper;
-        public UserAccount(UserManager<UserDetails> userManager, 
+        public UserAccount(UserManager<UserDetails> userManager,
            TweetUserContext tweetUserContext, IMapper mapper)
-            
+
         {
-            _userManager= userManager;
-            _tweetUser= tweetUserContext;
+            _userManager = userManager;
+            _tweetUser = tweetUserContext;
             _mapper = mapper;
         }
 
         public bool AddActiveStatus(string userId)
         {
-           if(userId == null)
+            if (userId == null)
             {
                 return false;
             }
@@ -48,7 +48,7 @@ namespace UserMicroservice.Repository
 
                 return false;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -59,7 +59,7 @@ namespace UserMicroservice.Repository
             UserDetails user = _mapper.Map<UserDetailsPostDTO, UserDetails>(userDetails);
             if (userDetails == null)
             {
-                return new ActionStatusDTO { Status=false, StatusCode=StatusCodes.Status400BadRequest,Message="Invalide User Input"};
+                return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status400BadRequest, Message = "Invalide User Input" };
             }
             MailAddress mailAddress = new MailAddress(userDetails.Email);
             string userName = mailAddress.Address.Split('@')[0].ToLower() + userDetails.DateOfBirth.Day.ToString();
@@ -85,7 +85,7 @@ namespace UserMicroservice.Repository
                     if (user.Id != null)
                     {
                         var activeStatusCreationStatus = AddActiveStatus(user.Id);
-                        if(activeStatusCreationStatus ==false)
+                        if (activeStatusCreationStatus == false)
                         {
                             return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
                         }
@@ -96,13 +96,13 @@ namespace UserMicroservice.Repository
             }
             catch (Exception ex)
             {
-                return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = ex.Message};
+                return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = ex.Message };
             }
 
         }
-      
 
-        public async Task <TweeterUserProfile> SearchByUserName(string userName)
+
+        public async Task<TweeterUserProfile> SearchByUserName(string userName)
         {
             try
             {
@@ -110,9 +110,9 @@ namespace UserMicroservice.Repository
                     return null;
                 //find user by username 
                 var user = await _userManager.FindByNameAsync(userName);
-                
-                
-                
+
+
+
                 if (user != null)
                 {
                     var activeStts = await _tweetUser.TweetUserActiveStatuses.FirstOrDefaultAsync(n => n.userDetailsId == user.Id);
@@ -131,22 +131,22 @@ namespace UserMicroservice.Repository
                     return tweeterUserProfile;
                 }
                 return null;
-            } 
+            }
             catch (Exception)
             {
                 return null;
             }
 
         }
-        public List<string> FindUserNameFromName (string name)
+        public List<string> FindUserNameFromName(string name)
         {
-            List<string> userName= new List<string>();  
+            List<string> userName = new List<string>();
             if (name == null)
                 return null;
             var users = _userManager.Users.Where(x => x.Name.ToLower().StartsWith(name.ToLower())).ToList();
             foreach (var user in users)
             {
-                userName.Add(user.UserName);    
+                userName.Add(user.UserName);
             }
             return userName;
         }
@@ -169,12 +169,12 @@ namespace UserMicroservice.Repository
                     return true;
                 return false;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
 
-            
+
         }
 
         public async Task<bool> UpdateActiveStatusLoggingOut(string userName)
@@ -203,7 +203,7 @@ namespace UserMicroservice.Repository
                 {
                     StatusCode = StatusCodes.Status400BadRequest,
                     Status = false,
-                    Message = "Please enter a valid email"                
+                    Message = "Please enter a valid email"
                 };
             }
             try
@@ -239,7 +239,7 @@ namespace UserMicroservice.Repository
                     Message = "Oppsss!!! Something went wrong"
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ActionStatusDTO
                 {
@@ -262,7 +262,7 @@ namespace UserMicroservice.Repository
                     var activeStts = await _tweetUser.TweetUserActiveStatuses.FirstOrDefaultAsync(n => n.userDetailsId == user.Id);
                     allUsers.Add(new TweeterUserProfile
                     {
-                        UserName= user.UserName,
+                        UserName = user.UserName,
                         Name = user.Name,
                         MobileNumber = user.MobileNumber,
                         State = user.State,
@@ -275,11 +275,11 @@ namespace UserMicroservice.Repository
                 }
                 return allUsers;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
         }
-            
+
     }
 }

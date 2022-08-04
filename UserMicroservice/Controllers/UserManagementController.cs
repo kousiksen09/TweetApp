@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
-using TweetApp_Common.Model;
 using UserMicroservice.Repository;
 
 namespace UserMicroservice.Controllers
@@ -21,7 +19,7 @@ namespace UserMicroservice.Controllers
         public UserManagementController(IUserAccount userAccount, IJWTAutnenticationManager autnenticationManager)
         {
             _userAccount = userAccount;
-            _authenticationManager = autnenticationManager; 
+            _authenticationManager = autnenticationManager;
         }
         [AllowAnonymous]
         [HttpPost]
@@ -35,7 +33,7 @@ namespace UserMicroservice.Controllers
                     _log4net.Info("No Customer has been returned");
                     return BadRequest();
                 }
-                ActionStatusDTO creationStatus =await _userAccount.OnPostRegister(user);
+                ActionStatusDTO creationStatus = await _userAccount.OnPostRegister(user);
                 if (creationStatus == null)
                 {
                     return BadRequest();
@@ -47,12 +45,12 @@ namespace UserMicroservice.Controllers
                 }
                 return BadRequest(creationStatus);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _log4net.Error(ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-     
+
 
         }
         [AllowAnonymous]
@@ -68,11 +66,11 @@ namespace UserMicroservice.Controllers
                     return BadRequest();
                 }
                 var token = await _authenticationManager.Authenticate(logInCred);
-                if(token == null)
+                if (token == null)
                 {
                     return Unauthorized();
                 }
-               var isUpdated = await _userAccount.UpdateActiveStatusLoggingIn(logInCred.UserName);
+                var isUpdated = await _userAccount.UpdateActiveStatusLoggingIn(logInCred.UserName);
                 _log4net.Info("Login Successfull for " + logInCred.UserName);
                 return Ok(token);
             }
@@ -82,29 +80,29 @@ namespace UserMicroservice.Controllers
                 return BadRequest();
             }
         }
-      
+
         [HttpGet]
         [Route("getUsername/{name}")]
         public IActionResult GetUserNamefromName(string name)
         {
-            if(name == null)
+            if (name == null)
             {
                 return BadRequest();
             }
             try
             {
                 var userNameList = _userAccount.FindUserNameFromName(name);
-                if(userNameList == null)
-                    return NotFound("Nothing found with this name "+name);
+                if (userNameList == null)
+                    return NotFound("Nothing found with this name " + name);
                 return new OkObjectResult(userNameList);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError,ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        
+
         [HttpGet]
         [Route("search/{username}")]
         public async Task<IActionResult> SearchByUserName(string username)
@@ -114,7 +112,7 @@ namespace UserMicroservice.Controllers
                 var user = await _userAccount.SearchByUserName(username);
                 if (user == null)
                 {
-                   return NotFound();
+                    return NotFound();
                 }
                 return new OkObjectResult(user);
             }
@@ -137,7 +135,7 @@ namespace UserMicroservice.Controllers
                 {
                     _log4net.Info("Not all the feilds are filled");
                     return BadRequest("Invalid Input");
-                    
+
                 }
                 var result = await _userAccount.UpdatePassword(info);
                 if (result.Status)
@@ -147,7 +145,7 @@ namespace UserMicroservice.Controllers
                 _log4net.Error("No users with this informations");
                 return BadRequest(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _log4net.Error("Internal Errors" + ex.Message);
                 return BadRequest();
@@ -177,5 +175,5 @@ namespace UserMicroservice.Controllers
         }
     }
 
-   
+
 }

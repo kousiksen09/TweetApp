@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 namespace TweetApp_Common.Model
 {
     public class TweetReply
-    {        
+    {
         [Key]
-        public int ReplyTweetId { get; set; }      
+        public int ReplyTweetId { get; set; }
         [Required]
         public string ReplyTweetBody { get; set; }
         public int Likes { get; set; }

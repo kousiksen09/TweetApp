@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 using TweetPOSTMicroservice.Repository;
@@ -24,7 +23,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpGet]
         [Route("all/")]
-        public async Task<object> Get()
+        public async Task<ResponseDTO> Get()
         {
             try
             {
@@ -44,7 +43,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpGet]
         [Route("{username}")]
-        public async Task<object> Get(string username)
+        public async Task<ResponseDTO> Get(string username)
         {
             try
             {
@@ -64,7 +63,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpGet]
         [Route("{id}/getTweet")]
-        public async Task<object> Get(int id, int? x)
+        public async Task<ResponseDTO> Get(int id)
         {
             try
             {
@@ -84,7 +83,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpPost]
         [Route("{username}/add")]
-        public async Task<object> Post([FromBody] TweetUpsertDTO tweetDTO, string username)
+        public async Task<ResponseDTO> Post([FromBody] TweetUpsertDTO tweetDTO, string username)
         {
             try
             {
@@ -104,7 +103,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpPut]
         [Route("like/{id}")]
-        public async Task<object> Put(int id)
+        public async Task<ResponseDTO> Put(int id)
         {
             try
             {
@@ -124,7 +123,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpPut]
         [Route("{username}/update/{id}")]
-        public async Task<object> Put([FromBody] TweetUpsertDTO tweetDTO, int id, string username)
+        public async Task<ResponseDTO> Put([FromBody] TweetUpsertDTO tweetDTO, int id, string username)
         {
             try
             {
@@ -144,7 +143,7 @@ namespace TweetPOSTMicroservice.Controllers
 
         [HttpDelete]
         [Route("{username}/delete/{id}")]
-        public async Task<object> Delete(int id, string username)
+        public async Task<ResponseDTO> Delete(int id, string username)
         {
             try
             {

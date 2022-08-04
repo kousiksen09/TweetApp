@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 using TweetView_ReplyMicroservice.Repository;
@@ -52,7 +50,7 @@ namespace TweetView_ReplyMicroservice.Controllers
                 _response.Result = ReplyDTOs;
                 _log4net.Info("Received all Replies for a single Tweet.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
@@ -71,7 +69,7 @@ namespace TweetView_ReplyMicroservice.Controllers
                 _response.Result = Issuccess;
                 _log4net.Info("Reply Tweet posted.");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };

@@ -32,7 +32,8 @@ namespace TweetView_ReplyMicroservice.Repository
                 await _context.TweetReplies.AddAsync(reply);
                 _context.SaveChanges();
                 return true;
-            }catch(Exception exp)
+            }
+            catch (Exception exp)
             {
                 Console.WriteLine(exp.Message);
                 return false;

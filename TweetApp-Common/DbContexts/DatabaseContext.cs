@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TweetApp.DBContext;
@@ -12,7 +7,7 @@ using TweetApp_Common.Model;
 namespace TweetApp_Common.DbContexts
 {
     public class DatabaseContext : IdentityDbContext<UserDetails>
-    {        
+    {
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {
             Connection connection = new Connection();
@@ -66,5 +61,5 @@ namespace TweetApp_Common.DbContexts
             //    .HasForeignKey(ad => ad.UserId);
 
         }
-    }    
+    }
 }

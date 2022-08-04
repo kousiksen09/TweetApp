@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TweetApp_Common;
-using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using System;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using TweetApp_Common;
 using TweetApp_Common.DTO;
 using TweetApp_Common.Model;
 
@@ -14,7 +14,7 @@ namespace UserMicroservice.Repository
 {
     public class JWTAutnenticationManager : IJWTAutnenticationManager
     {
-       
+
         private readonly UserManager<UserDetails> _userManager;
         private readonly SignInManager<UserDetails> _signInManager;
         private readonly IConfiguration _configuration;
@@ -24,17 +24,17 @@ namespace UserMicroservice.Repository
             SignInManager<UserDetails> signInManager,
             IConfiguration configuration)
         {
-          
-           
+
+
             _userManager = userManger;
             _signInManager = signInManager;
             _configuration = configuration;
         }
-     
+
         public async Task<string> Authenticate(LogInDTO logInDTO)
         {
             Helper helper = new Helper();
-          var userName = logInDTO.UserName;
+            var userName = logInDTO.UserName;
             try
             {
                 if (helper.IsValidEmail(logInDTO.UserName))

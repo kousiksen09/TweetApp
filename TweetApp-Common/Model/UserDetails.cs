@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TweetApp_Common.Model
@@ -9,7 +8,7 @@ namespace TweetApp_Common.Model
     {
         Male, Female
     }
-    public class UserDetails: IdentityUser
+    public class UserDetails : IdentityUser
     {
         [Required]
         public string Name { get; set; }
@@ -27,7 +26,7 @@ namespace TweetApp_Common.Model
         [Required]
         public Gender gender { get; set; }
         public byte[] ProfilePicture { get; set; }
-       // public IList<Tweet> Tweets { get; set; }
+        // public IList<Tweet> Tweets { get; set; }
 
 
     }

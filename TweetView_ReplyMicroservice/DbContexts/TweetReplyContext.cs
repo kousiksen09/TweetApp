@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TweetApp_Common.Model;
 
 namespace TweetView_ReplyMicroservice.DbContexts
@@ -14,6 +10,6 @@ namespace TweetView_ReplyMicroservice.DbContexts
 
         }
         public DbSet<TweetReply> TweetReplies { get; set; }
-      
+
     }
 }

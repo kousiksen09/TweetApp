@@ -4,14 +4,13 @@ using Moq;
 using NUnit.Framework;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
-using TweetApp_Common.Model;
 using UserMicroservice.Controllers;
 using UserMicroservice.Repository;
 
 namespace Test.TweetUserMicroservice
 {
     [TestFixture]
-    public class UserManagementAPITest:ControllerBase
+    public class UserManagementAPITest : ControllerBase
     {
         private Mock<IJWTAutnenticationManager> _mockAuthenticationManager;
         private Mock<IUserAccount> _mockUserAccount;
@@ -24,7 +23,7 @@ namespace Test.TweetUserMicroservice
             _mockUserManagementController = new UserManagementController
                 (_mockUserAccount.Object, _mockAuthenticationManager.Object);
         }
-     
+
 
         [Test]
         public async Task RegisterUserWithValidDetails_ReturnOKAsync()
@@ -41,8 +40,8 @@ namespace Test.TweetUserMicroservice
                 ProfilePicture = new byte[87676666]
             };
             var actionStatus = new ActionStatusDTO { Status = true, StatusCode = StatusCodes.Status201Created, Message = "User has been created successfully!!!" };
-           var a=  _mockUserAccount.Setup(x => x.OnPostRegister(us)).Returns(Task.FromResult(actionStatus));
-           
+            var a = _mockUserAccount.Setup(x => x.OnPostRegister(us)).Returns(Task.FromResult(actionStatus));
+
             var result = await _mockUserManagementController.RegisterUser(us);
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             Assert.NotNull(result);
@@ -55,8 +54,8 @@ namespace Test.TweetUserMicroservice
                 UserName = "rahan@gmail.com",
                 PassWord = "Cat$123",
                 RememberMe = true
-            }; 
-            var a =  _mockAuthenticationManager.Setup(x => x.Authenticate(logIn)).Returns(Task.FromResult("token"));
+            };
+            var a = _mockAuthenticationManager.Setup(x => x.Authenticate(logIn)).Returns(Task.FromResult("token"));
             var result = await _mockUserManagementController.LogIn(logIn) as OkObjectResult;
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
         }
@@ -77,17 +76,17 @@ namespace Test.TweetUserMicroservice
             };
             var actionStatus = new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
             var a = _mockUserAccount.Setup(x => x.OnPostRegister(us)).Returns(Task.FromResult(actionStatus));
-            
-            var result = await _mockUserManagementController.RegisterUser(us) ;
+
+            var result = await _mockUserManagementController.RegisterUser(us);
             Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
         }
 
         [Test]
         public async Task LoginWithInValidDetails_ReturnBadRequest()
         {
-           
+
             var a = _mockAuthenticationManager.Setup(x => x.Authenticate(null)).Returns(Task.FromResult(string.Empty));
-            var result = await _mockUserManagementController.LogIn(null)  ;
+            var result = await _mockUserManagementController.LogIn(null);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
     }

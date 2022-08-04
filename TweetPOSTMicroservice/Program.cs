@@ -1,13 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace TweetPOSTMicroservice
 {
@@ -30,7 +25,7 @@ namespace TweetPOSTMicroservice
                         logging.AddLog4Net();
 
                         logging.SetMinimumLevel(LogLevel.Error);
-                    }); 
+                    });
                 });
     }
 }
