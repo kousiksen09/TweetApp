@@ -35,7 +35,6 @@ namespace Test.TweetPostMicroservice
 
             var result = await _tweetAPIController.Get();
 
-            Assert.True((result as ResponseDTO).IsSuccess);
             Assert.IsNotNull(result.Result);
             Assert.That(result.Result, Is.EqualTo(_listTweets));
         }
@@ -44,12 +43,10 @@ namespace Test.TweetPostMicroservice
         public async Task GetAllTweetsAsync_withNoTweets_ReturnNoTweets()
         {
             _listTweets = new List<TweetReadDTO>();
-
             _repositoryStub.Setup(repo => repo.GetAllTweets()).ReturnsAsync(_listTweets);
 
             var result = await _tweetAPIController.Get();
 
-            Assert.True((result as ResponseDTO).IsSuccess);
             Assert.That(result.Result, Is.EqualTo(_listTweets));
         }
 
@@ -57,17 +54,56 @@ namespace Test.TweetPostMicroservice
         [TestCase(1)]
         [TestCase(2)]
         [Parallelizable(ParallelScope.All)]
-        public async Task GetTweetsbyIDAsync_giveTweetId_ReturnsTweetById(int id)
+        public async Task GetTweetbyIDAsync_giveTweetId_ReturnsTweetById(int id)
         {
             _tweet = new TweetReadDTO() { TweetID = id, Like = 1, Caption = "Country", Body = "UK" };
-            var new_tweet = new TweetReadDTO();
             _repositoryStub.Setup(repo => repo.GetTweetById(id)).ReturnsAsync(_tweet);
-            var controller = new TweetAPIController(_repositoryStub.Object);
 
-            var result = await controller.Get(id);
+            var result = await _tweetAPIController.Get(id);
 
-            Assert.True(result.IsSuccess);
             Assert.That(result.Result, Is.EqualTo(_tweet));
+        }
+
+        [Test]
+        [TestCase(8)]
+        [TestCase(10)]
+        [Parallelizable(ParallelScope.All)]
+        public async Task GetTweetbyIDAsync_giveInvalidTweetId_ReturnsNoTweet(int id)
+        {
+            _repositoryStub.Setup(repo => repo.GetTweetById(id));
+
+            var result = await _tweetAPIController.Get(id);
+
+            Assert.IsNull(result.Result);
+        }
+
+        [Test]
+        [TestCase("sakdjk21lsdknfdslkfj")]
+        [Parallelizable(ParallelScope.All)]
+        public async Task GetMyTweetsAsync_giveUserId_ReturnsTweetsByUserId(string userID)
+        {
+            _listTweets = new List<TweetReadDTO>() { 
+                new TweetReadDTO { TweetID = 1, Like = 1, Caption = "Country", Body = "UK" },
+                new TweetReadDTO { TweetID = 2, Like = 4, Caption = "State", Body = "WB" },
+            };
+            _repositoryStub.Setup(repo => repo.GetMyTweets(userID)).ReturnsAsync(_listTweets);
+
+            var result = await _tweetAPIController.Get(userID);
+
+            Assert.That(result.Result, Is.EqualTo(_listTweets));
+        }
+
+        [Test]
+        [TestCase("cndldld2327NKDSADNKS")]
+        [Parallelizable(ParallelScope.All)]
+        public async Task GetMyTweetsAsync_InvalidUserId_ReturnNoTweets(string userID)
+        {
+            _listTweets = new List<TweetReadDTO>();
+            _repositoryStub.Setup(repo => repo.GetMyTweets(userID)).ReturnsAsync(_listTweets);
+
+            var result = await _tweetAPIController.Get(userID);
+
+            Assert.That(result.Result, Is.EqualTo(_listTweets));
         }
 
     }

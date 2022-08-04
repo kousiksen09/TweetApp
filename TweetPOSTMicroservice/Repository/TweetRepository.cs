@@ -14,7 +14,7 @@ namespace TweetPOSTMicroservice.Repository
     public class TweetRepository : ITweetRepository
     {
         private readonly TweetContext _db;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public TweetRepository(TweetContext db, IMapper mapper)
         {
@@ -112,7 +112,7 @@ namespace TweetPOSTMicroservice.Repository
             Tweet tweet = await _db.Tweets.FirstOrDefaultAsync(x => x.TweetID == tweetId);
             if (tweet == null)
             {
-                throw new Exception("Tweet dosn't exist, Please provide a valid TweetID");
+                throw new Exception("Tweet dosn't exist, Please provide a valid TweetID"); 
             }
             else
             {
