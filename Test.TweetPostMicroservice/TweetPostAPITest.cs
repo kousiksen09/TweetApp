@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -30,13 +31,16 @@ namespace Test.TweetPostMicroservice
                 new TweetReadDTO { Body = "India", Caption = "Country", Like = 1, TweetID = 1 },
                 new TweetReadDTO { Body = "USA", Caption = "Country", Like = 3, TweetID = 2 }
                 };
-
             _repositoryStub.Setup(repo => repo.GetAllTweets()).ReturnsAsync(_listTweets);
 
             var result = await _tweetAPIController.Get();
+            var contentResult = (result as OkObjectResult).Value;
 
-            Assert.IsNotNull(result.Result);
-            Assert.That(result.Result, Is.EqualTo(_listTweets));
+
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual(_listTweets, (contentResult as ResponseDTO).Result);
+            Assert.True((contentResult as ResponseDTO).IsSuccess);
         }
 
         [Test]
@@ -46,8 +50,12 @@ namespace Test.TweetPostMicroservice
             _repositoryStub.Setup(repo => repo.GetAllTweets()).ReturnsAsync(_listTweets);
 
             var result = await _tweetAPIController.Get();
+            var contentResult = (result as NotFoundObjectResult).Value;
 
-            Assert.That(result.Result, Is.EqualTo(_listTweets));
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual(_listTweets, (contentResult as ResponseDTO).Result);
+            Assert.False((contentResult as ResponseDTO).IsSuccess);
         }
 
         [Test]
@@ -56,12 +64,16 @@ namespace Test.TweetPostMicroservice
         [Parallelizable(ParallelScope.All)]
         public async Task GetTweetbyIDAsync_giveTweetId_ReturnsTweetById(int id)
         {
-            _tweet = new TweetReadDTO() { TweetID = id, Like = 1, Caption = "Country", Body = "UK" };
+            _tweet = new TweetReadDTO() { TweetID = id, Like = id, Caption = "Country", Body = "UK" };
             _repositoryStub.Setup(repo => repo.GetTweetById(id)).ReturnsAsync(_tweet);
 
             var result = await _tweetAPIController.Get(id);
+            var contentResult = (result as OkObjectResult).Value;
 
-            Assert.That(result.Result, Is.EqualTo(_tweet));
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual(_tweet, (contentResult as ResponseDTO).Result);
+            Assert.True((contentResult as ResponseDTO).IsSuccess);
         }
 
         [Test]
@@ -73,8 +85,12 @@ namespace Test.TweetPostMicroservice
             _repositoryStub.Setup(repo => repo.GetTweetById(id));
 
             var result = await _tweetAPIController.Get(id);
+            var contentResult = (result as NotFoundObjectResult).Value;
 
-            Assert.IsNull(result.Result);
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual(null, (contentResult as ResponseDTO).Result);
+            Assert.False((contentResult as ResponseDTO).IsSuccess);
         }
 
         [Test]
@@ -83,14 +99,18 @@ namespace Test.TweetPostMicroservice
         public async Task GetMyTweetsAsync_giveUserId_ReturnsTweetsByUserId(string userID)
         {
             _listTweets = new List<TweetReadDTO>() {
-                new TweetReadDTO { TweetID = 1, Like = 1, Caption = "Country", Body = "UK" },
-                new TweetReadDTO { TweetID = 2, Like = 4, Caption = "State", Body = "WB" },
-            };
+                    new TweetReadDTO { TweetID = 1, Like = 1, Caption = "Country", Body = "UK" },
+                    new TweetReadDTO { TweetID = 2, Like = 4, Caption = "State", Body = "WB" },
+                };
             _repositoryStub.Setup(repo => repo.GetMyTweets(userID)).ReturnsAsync(_listTweets);
 
             var result = await _tweetAPIController.Get(userID);
+            var contentResult = (result as OkObjectResult).Value;
 
-            Assert.That(result.Result, Is.EqualTo(_listTweets));
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual(_listTweets, (contentResult as ResponseDTO).Result);
+            Assert.True((contentResult as ResponseDTO).IsSuccess);
         }
 
         [Test]
@@ -102,8 +122,12 @@ namespace Test.TweetPostMicroservice
             _repositoryStub.Setup(repo => repo.GetMyTweets(userID)).ReturnsAsync(_listTweets);
 
             var result = await _tweetAPIController.Get(userID);
+            var contentResult = (result as NotFoundObjectResult).Value;
 
-            Assert.That(result.Result, Is.EqualTo(_listTweets));
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual(_listTweets, (contentResult as ResponseDTO).Result);
+            Assert.False((contentResult as ResponseDTO).IsSuccess);
         }
 
     }
