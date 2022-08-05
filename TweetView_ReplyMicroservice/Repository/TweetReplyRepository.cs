@@ -22,11 +22,11 @@ namespace TweetView_ReplyMicroservice.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateTweetReply(ReplyDTO ReplyDTO, string ReplyuserId)
+        public async Task<bool> CreateTweetReply(ReplyPostDTO replyPostDTO, string ReplyuserId)
         {
             try
             {
-                TweetReply reply = _mapper.Map<ReplyDTO, TweetReply>(ReplyDTO);
+                TweetReply reply = _mapper.Map<ReplyPostDTO, TweetReply>(replyPostDTO);
                 reply.ReplyUserId = ReplyuserId;
                 reply.ReplyPostedOn = DateTime.Now.ToString();
                 await _context.TweetReplies.AddAsync(reply);
