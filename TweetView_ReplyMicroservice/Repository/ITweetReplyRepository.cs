@@ -6,7 +6,7 @@ namespace TweetView_ReplyMicroservice.Repository
 {
     public interface ITweetReplyRepository
     {
-        Task<bool> CreateTweetReply(ReplyDTO ReplyDTO, string userId);
+        Task<bool> CreateTweetReply(ReplyPostDTO replyPostDTO, string userId);
         Task<IEnumerable<ReplyDTO>> GetAllRepliesOfTweet(int TweetId);
         Task<IEnumerable<ReplyDTO>> GetMyReplies(string userID);
     }

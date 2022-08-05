@@ -14,6 +14,7 @@ namespace TweetApp_Common
                 config.CreateMap<TweetReadDTO, Tweet>().ReverseMap();
                 config.CreateMap<TweetUpsertDTO, Tweet>().ReverseMap();
                 config.CreateMap<ReplyDTO, TweetReply>().ReverseMap();
+                config.CreateMap<ReplyPostDTO, TweetReply>().ReverseMap();
                 config.CreateMap<UserDetailsPostDTO, UserDetails>().ReverseMap();
                 config.CreateMap<LogInDTO, Tweet>().ReverseMap();
                 config.CreateMap<TweeterUserProfile, UserDetails>().ReverseMap();

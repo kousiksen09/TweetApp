@@ -61,7 +61,7 @@ namespace TweetView_ReplyMicroservice.Controllers
 
         [HttpPost]
         [Route("{userid}/add")]
-        public async Task<object> PostReply([FromBody] ReplyDTO reply, string userid)
+        public async Task<object> PostReply([FromBody] ReplyPostDTO reply, string userid)
         {
             try
             {
