@@ -12,10 +12,10 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
 using TweetApp_Common;
+using TweetApp_Common.DBContext;
 using TweetApp_Common.Model;
 using UserMicroservice.Context;
 using UserMicroservice.Repository;
-using TweetApp_Common.DBContext;
 
 namespace UserMicroservice
 {

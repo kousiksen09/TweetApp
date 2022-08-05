@@ -18,15 +18,18 @@ namespace UserMicroservice.Repository
         private readonly UserManager<UserDetails> _userManager;
         private readonly IJWTAutnenticationManager _jwtAuthenticationManager;
         private readonly TweetUserContext _tweetUser;
+        private readonly SignInManager<UserDetails> _signInManager;
         private IMapper _mapper;
         public UserAccount(UserManager<UserDetails> userManager,
-           TweetUserContext tweetUserContext, IJWTAutnenticationManager jWTAutnenticationManager,
+           TweetUserContext tweetUserContext, SignInManager<UserDetails> signInManager,
+ IJWTAutnenticationManager jWTAutnenticationManager,
            IMapper mapper
            )
 
         {
             _userManager = userManager;
             _tweetUser = tweetUserContext;
+            _signInManager = signInManager;
             _jwtAuthenticationManager = jWTAutnenticationManager;
             _mapper = mapper;
         }
@@ -81,7 +84,7 @@ namespace UserMicroservice.Repository
 
                 if (!result.Succeeded)
                 {
-                   
+
                     return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
 
                 }
@@ -95,15 +98,19 @@ namespace UserMicroservice.Repository
                             return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
                         }
                     }
-                   string token= await _jwtAuthenticationManager.Authenticate(new LogInDTO
+                    string token = await _jwtAuthenticationManager.Authenticate(new LogInDTO
                     {
                         UserName = userName,
                         PassWord = userDetails.PasswordHash,
                         RememberMe = true
                     });
-                    
-                    return new ActionStatusDTO { Status = true, StatusCode = StatusCodes.Status201Created, 
-                        Message = "User has been created successfully!!!    "+"TokenForAuth:"+token.ToString() };
+
+                    return new ActionStatusDTO
+                    {
+                        Status = true,
+                        StatusCode = StatusCodes.Status201Created,
+                        Message = "User has been created successfully!!!    " + "TokenForAuth:" + token.ToString()
+                    };
 
                 }
             }
@@ -177,21 +184,23 @@ namespace UserMicroservice.Repository
                 var user = await _userManager.FindByNameAsync(userName);
                 if (user == null)
                     return false;
-                TweetUserActiveStatus activeStts = new TweetUserActiveStatus
+                var userStatus = _tweetUser.TweetUserActiveStatuses.FirstOrDefault(x => x.userDetailsId == user.Id);
+                if (userStatus != null)
                 {
-                    userDetailsId = user.Id,
-                    ActiveStatus = true,
-                    LastSeen = DateTime.Now
-                };
-                _tweetUser.TweetUserActiveStatuses.Update(activeStts);
-                var res = _tweetUser.SaveChanges();
-                if (res > 1)
-                    return true;
+                    userStatus.ActiveStatus = true;
+                    userStatus.LastSeen = DateTime.Now;
+                    var res = _tweetUser.SaveChanges();
+                    if (res >= 1)
+                        return true;
+                    return false;
+                }
                 return false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
+                throw new Exception(ex.Message);
+
             }
 
 
@@ -202,17 +211,20 @@ namespace UserMicroservice.Repository
             var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
                 return false;
-            TweetUserActiveStatus activeStts = new TweetUserActiveStatus
+            var userStatus = _tweetUser.TweetUserActiveStatuses.FirstOrDefault(x => x.userDetailsId == user.Id);
+            if (userStatus != null)
             {
-                userDetailsId = user.Id,
-                ActiveStatus = false,
-                LastSeen = DateTime.Now
-            };
-            _tweetUser.TweetUserActiveStatuses.Update(activeStts);
-            var res = _tweetUser.SaveChanges();
-            if (res > 1)
-                return true;
+                userStatus.ActiveStatus = false;
+                userStatus.LastSeen = DateTime.Now;
+                var res = _tweetUser.SaveChanges();
+                await _userManager.RemoveAuthenticationTokenAsync(user, "https://localhost:5001", "LogInToken");
+
+                if (res >= 1)
+                    return true;
+                return false;
+            }
             return false;
+
         }
 
         public async Task<ActionStatusDTO> UpdatePassword(ResetPasswordDTO resetPasswordDTO)
@@ -301,5 +313,24 @@ namespace UserMicroservice.Repository
             }
         }
 
+
+        public async Task<bool> LogOutAsync(string username)
+        {
+
+            if (username == null)
+                return false;
+            bool activestat = await UpdateActiveStatusLoggingOut(username);
+            if (activestat)
+            {
+
+                await _signInManager.SignOutAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+                throw new Exception("No user with this name");
+            }
+        }
     }
 }

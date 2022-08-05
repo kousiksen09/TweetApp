@@ -82,7 +82,7 @@ namespace Test.TweetPostMicroservice
         [Parallelizable(ParallelScope.All)]
         public async Task GetMyTweetsAsync_giveUserId_ReturnsTweetsByUserId(string userID)
         {
-            _listTweets = new List<TweetReadDTO>() { 
+            _listTweets = new List<TweetReadDTO>() {
                 new TweetReadDTO { TweetID = 1, Like = 1, Caption = "Country", Body = "UK" },
                 new TweetReadDTO { TweetID = 2, Like = 4, Caption = "State", Body = "WB" },
             };

@@ -11,7 +11,7 @@ namespace TweetPOSTMicroservice.Controllers
     [ApiController]
     public class TweetAPIController : ControllerBase
     {
-        static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(TweetAPIController));
+        private static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(TweetAPIController));
         protected ResponseDTO _response;
         private ITweetRepository _tweetRepository;
 

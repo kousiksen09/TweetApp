@@ -134,9 +134,9 @@ namespace Test.TweetUserMicroservice
                 IsActive = true,
                 LastSeen = DateTime.Now
             };
-            var nameSetup =  _mockUserAccount.Setup(x => x.SearchByUserName("kousik123")).ReturnsAsync(userProfile);
+            var nameSetup = _mockUserAccount.Setup(x => x.SearchByUserName("kousik123")).ReturnsAsync(userProfile);
             var result = await _mockUserManagementController.SearchByUserName("kousik123");
-            Assert.That(result,Is.InstanceOf<OkObjectResult>());
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
 
         }
         [Test]
@@ -147,7 +147,7 @@ namespace Test.TweetUserMicroservice
                 Password = "demon!123",
                 Confirmpassword = "demon!123",
                 DOB = Convert.ToDateTime("1990-09-12"),
-                Email="kousik@gmail.com"
+                Email = "kousik@gmail.com"
             };
             var k = _mockUserAccount.Setup(x => x.UpdatePassword(forgetSetup)).ReturnsAsync(new ActionStatusDTO
             {

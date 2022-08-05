@@ -22,12 +22,14 @@ namespace UserMicroservice.Repository
         public JWTAutnenticationManager(
             UserManager<UserDetails> userManger,
             SignInManager<UserDetails> signInManager,
+
             IConfiguration configuration)
         {
 
 
             _userManager = userManger;
             _signInManager = signInManager;
+
             _configuration = configuration;
         }
 
@@ -37,6 +39,8 @@ namespace UserMicroservice.Repository
             var userName = logInDTO.UserName;
             try
             {
+
+
                 if (helper.IsValidEmail(logInDTO.UserName))
                 {
                     var user = await _userManager.FindByEmailAsync(logInDTO.UserName);
@@ -46,6 +50,8 @@ namespace UserMicroservice.Repository
                 var result = await _signInManager.PasswordSignInAsync(userName, logInDTO.PassWord, Convert.ToBoolean(logInDTO.RememberMe), false);
                 if (result.Succeeded)
                 {
+                    var userDetails = await _userManager.FindByNameAsync(userName);
+
                     var jwtTokenHandler = new JwtSecurityTokenHandler();
                     var tokenKey = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
                     var tokenDescriptor = new SecurityTokenDescriptor
@@ -56,13 +62,19 @@ namespace UserMicroservice.Repository
                         }),
                         Issuer = _configuration["Jwt:Audience"],
                         Audience = _configuration["Jwt:Audience"],
-                        Expires = DateTime.UtcNow.AddDays(3),
+                        Expires = DateTime.UtcNow.AddDays(1),
                         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),
                         SecurityAlgorithms.HmacSha256Signature)
                     };
+
                     var token = jwtTokenHandler.CreateToken(tokenDescriptor);
-                    return jwtTokenHandler.WriteToken(token);
+                    var tokenForSign = jwtTokenHandler.WriteToken(token);
+                    await _userManager.SetAuthenticationTokenAsync(userDetails, tokenDescriptor.Issuer, "LogInToken", tokenForSign);
+
+                    return tokenForSign;
+
                 }
+
                 return null;
             }
             catch (Exception ex)
@@ -71,5 +83,17 @@ namespace UserMicroservice.Repository
             }
 
         }
+
+        public async Task<bool> ValidateUser(string userId)
+        {
+            UserDetails user = await _userManager.FindByIdAsync(userId);
+            var token = await _userManager.GetAuthenticationTokenAsync(user, "https://localhost:5001", "LogInToken");
+            if (token == null)
+                return false;
+            var isValid = await _userManager.VerifyUserTokenAsync(user, "https://localhost:5001", "LogInToken", token);
+            return isValid;
+
+        }
+
     }
 }

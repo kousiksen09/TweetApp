@@ -16,5 +16,6 @@ namespace UserMicroservice.Repository
         public Task<bool> UpdateActiveStatusLoggingOut(string userName);
         public Task<ActionStatusDTO> UpdatePassword(ResetPasswordDTO resetPasswordDTO);
         public Task<List<TweeterUserProfile>> GetAllUsers();
+        public Task<bool> LogOutAsync(string userName);
     }
 }
