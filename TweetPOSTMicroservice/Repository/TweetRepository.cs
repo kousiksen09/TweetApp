@@ -22,102 +22,69 @@ namespace TweetPOSTMicroservice.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> DeleteTweet(int tweetID, string username)
+        public async Task<bool> DeleteTweet(int tweetID)
         {
-            var item = _db.Tweets.AsNoTracking().FirstOrDefault(x => x.TweetID == tweetID && x.UserId == username);
+            var item = _db.Tweets.FirstOrDefault(x => x.TweetID == tweetID);
             if (item == null)
             {
-                throw new Exception("Invalid TweetID / useid");
+                //throw new Exception("Invalid TweetID");
+                return false;
             }
             else
             {
-                try
+                _db.Tweets.Remove(item);
+                var value = await _db.SaveChangesAsync();
+                if (value > 0)
                 {
-                    _db.Tweets.Remove(item);
-                    var value = await _db.SaveChangesAsync();
-                    if (value > 0)
-                    {
-                        return true;
-                    }
-                    throw new Exception("Something went wrong with the database please check.");
+                    return true;
                 }
-                catch (Exception)
-                {
-                    return false;
-                }
+                throw new Exception("Something went wrong with the database please check.");
             }
 
         }
 
         public async Task<bool> AddLike(int tweetID)
         {
-            var item = _db.Tweets.AsNoTracking().FirstOrDefault(x => x.TweetID == tweetID);
+            var item = _db.Tweets.FirstOrDefault(x => x.TweetID == tweetID);
             if (item == null)
             {
-                throw new Exception("Tweet Dosnt exist.");
+                return false;
             }
             else
             {
-                try
+                item.Like += 1;
+                _db.Tweets.Update(item);
+                var value = await _db.SaveChangesAsync();
+                if (value > 0)
                 {
-                    item.Like += 1;
-                    _db.Tweets.Update(item);
-                    var value = await _db.SaveChangesAsync();
-                    if (value > 0)
-                    {
-                        return true;
-                    }
-                    throw new Exception("Something went wrong with the database please check.");
+                    return true;
                 }
-                catch (Exception)
+                else
                 {
-                    return false;
+                    throw new Exception("Something went wrong with the database please check.");
                 }
             }
 
         }
 
-        //All Tweets for all user
         public async Task<IEnumerable<TweetReadDTO>> GetAllTweets()
         {
             List<Tweet> tweetList = await _db.Tweets.ToListAsync();
-            if (tweetList.Count > 0)
-            {
-                return _mapper.Map<List<TweetReadDTO>>(tweetList);
-            }
-            else
-            {
-                throw new Exception("No Tweets Posted");
-            }
-
+            return _mapper.Map<List<TweetReadDTO>>(tweetList);
         }
 
         //All tweets for a single User
         public async Task<IEnumerable<TweetReadDTO>> GetMyTweets(string userID)
         {
             List<Tweet> tweetList = await _db.Tweets.Where(x => x.UserId == userID).ToListAsync();
-            if (tweetList.Count <= 0)
-            {
-                throw new Exception("User dosn't exist, Please provide a valid UserID");
-            }
-            else
-            {
-                return _mapper.Map<List<TweetReadDTO>>(tweetList);
-            }
+            return _mapper.Map<List<TweetReadDTO>>(tweetList);
         }
 
         //Single tweet
         public async Task<TweetReadDTO> GetTweetById(int tweetId)
         {
             Tweet tweet = await _db.Tweets.FirstOrDefaultAsync(x => x.TweetID == tweetId);
-            if (tweet == null)
-            {
-                throw new Exception("Tweet dosn't exist, Please provide a valid TweetID");
-            }
-            else
-            {
-                return _mapper.Map<TweetReadDTO>(tweet);
-            }
+            return _mapper.Map<TweetReadDTO>(tweet);
         }
 
         //Update an existing Tweet
@@ -139,7 +106,7 @@ namespace TweetPOSTMicroservice.Repository
             }
             else
             {
-                throw new Exception("Invalid UserID or TweetID");
+                return null;
             }
 
         }
@@ -156,9 +123,11 @@ namespace TweetPOSTMicroservice.Repository
             {
                 return _mapper.Map<Tweet, TweetReadDTO>(tweet);
             }
-            throw new Exception("Something went wrong with the database please check.");
+            else
+            {
+                return null;
+            }
         }
-
 
         public bool Entry_Check_Update(int id, string userId)
         {
