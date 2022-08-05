@@ -11,7 +11,7 @@ namespace TweetView_ReplyMicroservice.Controllers
     [ApiController]
     public class TweetReplyController : ControllerBase
     {
-        static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(TweetReplyController));
+        private static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(TweetReplyController));
         private ITweetReplyRepository _repo;
         protected ResponseDTO _response;
 
@@ -61,7 +61,7 @@ namespace TweetView_ReplyMicroservice.Controllers
 
         [HttpPost]
         [Route("{userid}/add")]
-        public async Task<object> PostReply([FromBody] ReplyDTO reply, string userid)
+        public async Task<object> PostReply([FromBody] ReplyPostDTO reply, string userid)
         {
             try
             {

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 using UserMicroservice.Controllers;
@@ -87,6 +89,88 @@ namespace Test.TweetUserMicroservice
 
             var a = _mockAuthenticationManager.Setup(x => x.Authenticate(null)).Returns(Task.FromResult(string.Empty));
             var result = await _mockUserManagementController.LogIn(null);
+            var invalidResult = await _mockUserManagementController.LogIn(new LogInDTO
+            {
+                UserName = "urbun",
+                PassWord = "jlkjkljkl",
+                RememberMe = false
+            });
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
+            Assert.That(invalidResult, Is.InstanceOf<UnauthorizedResult>());
+        }
+
+        [Test]
+        public void GetUserNamefromName_WithValidName_ReturnListOfName()
+        {
+            List<string> userList = new()
+            {
+                "kousik123",
+                "kousik234"
+            };
+            var nameSetup = _mockUserAccount.Setup(x => x.FindUserNameFromName("kousik")).Returns(userList);
+            var result = _mockUserManagementController.GetUserNamefromName("kousik");
+            Assert.IsNotNull(result);
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        }
+        [Test]
+        public void GetUserNamefromName_WithInvalidName_ReturnNotFound()
+        {
+            var nameSetup = _mockUserAccount.Setup(x => x.FindUserNameFromName("kousik"));
+
+            var result = _mockUserManagementController.GetUserNamefromName("kousik");
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+        }
+        [Test]
+        public async Task SearchByUserName_WithValidUserName_ReturnUser()
+        {
+            var userProfile = new TweeterUserProfile()
+            {
+                UserName = "kousik123",
+                Name = "Kousik",
+                MobileNumber = "923456789",
+                Country = "India",
+                State = "WB",
+                ProfilePicture = new byte[87676666],
+                IsActive = true,
+                LastSeen = DateTime.Now
+            };
+            var nameSetup = _mockUserAccount.Setup(x => x.SearchByUserName("kousik123")).ReturnsAsync(userProfile);
+            var result = await _mockUserManagementController.SearchByUserName("kousik123");
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+
+        }
+        [Test]
+        public async Task ForgetPassword_withValidDetails_UpdatePassword()
+        {
+            var forgetSetup = new ResetPasswordDTO()
+            {
+                Password = "demon!123",
+                Confirmpassword = "demon!123",
+                DOB = Convert.ToDateTime("1990-09-12"),
+                Email = "kousik@gmail.com"
+            };
+            var k = _mockUserAccount.Setup(x => x.UpdatePassword(forgetSetup)).ReturnsAsync(new ActionStatusDTO
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Status = true,
+                Message = "Password Reset Succesfully!!"
+            });
+            var result = await _mockUserManagementController.ForgetPassword(forgetSetup);
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        }
+
+        [Test]
+        public async Task ForgetPassword_withInValidDetails_UpdatePassword()
+        {
+            var forgetSetup = new ResetPasswordDTO()
+            {
+                Password = "demon!123",
+                Confirmpassword = "demon@@123kjkj",
+                DOB = Convert.ToDateTime("1990-09-12"),
+                Email = "kousik789@gmail.com"
+            };
+            var k = _mockUserAccount.Setup(x => x.UpdatePassword(forgetSetup));
+            var result = await _mockUserManagementController.ForgetPassword(forgetSetup);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
     }

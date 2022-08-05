@@ -112,7 +112,7 @@ namespace TweetPOSTMicroservice.Repository
             Tweet tweet = await _db.Tweets.FirstOrDefaultAsync(x => x.TweetID == tweetId);
             if (tweet == null)
             {
-                throw new Exception("Tweet dosn't exist, Please provide a valid TweetID"); 
+                throw new Exception("Tweet dosn't exist, Please provide a valid TweetID");
             }
             else
             {

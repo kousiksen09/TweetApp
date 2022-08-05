@@ -13,7 +13,7 @@ namespace UserMicroservice.Controllers
     [Route("api/v1.0/tweets")]
     public class UserManagementController : ControllerBase
     {
-        static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(UserManagementController));
+        private static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(UserManagementController));
         private readonly IUserAccount _userAccount;
         private readonly IJWTAutnenticationManager _authenticationManager;
         public UserManagementController(IUserAccount userAccount, IJWTAutnenticationManager autnenticationManager)
@@ -91,6 +91,7 @@ namespace UserMicroservice.Controllers
             }
             try
             {
+
                 var userNameList = _userAccount.FindUserNameFromName(name);
                 if (userNameList == null)
                     return NotFound("Nothing found with this name " + name);
@@ -152,7 +153,7 @@ namespace UserMicroservice.Controllers
             }
 
         }
-        [AllowAnonymous]
+
         [HttpGet]
         [Route("getAllUsers")]
         public async Task<IActionResult> GetAllUsers()
@@ -171,6 +172,25 @@ namespace UserMicroservice.Controllers
             {
                 _log4net.Error("Error While Searching" + ex.Message);
                 return BadRequest();
+            }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("LogOut")]
+        public async Task<IActionResult> LogOut(string userName)
+        {
+            try
+            {
+                var isLogOut = await _userAccount.LogOutAsync(userName);
+                if (isLogOut)
+                    return Ok("User has been Loggedout");
+                return BadRequest(userName);
+
+            }
+            catch (Exception ex)
+            {
+                _log4net.Error(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
     }
