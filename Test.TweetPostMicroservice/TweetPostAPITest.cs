@@ -128,7 +128,7 @@ namespace Test.TweetPostMicroservice
         [TestCase("sadafsakdjk21lsdknfdslkfj")]
         public async Task PostTweetsAsync_giveUserIDandPOST_AddtoDBSuccesfully(string userID)
         {
-            var postTweet = new TweetUpsertDTO() { Caption="Country", Body="India" };
+            var postTweet = new TweetUpsertDTO() { Caption = "Country", Body = "India" };
             _tweet = new TweetReadDTO() { TweetID = 1, Like = 0, Caption = "Country", Body = "India" };
             _repositoryStub.Setup(repo => repo.CreateTweet(postTweet, userID)).ReturnsAsync(_tweet);
 
