@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 using TweetView_ReplyMicroservice.Repository;
@@ -24,60 +25,127 @@ namespace TweetView_ReplyMicroservice.Controllers
         }
 
         [HttpGet]
-        [Route("{userid}")]
-        public async Task<object> GetReplies(string userid)
+        [Route("getreply/{userid}")]
+        public async Task<IActionResult> GetReplies(string userid)
         {
             try
             {
                 IEnumerable<ReplyDTO> ReplyDTOs = await _repo.GetMyReplies(userid);
-                _response.Result = ReplyDTOs;
-                _log4net.Info("All Replies received.");
+                if (ReplyDTOs.Any())
+                {
+                    _response.Result = ReplyDTOs;
+                    _log4net.Info("Your Replies received.");
+                    return Ok(_response);
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                    _response.DisplayMessage = "No replies found";
+                    _log4net.Info("No replies found");
+                    return StatusCode(400, _response);
+                }
+                
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
                 _log4net.Error(_response.ErrorMessages);
+                return BadRequest();
             }
-            return _response;
+            
         }
 
         [HttpGet]
-        [Route("{tweetId}/tweetreplies")]
-        public async Task<object> GetRepliesOfTweet(int tweetId)
+        [Route("tweetreplies/{tweetId}")]
+        public async Task<IActionResult> GetRepliesOfTweet(int tweetId)
         {
             try
             {
                 IEnumerable<ReplyDTO> ReplyDTOs = await _repo.GetAllRepliesOfTweet(tweetId);
-                _response.Result = ReplyDTOs;
-                _log4net.Info("Received all Replies for a single Tweet.");
+                if (ReplyDTOs.Any())
+                {
+                    _response.Result = ReplyDTOs;
+                    _log4net.Info("Received all Replies for a single Tweet.");
+                    return Ok(_response);
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                    _response.DisplayMessage = "No replies found";
+                    _log4net.Info("No replies found");
+                    return StatusCode(400, _response);
+                }
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
                 _log4net.Error(_response.ErrorMessages);
+                return BadRequest(_response);
             }
-            return _response;
+            
         }
 
         [HttpPost]
         [Route("{userid}/add")]
-        public async Task<object> PostReply([FromBody] ReplyPostDTO reply, string userid)
+        public async Task<IActionResult> PostReply([FromBody] ReplyPostDTO reply, string userid)
         {
             try
             {
-                bool Issuccess = await _repo.CreateTweetReply(reply, userid); ;
-                _response.Result = Issuccess;
-                _log4net.Info("Reply Tweet posted.");
+                var replyRes = await _repo.CreateTweetReply(reply, userid);
+                if (replyRes != null)
+                {
+                    _response.Result = replyRes;
+                    _log4net.Info("Reply Tweet posted.");
+                    return StatusCode(201, _response);
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                    _response.DisplayMessage = "Error creating post";
+                    _log4net.Info("Error creating post");
+                    return StatusCode(400, _response);
+                }
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>() { ex.ToString() };
                 _log4net.Error(_response.ErrorMessages);
+                return BadRequest(_response);
             }
-            return _response;
+            
+        }
+        [HttpDelete]
+        [Route("deletereply/{replyTweetId}")]
+        public async Task<IActionResult> DeleteReply(int replyTweetId)
+        {
+            try
+            {
+                bool IsSuccess = await _repo.DeleteReply(replyTweetId);
+                if (IsSuccess) 
+                {
+                    _response.DisplayMessage = "Reply deleted successfully!";
+                    _log4net.Info("Reply deleted successfully!");
+                    return Ok(_response);
+                }
+                else
+                {
+                    _response.IsSuccess = IsSuccess;
+                    _response.DisplayMessage = "Reply Dosn't exist. Please provide a valid Reply ID";
+                    _log4net.Info("Reply Dosn't exist. Please provide a valid Reply ID");
+                    return NotFound(_response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.DisplayMessage = ex.Message;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+                _log4net.Error(_response.ErrorMessages);
+                return BadRequest(_response);
+            }
         }
     }
 }
