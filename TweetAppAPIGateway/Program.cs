@@ -20,7 +20,7 @@ namespace TweetAppAPIGateway
                  {
                      config
                      .SetBasePath(hostingContext.HostingEnvironment.ContentRootPath)
-                     .AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+                     .AddJsonFile("dockerocelot.json", optional: false, reloadOnChange: true);
                  });
     }
 }

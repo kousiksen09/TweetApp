@@ -30,6 +30,13 @@ services:
         - "5333:80"
     depends_on:
         - "sqldb"
+  tweetappapigateway:
+    image: ${DOCKER_REGISTRY-}tweetappapigateway
+    build:
+      context: .
+      dockerfile: TweetAppAPIGateway/Dockerfile
+    ports:
+        - "5444:80"
   sqldb:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:
@@ -37,4 +44,7 @@ services:
         ACCEPT_EULA: "Y"
     ports:
         - "1440:1433"   
+
+
+
 

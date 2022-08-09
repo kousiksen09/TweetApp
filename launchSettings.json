@@ -7,7 +7,8 @@
         "sqldb": "StartWithoutDebugging",
         "tweetpostmicroservice": "StartDebugging",
         "tweetview_replymicroservice": "StartDebugging",
-        "usermicroservice": "StartDebugging"
+        "usermicroservice": "StartDebugging",
+        "tweetappapigateway": "StartDebugging"
       }
     }
   }
