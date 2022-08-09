@@ -173,5 +173,21 @@ namespace Test.TweetUserMicroservice
             var result = await _mockUserManagementController.ForgetPassword(forgetSetup);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
+        [Test]
+        public async Task DeleteUser_withValidDetails()
+        {
+            var k = _mockUserAccount.Setup(x => x.DeleteUser("12345qwert")).ReturnsAsync(true);
+            var result = await _mockUserManagementController.DeleteUser("12345qwert");
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        }
+
+        [Test]
+        public async Task DeleteUser_withInValidDetails()
+        {
+            var k = _mockUserAccount.Setup(x => x.DeleteUser("")).ReturnsAsync(false);
+            var result = await _mockUserManagementController.DeleteUser("");
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+        }
+
     }
 }

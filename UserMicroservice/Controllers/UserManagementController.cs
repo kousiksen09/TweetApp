@@ -193,7 +193,7 @@ namespace UserMicroservice.Controllers
                 return BadRequest(ex.Message);
             }
         }
-            [AllowAnonymous]
+           
             [HttpDelete]
             [Route("DeleteUser")]
             public async Task<IActionResult> DeleteUser(string userId)
@@ -216,7 +216,35 @@ namespace UserMicroservice.Controllers
                     return BadRequest(ex.Message);
                 }
             }
-        
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("ValidateUser")]
+        public async Task<IActionResult> ValidateUser(string userId)
+        {
+            if (userId == null)
+            {
+                return BadRequest(userId);
+            }
+            try
+            {
+                var result = await _authenticationManager.ValidateUser(userId);
+                if (result)
+                    return Ok("User Exist");
+                return Unauthorized();
+
+            }
+            catch (Exception ex)
+            {
+                _log4net.Error(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+
+
 
     }
 }
