@@ -184,7 +184,7 @@ namespace UserMicroservice.Controllers
                 var isLogOut = await _userAccount.LogOutAsync(userName);
                 if (isLogOut)
                     return Ok("User has been Loggedout");
-                return BadRequest(userName);
+                return BadRequest("Failed to Logout");
 
             }
             catch (Exception ex)
@@ -193,7 +193,30 @@ namespace UserMicroservice.Controllers
                 return BadRequest(ex.Message);
             }
         }
+            [AllowAnonymous]
+            [HttpDelete]
+            [Route("DeleteUser")]
+            public async Task<IActionResult> DeleteUser(string userId)
+            {
+                if (userId == null)
+                {
+                    return BadRequest(userId);
+                }
+                try
+                {
+                    var result = await _userAccount.DeleteUser(userId);
+                    if (result)
+                        return Ok("User has been deleted");
+                    return BadRequest("Failed to delete");
+
+                }
+                catch (Exception ex)
+                {
+                    _log4net.Error(ex.Message);
+                    return BadRequest(ex.Message);
+                }
+            }
+        
+
     }
-
-
 }
