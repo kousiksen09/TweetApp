@@ -31,7 +31,7 @@ namespace TweetPOSTMicroservice.Controllers
             try
             {
                 IEnumerable<TweetReadDTO> tweetDTOs = await _tweetRepository.GetAllTweets();
-                if(tweetDTOs.Count()>0)
+                if (tweetDTOs.Count() > 0)
                 {
                     _response.Result = tweetDTOs;
                     _response.DisplayMessage = "All Tweets received.";
@@ -46,7 +46,7 @@ namespace TweetPOSTMicroservice.Controllers
                     _log4net.Info("No Tweets Found.");
                     return NotFound(_response);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace TweetPOSTMicroservice.Controllers
                 _log4net.Error(_response.ErrorMessages);
                 return BadRequest(_response);
             }
- 
+
         }
 
 
@@ -82,7 +82,7 @@ namespace TweetPOSTMicroservice.Controllers
                     _log4net.Info("No Tweets Found.");
                     return NotFound(_response);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -102,8 +102,8 @@ namespace TweetPOSTMicroservice.Controllers
             {
                 TweetReadDTO tweetDTO = await _tweetRepository.GetTweetById(id);
                 _response.Result = tweetDTO;
-                
-                if(tweetDTO == null)
+
+                if (tweetDTO == null)
                 {
                     _response.IsSuccess = false;
                     _response.DisplayMessage = "Invalid TweetID";
@@ -135,8 +135,8 @@ namespace TweetPOSTMicroservice.Controllers
             {
                 TweetReadDTO tweetmodel = await _tweetRepository.CreateTweet(tweetDTO, userId: username);
                 _response.Result = tweetmodel;
-                
-                if(tweetmodel == null)
+
+                if (tweetmodel == null)
                 {
                     _response.IsSuccess = false;
                     _response.DisplayMessage = "Something went wrong with the database please check.";
@@ -149,7 +149,7 @@ namespace TweetPOSTMicroservice.Controllers
                     _log4net.Info("New Tweet Created.");
                     return StatusCode(201, _response);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -168,7 +168,7 @@ namespace TweetPOSTMicroservice.Controllers
             try
             {
                 bool Issuccess = await _tweetRepository.AddLike(id);
-                if(Issuccess)
+                if (Issuccess)
                 {
                     _response.DisplayMessage = "New likes added. ";
                     _log4net.Info("New likes added. ");
@@ -181,7 +181,7 @@ namespace TweetPOSTMicroservice.Controllers
                     _log4net.Info("Tweet Dosnt exist. ");
                     return NotFound(_response);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -201,8 +201,8 @@ namespace TweetPOSTMicroservice.Controllers
             {
                 TweetReadDTO tweetmodel = await _tweetRepository.UpdateTweet(tweetDTO, id, userID: username);
                 _response.Result = tweetmodel;
-                
-                if(tweetmodel == null)
+
+                if (tweetmodel == null)
                 {
                     _response.IsSuccess = false;
                     _response.DisplayMessage = "Invalid UserID or TweetID";
@@ -215,7 +215,7 @@ namespace TweetPOSTMicroservice.Controllers
                     _log4net.Info("Tweet for id " + tweetmodel.TweetID.ToString() + " is Updated.");
                     return Ok(_response);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -234,7 +234,7 @@ namespace TweetPOSTMicroservice.Controllers
             try
             {
                 bool Issuccess = await _tweetRepository.DeleteTweet(id);
-                if(Issuccess)
+                if (Issuccess)
                 {
                     _response.DisplayMessage = "Existed Tweet Deleted. ";
                     _log4net.Info("Existed Tweet Deleted. ");
@@ -247,7 +247,7 @@ namespace TweetPOSTMicroservice.Controllers
                     _log4net.Info("Tweet Dosnt exist. ");
                     return NotFound(_response);
                 }
-                
+
             }
             catch (Exception ex)
             {

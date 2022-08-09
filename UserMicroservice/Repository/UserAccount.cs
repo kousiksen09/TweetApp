@@ -332,5 +332,31 @@ namespace UserMicroservice.Repository
                 throw new Exception("No user with this name");
             }
         }
+
+        public async Task<bool> DeleteUser(string userId)
+        {
+            if (userId == null)
+            {
+                return false;
+            }
+            try
+            {
+                var user = await _userManager.FindByIdAsync(userId);
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return true;
+                }
+                return false;
+         
+            }
+            catch (Exception)
+            {
+                return false;
+                throw new Exception("Unable to delete your account");
+            }
+        }
+
     }
+    
 }

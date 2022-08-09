@@ -22,7 +22,7 @@ namespace TweetView_ReplyMicroservice.Repository
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateTweetReply(ReplyPostDTO replyPostDTO, string ReplyuserId)
+        public async Task<ReplyDTO> CreateTweetReply(ReplyPostDTO replyPostDTO, string ReplyuserId)
         {
             try
             {
@@ -31,11 +31,26 @@ namespace TweetView_ReplyMicroservice.Repository
                 reply.ReplyPostedOn = DateTime.Now.ToString();
                 await _context.TweetReplies.AddAsync(reply);
                 _context.SaveChanges();
-                return true;
+                return _mapper.Map<TweetReply, ReplyDTO>(reply);
             }
             catch (Exception exp)
             {
                 Console.WriteLine(exp.Message);
+                return null;
+            }
+        }
+
+        public async Task<bool> DeleteReply(int replyTweetId)
+        {
+            try
+            {
+                var reply = _context.TweetReplies.FirstOrDefault(x => x.ReplyTweetId == replyTweetId);
+                _context.TweetReplies.Remove(reply);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
                 return false;
             }
         }

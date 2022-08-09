@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TweetApp_Common.DTO
 {
@@ -16,6 +17,7 @@ namespace TweetApp_Common.DTO
         public string State { get; set; }
         public string Email { get; set; }
         public Gender gender { get; set; }
+        [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
         public byte[] ProfilePicture { get; set; }
         //public bool IsActive { get; set; }

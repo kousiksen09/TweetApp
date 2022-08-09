@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-
 namespace TweetApp_Common.Model
 {
     public class TweetReply
@@ -16,8 +15,6 @@ namespace TweetApp_Common.Model
         public int TweetId { get; set; }
         public Tweet Tweet { get; set; }
 
-        //[ForeignKey("Tweets")]
-        //public int TweetID { get; set; }
 
     }
 }

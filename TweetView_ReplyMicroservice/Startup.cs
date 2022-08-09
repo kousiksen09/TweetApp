@@ -58,6 +58,7 @@ namespace TweetView_ReplyMicroservice
                 };
             });
             services.AddSingleton(mapper);
+            services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<ITweetReplyRepository, TweetReplyRepository>();
             services.AddSwaggerGen(c =>
@@ -80,6 +81,7 @@ namespace TweetView_ReplyMicroservice
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

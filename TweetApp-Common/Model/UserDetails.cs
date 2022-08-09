@@ -26,7 +26,8 @@ namespace TweetApp_Common.Model
         [Required]
         public Gender gender { get; set; }
         public byte[] ProfilePicture { get; set; }
-        // public IList<Tweet> Tweets { get; set; }
+
+
 
 
     }
