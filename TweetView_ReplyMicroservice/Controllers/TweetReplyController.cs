@@ -45,7 +45,7 @@ namespace TweetView_ReplyMicroservice.Controllers
                     _log4net.Info("No replies found");
                     return NotFound(_response);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace TweetView_ReplyMicroservice.Controllers
                 _log4net.Error(_response.ErrorMessages);
                 return BadRequest();
             }
-            
+
         }
 
         [HttpGet]
@@ -87,7 +87,7 @@ namespace TweetView_ReplyMicroservice.Controllers
                 _log4net.Error(_response.ErrorMessages);
                 return BadRequest(_response);
             }
-            
+
         }
 
         [HttpPost]
@@ -119,7 +119,7 @@ namespace TweetView_ReplyMicroservice.Controllers
                 _log4net.Error(_response.ErrorMessages);
                 return BadRequest(_response);
             }
-            
+
         }
         [HttpDelete]
         [Route("deletereply/{replyTweetId}")]
@@ -128,7 +128,7 @@ namespace TweetView_ReplyMicroservice.Controllers
             try
             {
                 bool IsSuccess = await _repo.DeleteReply(replyTweetId);
-                if (IsSuccess) 
+                if (IsSuccess)
                 {
                     _response.DisplayMessage = "Reply deleted successfully!";
                     _log4net.Info("Reply deleted successfully!");

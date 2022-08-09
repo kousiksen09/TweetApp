@@ -55,7 +55,7 @@ namespace TweetApp_Common.DbContexts
                 .WithMany(ad => ad.Replies)
                 .HasForeignKey(ad => ad.TweetId);
 
-           
+
 
         }
     }

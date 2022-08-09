@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TweetApp_Common.Model
 {
@@ -10,12 +9,12 @@ namespace TweetApp_Common.Model
         [Required]
         public string ReplyTweetBody { get; set; }
         public int Likes { get; set; }
-        public string ReplyPostedOn { get; set; } 
+        public string ReplyPostedOn { get; set; }
         [Required]
         public string ReplyUserId { get; set; }
         public int TweetId { get; set; }
         public Tweet Tweet { get; set; }
-       
+
 
     }
 }

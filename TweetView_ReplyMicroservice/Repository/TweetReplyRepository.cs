@@ -48,7 +48,8 @@ namespace TweetView_ReplyMicroservice.Repository
                 _context.TweetReplies.Remove(reply);
                 await _context.SaveChangesAsync();
                 return true;
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 return false;
             }
