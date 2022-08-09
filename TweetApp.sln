@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice", "UserMicroservice\UserMicroservice.csproj", "{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetAppAPIGateway", "TweetAppAPIGateway\TweetAppAPIGateway.csproj", "{5C90AC91-CEE8-4549-878B-05868213C357}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit Test", "Unit Test", "{9F756BC1-4E81-49DB-8A75-8F4A930E7C50}"
 EndProject
@@ -17,7 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetPostMicroservice", "Tw
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetView_ReplyMicroservice", "TweetView_ReplyMicroservice\TweetView_ReplyMicroservice.csproj", "{8E8F6FEA-75EC-4D50-906E-6CC63A619F40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.TweetPostMicroservice", "Test.TweetPostMicroservice\Test.TweetPostMicroservice.csproj", "{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetPostMicroservice", "Test.TweetPostMicroservice\Test.TweetPostMicroservice.csproj", "{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8A5A7814-83E1-44BD-ABC4-0A74E554A922}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetAppAPIGateway", "TweetAppAPIGateway\TweetAppAPIGateway.csproj", "{3B675919-B419-463F-B40D-1829E7BA40B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,6 @@ Global
 		{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C90AC91-CEE8-4549-878B-05868213C357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C90AC91-CEE8-4549-878B-05868213C357}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C90AC91-CEE8-4549-878B-05868213C357}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C90AC91-CEE8-4549-878B-05868213C357}.Release|Any CPU.Build.0 = Release|Any CPU
 		{66A5223F-5464-4705-B5C7-2E0DB7674A0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{66A5223F-5464-4705-B5C7-2E0DB7674A0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66A5223F-5464-4705-B5C7-2E0DB7674A0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,6 +51,14 @@ Global
 		{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A5A7814-83E1-44BD-ABC4-0A74E554A922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A5A7814-83E1-44BD-ABC4-0A74E554A922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A5A7814-83E1-44BD-ABC4-0A74E554A922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A5A7814-83E1-44BD-ABC4-0A74E554A922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B675919-B419-463F-B40D-1829E7BA40B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B675919-B419-463F-B40D-1829E7BA40B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B675919-B419-463F-B40D-1829E7BA40B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B675919-B419-463F-B40D-1829E7BA40B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

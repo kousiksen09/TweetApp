@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "sqldb": "StartWithoutDebugging",
+        "tweetpostmicroservice": "StartDebugging",
+        "tweetview_replymicroservice": "StartDebugging",
+        "usermicroservice": "StartDebugging"
+      }
+    }
+  }
+}

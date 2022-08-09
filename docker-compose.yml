@@ -1,0 +1,40 @@
+version: '3.4'
+services:
+  usermicroservice:
+    image: ${DOCKER_REGISTRY-}usermicroservice
+    build:
+      context: .
+      dockerfile: UserMicroservice/Dockerfile
+    ports:
+        - "5111:80"
+    depends_on:
+        - "sqldb"
+
+  tweetpostmicroservice:
+    image: ${DOCKER_REGISTRY-}tweetpostmicroservice
+    build:
+      context: .
+      dockerfile: TweetPOSTMicroservice/Dockerfile
+    ports:
+        - "5222:80"
+    depends_on:
+        - "sqldb"
+
+
+  tweetview_replymicroservice:
+    image: ${DOCKER_REGISTRY-}tweetviewreplymicroservice
+    build:
+      context: .
+      dockerfile: TweetView_ReplyMicroservice/Dockerfile
+    ports:
+        - "5333:80"
+    depends_on:
+        - "sqldb"
+  sqldb:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+        SA_PASSWORD: "Password@123"
+        ACCEPT_EULA: "Y"
+    ports:
+        - "1440:1433"   
+

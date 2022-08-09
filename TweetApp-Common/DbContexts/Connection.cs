@@ -6,9 +6,10 @@
         public Connection()
         {
 
-            // ConnectionString = "Server=CTSDOTNET380;Database=Tweet_Server;User ID=sa;Password=pass@word1;MultipleActiveResultSets=true";
-           // ConnectionString = "Server=CTSDOTNET376;Database=Tweet_Server;User ID=sa;Password=pass@word1;MultipleActiveResultSets=true";
-            ConnectionString = "data source=KOUSIK-SEN-HP-P\\SQLEXPRESS; Initial Catalog=Tweet_Server;integrated security=true;MultipleActiveResultSets=true";
+            
+           ConnectionString = "Data Source=sqldb;Initial Catalog=Tweet_Server;Persist Security Info=True;User ID=sa;Password=Password@123";
+
+           // ConnectionString = "data source=KOUSIK-SEN-HP-P\\SQLEXPRESS; Initial Catalog=Tweet_Server;integrated security=true;MultipleActiveResultSets=true";
 
 
         }
