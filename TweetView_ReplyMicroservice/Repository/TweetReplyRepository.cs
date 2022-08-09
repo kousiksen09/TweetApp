@@ -22,7 +22,7 @@ namespace TweetView_ReplyMicroservice.Repository
             _mapper = mapper;
         }
 
-        public async Task<object> CreateTweetReply(ReplyPostDTO replyPostDTO, string ReplyuserId)
+        public async Task<ReplyDTO> CreateTweetReply(ReplyPostDTO replyPostDTO, string ReplyuserId)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace TweetView_ReplyMicroservice.Repository
                 reply.ReplyPostedOn = DateTime.Now.ToString();
                 await _context.TweetReplies.AddAsync(reply);
                 _context.SaveChanges();
-                return reply;
+                return _mapper.Map<TweetReply, ReplyDTO>(reply);
             }
             catch (Exception exp)
             {

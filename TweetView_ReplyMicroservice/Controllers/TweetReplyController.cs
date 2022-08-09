@@ -40,9 +40,10 @@ namespace TweetView_ReplyMicroservice.Controllers
                 else
                 {
                     _response.IsSuccess = false;
+                    _response.Result = ReplyDTOs;
                     _response.DisplayMessage = "No replies found";
                     _log4net.Info("No replies found");
-                    return StatusCode(400, _response);
+                    return NotFound(_response);
                 }
                 
             }
@@ -66,15 +67,17 @@ namespace TweetView_ReplyMicroservice.Controllers
                 if (ReplyDTOs.Any())
                 {
                     _response.Result = ReplyDTOs;
+                    _response.DisplayMessage = $"All replies recevied for tweet {tweetId}";
                     _log4net.Info("Received all Replies for a single Tweet.");
                     return Ok(_response);
                 }
                 else
                 {
                     _response.IsSuccess = false;
+                    _response.Result = ReplyDTOs;
                     _response.DisplayMessage = "No replies found";
                     _log4net.Info("No replies found");
-                    return StatusCode(400, _response);
+                    return NotFound(_response);
                 }
             }
             catch (Exception ex)
@@ -97,13 +100,14 @@ namespace TweetView_ReplyMicroservice.Controllers
                 if (replyRes != null)
                 {
                     _response.Result = replyRes;
+                    _response.DisplayMessage = "Reply posted successfully";
                     _log4net.Info("Reply Tweet posted.");
                     return StatusCode(201, _response);
                 }
                 else
                 {
                     _response.IsSuccess = false;
-                    _response.DisplayMessage = "Error creating post";
+                    _response.DisplayMessage = "Error posting reply";
                     _log4net.Info("Error creating post");
                     return StatusCode(400, _response);
                 }
