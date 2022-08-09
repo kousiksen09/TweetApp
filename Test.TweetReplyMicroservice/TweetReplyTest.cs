@@ -127,5 +127,36 @@ namespace Test.TweetReplyMicroservice
             Assert.AreEqual(null, (contentResult as ResponseDTO).Result);
             Assert.False((contentResult as ResponseDTO).IsSuccess);
         }
+
+        [Test]
+        [TestCase(9)]
+        public async Task DeleteUserPost_ValidReplyId_ReplyDeleted(int replyTweetId)
+        {
+            _repositoryStub.Setup(repo => repo.DeleteReply(replyTweetId)).ReturnsAsync(true);
+            var result = await _tweetReplyController.DeleteReply(replyTweetId);
+            var contentResult = (result as ObjectResult).Value;
+
+            Assert.AreEqual((result as ObjectResult).StatusCode, 200);
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual("Reply deleted successfully!", (contentResult as ResponseDTO).DisplayMessage);
+            Assert.True((contentResult as ResponseDTO).IsSuccess);
+
+        }
+
+        [Test]
+        [TestCase(9)]
+        public async Task DeleteUserPost_InvalidReplyId_NoReplyDeleted(int replyTweetId)
+        {
+            _repositoryStub.Setup(repo => repo.DeleteReply(replyTweetId)).ReturnsAsync(false);
+
+            var result = await _tweetReplyController.DeleteReply(replyTweetId);
+            var contentResult = (result as ObjectResult).Value;
+
+            Assert.AreEqual((result as ObjectResult).StatusCode, 404);
+            Assert.That(contentResult, Is.InstanceOf<ResponseDTO>());
+            Assert.AreEqual("Reply Dosn't exist. Please provide a valid Reply ID", (contentResult as ResponseDTO).DisplayMessage);
+            Assert.False((contentResult as ResponseDTO).IsSuccess);
+
+        }
     }
 }
