@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31729.503
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice", "UserMicroservice\UserMicroservice.csproj", "{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}"
 EndProject
@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetView_ReplyMicroservice
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetPostMicroservice", "Test.TweetPostMicroservice\Test.TweetPostMicroservice.csproj", "{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.TweetReplyMicroservice", "Test.TweetReplyMicroservice\Test.TweetReplyMicroservice.csproj", "{093BC85B-029E-41D1-8800-8568840697D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetReplyMicroservice", "Test.TweetReplyMicroservice\Test.TweetReplyMicroservice.csproj", "{093BC85B-029E-41D1-8800-8568840697D9}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Twitter_UI", "Twitter_UI\Twitter_UI.esproj", "{9332E56E-9840-464C-8FA8-16C9258029DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,12 @@ Global
 		{093BC85B-029E-41D1-8800-8568840697D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093BC85B-029E-41D1-8800-8568840697D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093BC85B-029E-41D1-8800-8568840697D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9332E56E-9840-464C-8FA8-16C9258029DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9332E56E-9840-464C-8FA8-16C9258029DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9332E56E-9840-464C-8FA8-16C9258029DC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9332E56E-9840-464C-8FA8-16C9258029DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9332E56E-9840-464C-8FA8-16C9258029DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9332E56E-9840-464C-8FA8-16C9258029DC}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
