@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 using UserMicroservice.Repository;
@@ -16,10 +18,12 @@ namespace UserMicroservice.Controllers
         private static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(UserManagementController));
         private readonly IUserAccount _userAccount;
         private readonly IJWTAutnenticationManager _authenticationManager;
+        protected ResponseDTO _response;
         public UserManagementController(IUserAccount userAccount, IJWTAutnenticationManager autnenticationManager)
         {
             _userAccount = userAccount;
             _authenticationManager = autnenticationManager;
+            _response = new ResponseDTO();
         }
         [AllowAnonymous]
         [HttpPost]
@@ -33,17 +37,28 @@ namespace UserMicroservice.Controllers
                     _log4net.Info("No Customer has been returned");
                     return BadRequest();
                 }
-                ActionStatusDTO creationStatus = await _userAccount.OnPostRegister(user);
-                if (creationStatus == null)
+                var result= await _userAccount.OnPostRegister(user);
+                if (result == null)
                 {
                     return BadRequest();
                 }
-                _log4net.Info(creationStatus.Message);
-                if (creationStatus.StatusCode == 201)
+                if (result.AuthToken != null)
                 {
-                    return Ok(creationStatus);
+                    _response.IsSuccess = true;
+                    _response.DisplayMessage = "User Has been Created";
+                    _response.ErrorMessages = null;
+                    _response.Result = result;
+                    _log4net.Info(_response.DisplayMessage);
+                    return Ok(_response);
                 }
-                return BadRequest(creationStatus);
+                else
+                {
+                    _response.IsSuccess = false;
+                    _response.DisplayMessage = "User not Created";
+                    _response.ErrorMessages = new List<string>() { result.Message };
+                    _response.Result = null;
+                    return Unauthorized(_response);
+                }
             }
             catch (Exception ex)
             {
@@ -66,13 +81,20 @@ namespace UserMicroservice.Controllers
                     return BadRequest();
                 }
                 var token = await _authenticationManager.Authenticate(logInCred);
-                if (token == null)
+                if (token.AuthToken == null)
                 {
-                    return Unauthorized();
+                    return Unauthorized(token.Message);
                 }
                 var isUpdated = await _userAccount.UpdateActiveStatusLoggingIn(logInCred.UserName);
                 _log4net.Info("Login Successfull for " + logInCred.UserName);
-                return Ok(token);
+                if(isUpdated)
+                {
+                    _response.Result = token.User;
+                    _response.IsSuccess=true;
+                    _response.DisplayMessage = "Logged IN";
+                    return Ok(_response);
+                }
+               return BadRequest();
             }
             catch (Exception ex)
             {
@@ -217,10 +239,10 @@ namespace UserMicroservice.Controllers
                 }
             }
 
-        [AllowAnonymous]
+      
         [HttpGet]
         [Route("ValidateUser")]
-        public async Task<IActionResult> ValidateUser(string userId)
+        public async Task<IActionResult> ValidateUser(string userId, [FromHeader] string authorization)
         {
             if (userId == null)
             {
@@ -228,9 +250,19 @@ namespace UserMicroservice.Controllers
             }
             try
             {
-                var result = await _authenticationManager.ValidateUser(userId);
-                if (result)
-                    return Ok("User Exist");
+                if (AuthenticationHeaderValue.TryParse(authorization, out var headerValue))
+                {
+                    // we have a valid AuthenticationHeaderValue that has the following details:
+
+                    var scheme = headerValue.Scheme;
+                    var parameter = headerValue.Parameter;
+
+
+
+                    var result = await _authenticationManager.ValidateUser(userId, parameter);
+                    if (result)
+                        return Ok("User Exist");
+                }
                 return Unauthorized();
 
             }

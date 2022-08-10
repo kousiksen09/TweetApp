@@ -8,7 +8,7 @@ namespace UserMicroservice.Repository
 {
     public interface IUserAccount
     {
-        public Task<ActionStatusDTO> OnPostRegister(UserDetailsPostDTO userDetails);
+        public Task<AuthResultDTO> OnPostRegister(UserDetailsPostDTO userDetails);
         public bool AddActiveStatus(string userId);
         public Task<TweeterUserProfile> SearchByUserName(string userName);
         public List<string> FindUserNameFromName(string name);

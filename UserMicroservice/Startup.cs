@@ -68,7 +68,7 @@ namespace UserMicroservice
             services.AddDbContext<TweetUserContext>(
               x => x.UseSqlServer(connection.ConnectionString)
               );
-            services.AddIdentity<UserDetails, IdentityRole>()
+            services.AddIdentity<UserDetails,IdentityRole>()
                 .AddEntityFrameworkStores<TweetUserContext>()
                 .AddDefaultTokenProviders();
         }

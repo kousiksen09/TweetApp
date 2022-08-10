@@ -61,22 +61,22 @@ namespace UserMicroservice.Repository
             }
         }
 
-        public async Task<ActionStatusDTO> OnPostRegister(UserDetailsPostDTO userDetails)
+        public async Task<AuthResultDTO> OnPostRegister(UserDetailsPostDTO userDetails)
         {
             UserDetails user = _mapper.Map<UserDetailsPostDTO, UserDetails>(userDetails);
             if (userDetails == null)
             {
-                return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status400BadRequest, Message = "Invalide User Input" };
+                return new AuthResultDTO { User=null, AuthToken=null};
             }
             MailAddress mailAddress = new MailAddress(userDetails.Email);
-            string userName = mailAddress.Address.Split('@')[0].ToLower() + userDetails.DateOfBirth.Day.ToString();
+            string userName = mailAddress.Address.Split('@')[0].ToLower();
             try
             {
                 user.UserName = userName;
                 var userExists = await _userManager.FindByEmailAsync(userDetails.Email);
                 if (userExists != null)
                 {
-                    return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "Already there is an user with the same email" };
+                    return new AuthResultDTO { User = null, AuthToken = null, Message="User Already Exists" };
                 }
                 var result = await _userManager.CreateAsync(user, userDetails.PasswordHash);
 
@@ -85,7 +85,7 @@ namespace UserMicroservice.Repository
                 if (!result.Succeeded)
                 {
 
-                    return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
+                    return new AuthResultDTO { User = null, AuthToken = null, Message="Unable to create user due to validation error" };
 
                 }
                 else
@@ -95,28 +95,23 @@ namespace UserMicroservice.Repository
                         var activeStatusCreationStatus = AddActiveStatus(user.Id);
                         if (activeStatusCreationStatus == false)
                         {
-                            return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
+                            return new AuthResultDTO { User = null, AuthToken = null, Message="Unable to turn on your profile" };
                         }
                     }
-                    string token = await _jwtAuthenticationManager.Authenticate(new LogInDTO
+                   AuthResultDTO authResult = await _jwtAuthenticationManager.Authenticate(new LogInDTO
                     {
                         UserName = userName,
                         PassWord = userDetails.PasswordHash,
                         RememberMe = true
                     });
 
-                    return new ActionStatusDTO
-                    {
-                        Status = true,
-                        StatusCode = StatusCodes.Status201Created,
-                        Message = "User has been created successfully!!!    " + "TokenForAuth:" + token.ToString()
-                    };
+                    return authResult;
 
                 }
             }
             catch (Exception ex)
             {
-                return new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = ex.Message };
+                return new AuthResultDTO { User = null, AuthToken = null, Message=ex.Message };
             }
 
         }
