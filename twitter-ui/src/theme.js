@@ -16,22 +16,13 @@ export const pxToVh1974 = (px) => `${px * 0.10266940451}vh`;
  */
 export const pxToVw = (px) => `${px * 0.05208}vw`;
 
-export default createTheme({
-  overrides: {
-    MuiAppBar: {
-      colorPrimary: {
-        backgroundColor: '#000000',
-        backgroundImage: 'linear-gradient(147deg, #000000 0%, #434343 74%)',
-      },
-    },
-    MuiOutlinedInput: {
-      root: {
-        borderRadius: pxToRem(25),
-        border: `${pxToRem(2)} solid #FFFFFF`,
-      },
-      input: {
-        padding: `${pxToRem(18)} ${pxToRem(24)}`,
-      },
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#000000',
     },
   },
 });
+
+export default theme;
