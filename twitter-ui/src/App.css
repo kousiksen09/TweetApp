@@ -2,6 +2,37 @@
   text-align: center;
 }
 
+html {
+
+  height: 100vh;
+  width: 100vw;
+	font-size: calc(0.75vh + 0.75vw);
+}
+
+body {
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	padding: 0;
+	margin: 0;
+	font-size: "50%";
+	line-height: "1em";
+	margin: 0;
+
+}
+
+div {
+	font-size: calc(0.75vh + 0.75vw);
+}
+span {
+	font-size: calc(0.75vh + 0.75vw);
+}
+
+p {
+	font-size: calc(0.75vh + 0.75vw);
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

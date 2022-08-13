@@ -6,11 +6,16 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  Typography,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import '../../Utility/UserStyle.css';
-import { isValidEmail } from '../HelperFunctions/FormValidation';
+import {
+  isPasswordValid,
+  isValidEmail,
+  validatePhoneNumber,
+} from '../HelperFunctions/FormValidation';
 
 function UserFrom() {
   const [userInput, setUserInput] = useState({
@@ -45,7 +50,11 @@ function UserFrom() {
     });
     if (!isValidEmail(event.target.value)) {
       setError((prevState) => {
-        return { ERemail: 'Email is not valid' };
+        return { ...prevState, ERemail: 'Email is not valid' };
+      });
+    } else {
+      setError((prevState) => {
+        return { ...prevState, ERemail: '' };
       });
     }
   };
@@ -53,11 +62,33 @@ function UserFrom() {
     setUserInput((prevState) => {
       return { ...prevState, password: event.target.value };
     });
+    if (!isPasswordValid(event.target.value)) {
+      setError((prevState) => {
+        return {
+          ...prevState,
+          ERpassword:
+            'Password should be with 7-15 charecter, should contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character',
+        };
+      });
+    } else {
+      setError((prevState) => {
+        return { ...prevState, ERpassword: '' };
+      });
+    }
   };
   const mobileChangeHandler = (event) => {
     setUserInput((prevState) => {
       return { ...prevState, MobileNumber: event.target.value };
     });
+    if (!validatePhoneNumber(event.target.value)) {
+      setError((prevState) => {
+        return { ...prevState, ERMobileNumber: 'Mobile Number is not valid' };
+      });
+    } else {
+      setError((prevState) => {
+        return { ...prevState, ERMobileNumber: '' };
+      });
+    }
   };
   const countryChangeHandler = (event) => {
     setUserInput((prevState) => {
@@ -81,17 +112,24 @@ function UserFrom() {
   };
   const handleFormSubmission = (event) => {
     event.preventDefault();
-    const profile = {
-      Twname: userInput.name,
-      Twemail: userInput.email,
-      Twpassword: userInput.password,
-      TwMobileNumber: userInput.MobileNumber,
-      TwCountry: userInput.Country,
-      TwState: userInput.State,
-      TwGender: parseInt(userInput.Gender),
-      TwDateOfBirth: new Date(userInput.DateOfBirth),
-    };
-    console.log(profile);
+    if (
+      error.ERemail === '' &&
+      error.ERMobileNumber === '' &&
+      error.ERpassword === ''
+    ) {
+      const profile = {
+        Twname: userInput.name,
+        Twemail: userInput.email,
+        Twpassword: userInput.password,
+        TwMobileNumber: userInput.MobileNumber,
+        TwCountry: userInput.Country,
+        TwState: userInput.State,
+        TwGender: parseInt(userInput.Gender),
+        TwDateOfBirth: new Date(userInput.DateOfBirth),
+      };
+      console.log(profile);
+    }
+    return;
   };
   return (
     <form onSubmit={handleFormSubmission}>
@@ -119,6 +157,9 @@ function UserFrom() {
             autoFocus
             onChange={emailChangeHandler}
           />
+          <Typography variant='body2' color='error'>
+            {error.ERemail}
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -126,11 +167,15 @@ function UserFrom() {
             name='Mobile'
             required
             fullWidth
+            error={error.ERMobileNumber}
             id='mobile'
             label='Phone Number'
             autoFocus
             onChange={mobileChangeHandler}
           />
+          <Typography variant='body2' color='error'>
+            {error.ERMobileNumber}
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -138,10 +183,14 @@ function UserFrom() {
             required
             fullWidth
             id='password'
+            error={error.ERpassword}
             label='Password'
             autoFocus
             onChange={passwordChangeHandler}
           />
+          <Typography variant='body2' color='error'>
+            {error.ERpassword}
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField

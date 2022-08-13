@@ -19,8 +19,9 @@ export const pxToVw = (px) => `${px * 0.05208}vw`;
 const theme = createTheme({
   palette: {
     mode: 'dark',
+
     primary: {
-      main: '#000000',
+      main: '#FFFFFF',
     },
   },
 });

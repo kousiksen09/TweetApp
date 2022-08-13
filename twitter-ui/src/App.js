@@ -5,6 +5,8 @@ import { ThemeProvider } from '@mui/material/styles';
 import UserRegisterLogIn from './Container/UserRegsiterLogin';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import TweetHome from './Container/TweetHome';
+import { CssBaseline } from '@mui/material';
 
 function App() {
   return (
@@ -13,7 +15,8 @@ function App() {
         {/* <Provider store={store}>
         <h2>Welcome</h2>
       </Provider> */}
-        <UserRegisterLogIn />
+        <CssBaseline />
+        <TweetHome />
       </ThemeProvider>
     </LocalizationProvider>
   );

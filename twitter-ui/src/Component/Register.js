@@ -2,6 +2,7 @@ import { Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { pxToRem, pxToVh, pxToVw } from '../theme';
+import LoginForm from '../Utility/HelperComponent/LogInForm';
 import UserFrom from '../Utility/HelperComponent/UserForm';
 import whiteLogo from '../Utility/image/WhiteLogo.png';
 import '../Utility/UserStyle.css';
@@ -44,15 +45,16 @@ const useStyles = makeStyles((theme) => ({
   twCss3: {
     minWidth: '45vh',
     justifyContent: 'center',
-    backgroundColor: theme.palette.primary.main,
+
     padding: pxToVw(16),
     height: '100%',
     boxSizing: 'border-box',
-    border: '0 solid #000',
   },
   twCss4: {
     position: 'relative',
     padding: pxToVw(20),
+
+    justifyContent: 'center',
     top: pxToVh(120),
     minWidth: pxToVw(438),
   },
@@ -68,8 +70,8 @@ const useStyles = makeStyles((theme) => ({
     fontSize: pxToRem(20),
     fontWeight: 700,
     color: '#FFFFFF',
-    height: pxToVh(60),
-    width: pxToVw(320),
+    height: pxToVh(56),
+    width: '300px',
     top: pxToVh(40),
     borderRadius: pxToRem(30),
     minWidth: pxToVw(36),
@@ -79,12 +81,19 @@ const useStyles = makeStyles((theme) => ({
 function Register() {
   const classes = useStyles();
   const [isModalOpen, setModalState] = useState(false);
+  const [isLogInModalOpen, setIsLogInModalOpen] = useState(false);
 
   const handleOpen = () => {
     setModalState(true);
   };
   const onModalClose = (event, reason) => {
     if (reason !== 'backdropClick') setModalState(false);
+  };
+  const handleLoginOpen = () => {
+    setIsLogInModalOpen(true);
+  };
+  const onModalLoginClose = (event, reason) => {
+    if (reason !== 'backdropClick') setIsLogInModalOpen(false);
   };
   return (
     <div className={classes.root}>
@@ -107,16 +116,19 @@ function Register() {
             <div className={classes.twCss4}>
               <img className={classes.reglogo} alt='logo' src={whiteLogo} />
               <Typography
-                className='twTextHapen'
+                className='twTextHapen '
                 fontSize='3rem'
+                fontWeight='800'
                 variant='h2'
+                letterSpacing='0.6rem'
                 component='h2'
               >
                 Happening now
               </Typography>
               <Typography
                 className='twTextHapen'
-                fontSize='1.4rem'
+                fontSize='2rem'
+                fontWeight='600'
                 variant='h5'
                 component='h5'
                 marginTop='2vh'
@@ -127,6 +139,21 @@ function Register() {
               <button className={classes.btnRegister} onClick={handleOpen}>
                 Register With Email
               </button>
+              <div className='logInDiv'>
+                <Typography
+                  className='twTextHapen'
+                  fontSize='1.4rem'
+                  variant='h3'
+                >
+                  Already haave an account?
+                </Typography>
+                <button
+                  className={classes.btnRegister}
+                  onClick={handleLoginOpen}
+                >
+                  LogIn Now
+                </button>
+              </div>
             </div>
           </div>
         </Grid>
@@ -137,6 +164,15 @@ function Register() {
             header='Create Your Account'
           >
             <UserFrom />
+          </TwModal>
+        </div>
+        <div className={classes.nameModal}>
+          <TwModal
+            open={isLogInModalOpen}
+            onClose={onModalLoginClose}
+            header='Sign in to Twitter'
+          >
+            <LoginForm />
           </TwModal>
         </div>
       </Grid>
