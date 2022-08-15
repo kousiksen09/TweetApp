@@ -1,0 +1,17 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "composeLaunchServiceName": "tweetappapigateway",
+      "serviceActions": {
+        "tweetappapigateway": "StartDebugging",
+        "tweetdb": "StartWithoutDebugging",
+        "tweetpostmicroservice": "StartDebugging",
+        "tweetview_replymicroservice": "StartDebugging",
+        "usermicroservice": "StartDebugging"
+      },
+      "composeLaunchAction": "None",
+      "commandVersion": "1.0"
+    }
+  }
+}

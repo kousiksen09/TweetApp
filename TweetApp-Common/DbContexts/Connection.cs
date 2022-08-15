@@ -5,9 +5,7 @@
         public string ConnectionString { get; set; }
         public Connection()
         {
-           //ConnectionString = "data source=KOUSIK-SEN-HP-P\\SQLEXPRESS; Initial Catalog=Tweet_Server;integrated security=true;MultipleActiveResultSets=true";
-            ConnectionString = "data source=CTSDOTNET376; Initial Catalog=Tweet_Server;integrated security=true;MultipleActiveResultSets=true";
-
+            ConnectionString = "data source=tweetdb; Initial Catalog=Tweet_Server;user ID=SA;password=2Secure*Password2;MultipleActiveResultSets=true";
         }
     }
 }
