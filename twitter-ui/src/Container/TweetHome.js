@@ -82,5 +82,72 @@ export default function TweetHome() {
         </div>
       </Grid>
     );
-  else return;
+  else
+    return (
+      <div className='mainTweet'>
+        <PostTweet profilePic={Radhika} />
+        <div className='tweetFeed'>
+          <TweetCard
+            profilePic={Radhika}
+            Name='Kousik Sen'
+            userName='@ ksen6'
+            postAgo='6h'
+            reactionCount='20'
+            postImg={
+              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
+            }
+          />
+          <TweetCard
+            profilePic={Radhika}
+            Name='Kousik Sen'
+            userName='@ ksen6'
+            postAgo='6h'
+            reactionCount='20'
+            postImg={
+              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
+            }
+          />
+          <TweetCard
+            profilePic={Radhika}
+            Name='Kousik Sen'
+            userName='@ ksen6'
+            postAgo='6h'
+            reactionCount='20'
+            postImg={
+              'https://pbs.twimg.com/media/FaBtmVOVEAEnXZk?format=jpg&name=900x900'
+            }
+          />
+          <TweetCard
+            profilePic={Radhika}
+            Name='Kousik Sen'
+            userName='@ ksen6'
+            postAgo='6h'
+            reactionCount='20'
+            postImg={
+              'https://pbs.twimg.com/media/FaA3vEMWAAEvSsL?format=jpg&name=900x900'
+            }
+          />
+          <TweetCard
+            profilePic={Radhika}
+            Name='Kousik Sen'
+            userName='@ ksen6'
+            postAgo='6h'
+            reactionCount='20'
+            postImg={
+              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
+            }
+          />
+          <TweetCard
+            profilePic={Radhika}
+            Name='Kousik Sen'
+            userName='@ ksen6'
+            postAgo='6h'
+            reactionCount='20'
+            postImg={
+              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
+            }
+          />
+        </div>
+      </div>
+    );
 }

@@ -1,5 +1,5 @@
 import rootReducer from '../reducer/RootReducer';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 
 import createSagaMiddleware from 'redux-saga';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -8,12 +8,12 @@ import storage from 'redux-persist/lib/storage/session';
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['userReducer', 'tweetPostReducer', 'tweetViewReducer'],
+  blacklist: ['UserReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
-export const store = createStore(
+const store = createStore(
   persistedReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__
     ? compose(
@@ -25,4 +25,4 @@ export const store = createStore(
 
 //sagaMiddleware.run(rootSaga);
 
-export const persistor = persistStore(store);
+export default store;
