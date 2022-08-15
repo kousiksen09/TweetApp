@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32228.430
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice", "UserMicroservice\UserMicroservice.csproj", "{E45C84C3-D89C-443A-AF80-9B8D3B0A34C8}"
 EndProject
@@ -20,6 +20,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetPostMicroservice", "Test.TweetPostMicroservice\Test.TweetPostMicroservice.csproj", "{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetReplyMicroservice", "Test.TweetReplyMicroservice\Test.TweetReplyMicroservice.csproj", "{093BC85B-029E-41D1-8800-8568840697D9}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81796466-F518-4CD8-A17B-029D424E968B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{093BC85B-029E-41D1-8800-8568840697D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093BC85B-029E-41D1-8800-8568840697D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093BC85B-029E-41D1-8800-8568840697D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81796466-F518-4CD8-A17B-029D424E968B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81796466-F518-4CD8-A17B-029D424E968B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81796466-F518-4CD8-A17B-029D424E968B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81796466-F518-4CD8-A17B-029D424E968B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
