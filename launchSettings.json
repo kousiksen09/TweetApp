@@ -10,9 +10,8 @@
         "tweetview_replymicroservice": "StartDebugging",
         "usermicroservice": "StartDebugging"
       },
-      "composeLaunchAction": "LaunchBrowser",
-      "commandVersion": "1.0",
-      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}"
+      "composeLaunchAction": "None",
+      "commandVersion": "1.0"
     }
   }
 }
