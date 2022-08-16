@@ -89,7 +89,7 @@ namespace UserMicroservice.Controllers
                 _log4net.Info("Login Successfull for " + logInCred.UserName);
                 if(isUpdated)
                 {
-                    _response.Result = token.User;
+                    _response.Result = token;
                     _response.IsSuccess=true;
                     _response.DisplayMessage = "Logged IN";
                     return Ok(_response);
