@@ -1,0 +1,38 @@
+ocelot.json
+{
+      "DownstreamPathTemplate": "/api/v1.0/tweets/deleteuser/{userId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermicroservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/deleteuser/{userId}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    
+    UserManagementController.cs
+    
+    [HttpDelete]
+            [Route("deleteuser/{userId}")]
+            public async Task<IActionResult> DeleteUser(string userId)
+            {
+                if (userId == null)
+                {
+                    return BadRequest(userId);
+                }
+                try
+                {
+                    var result = await _userAccount.DeleteUser(userId);
+                    if (result)
+                        return Ok("User has been deleted");
+                    return BadRequest("Failed to delete");
+
+                }
+                catch (Exception ex)
+                {
+                    _log4net.Error(ex.Message);
+                    return BadRequest(ex.Message);
+                }
+            }
