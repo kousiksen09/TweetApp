@@ -35,8 +35,15 @@ services:
     build:
       context: .
       dockerfile: TweetAppAPIGateway/Dockerfile
-    ports:
-        - "5444:80"
+    links:
+      - tweetpostmicroservice
+      - usermicroservice
+      - tweetview_replymicroservice
+    depends_on:
+      - tweetpostmicroservice
+      - usermicroservice
+      - tweetview_replymicroservice
+  
   sqldb:
     image: "mcr.microsoft.com/mssql/server:2019-latest"
     environment:

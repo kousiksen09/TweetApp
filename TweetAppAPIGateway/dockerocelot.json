@@ -5,8 +5,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5111
+          "Host": "usermicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/search/{username}",
@@ -17,8 +17,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5111
+          "Host": "usermicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/getAllUsers",
@@ -29,8 +29,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5111
+          "Host": "usermicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/getUsername/{name}",
@@ -41,8 +41,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5111
+          "Host": "usermicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/login",
@@ -53,8 +53,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5111
+          "Host": "usermicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/LogOut",
@@ -65,8 +65,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5111
+          "Host": "usermicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/register",
@@ -77,20 +77,21 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5111
+          "Host": "usermicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/forgetPassword",
       "UpstreamHttpMethod": [ "POST" ]
     },
+    //Tweet POST
     {
       "DownstreamPathTemplate": "/api/v1.0/tweets/all",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5222
+          "Host": "tweetpostmicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/all",
@@ -101,8 +102,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5222
+          "Host": "tweetpostmicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/getMyTweets/{username}",
@@ -113,8 +114,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5222
+          "Host": "tweetpostmicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/getTweet/{id}",
@@ -125,8 +126,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5222
+          "Host": "tweetpostmicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/{username}/add",
@@ -137,8 +138,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5222
+          "Host": "tweetpostmicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/like/{id}",
@@ -149,8 +150,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5222
+          "Host": "tweetpostmicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/{username}/update/{id}",
@@ -161,20 +162,21 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5222
+          "Host": "tweetpostmicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/delete/{id}",
       "UpstreamHttpMethod": [ "DELETE" ]
     },
+    //Tweet Reply
     {
       "DownstreamPathTemplate": "/api/TweetReply/{userid}/add",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5333
+          "Host": "tweetview_replymicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/TweetReply/{userid}/add",
@@ -185,8 +187,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5333
+          "Host": "tweetview_replymicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/TweetReply/tweetreplies/{tweetId}",
@@ -197,8 +199,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5333
+          "Host": "tweetview_replymicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/TweetReply/getreply/{userid}",
@@ -209,8 +211,8 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5333
+          "Host": "tweetview_replymicroservice",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/gateway/TweetReply/deletereply/{replyTweetId}",

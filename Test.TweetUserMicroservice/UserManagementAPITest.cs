@@ -41,26 +41,32 @@ namespace Test.TweetUserMicroservice
                 State = "WB",
                 ProfilePicture = new byte[87676666]
             };
-            var actionStatus = new ActionStatusDTO { Status = true, StatusCode = StatusCodes.Status201Created, Message = "User has been created successfully!!!" };
-            var a = _mockUserAccount.Setup(x => x.OnPostRegister(us)).Returns(Task.FromResult(actionStatus));
+    
+            var a = _mockUserAccount.Setup(x => x.OnPostRegister(us)).Returns(Task.FromResult(new AuthResultDTO
+            {
+                 
+                AuthToken="hkhkjhjkh",
+                Message="Logged In",
+                User=new TweeterUserProfile
+                {
+                    UserName = "kousik123",
+                    Name = "Kousik",
+                    MobileNumber = "923456789",
+                    Country = "India",
+                    State = "WB",
+                    ProfilePicture = new byte[87676666],
+                    IsActive = true,
+                    LastSeen = DateTime.Now
+                }
+            }));
 
             var result = await _mockUserManagementController.RegisterUser(us);
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var contentResult = (result as OkObjectResult).Value;
+        
+            Assert.True((contentResult as ResponseDTO).IsSuccess);
             Assert.NotNull(result);
         }
-        [Test]
-        public async Task LoginWithValidDetails_ReturnTokenAsync()
-        {
-            LogInDTO logIn = new LogInDTO
-            {
-                UserName = "rahan@gmail.com",
-                PassWord = "Cat$123",
-                RememberMe = true
-            };
-            var a = _mockAuthenticationManager.Setup(x => x.Authenticate(logIn)).Returns(Task.FromResult("token"));
-            var result = await _mockUserManagementController.LogIn(logIn) as OkObjectResult;
-            Assert.That(result, Is.InstanceOf<OkObjectResult>());
-        }
+       
 
         [Test]
         public async Task RegisterUserWithInValidDetails_UserShouldnotCreate()
@@ -77,26 +83,21 @@ namespace Test.TweetUserMicroservice
                 ProfilePicture = new byte[87676666]
             };
             var actionStatus = new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
-            var a = _mockUserAccount.Setup(x => x.OnPostRegister(us)).Returns(Task.FromResult(actionStatus));
+            var a = _mockUserAccount.Setup(x => x.OnPostRegister(us));
 
             var result = await _mockUserManagementController.RegisterUser(us);
-            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
 
         [Test]
         public async Task LoginWithInValidDetails_ReturnBadRequest()
         {
 
-            var a = _mockAuthenticationManager.Setup(x => x.Authenticate(null)).Returns(Task.FromResult(string.Empty));
+            var a = _mockAuthenticationManager.Setup(x => x.Authenticate(null));
             var result = await _mockUserManagementController.LogIn(null);
-            var invalidResult = await _mockUserManagementController.LogIn(new LogInDTO
-            {
-                UserName = "urbun",
-                PassWord = "jlkjkljkl",
-                RememberMe = false
-            });
+
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
-            Assert.That(invalidResult, Is.InstanceOf<UnauthorizedResult>());
+          
         }
 
         [Test]
@@ -173,5 +174,21 @@ namespace Test.TweetUserMicroservice
             var result = await _mockUserManagementController.ForgetPassword(forgetSetup);
             Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
+        [Test]
+        public async Task DeleteUser_withValidDetails()
+        {
+            var k = _mockUserAccount.Setup(x => x.DeleteUser("12345qwert")).ReturnsAsync(true);
+            var result = await _mockUserManagementController.DeleteUser("12345qwert");
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+        }
+
+        [Test]
+        public async Task DeleteUser_withInValidDetails()
+        {
+            var k = _mockUserAccount.Setup(x => x.DeleteUser("")).ReturnsAsync(false);
+            var result = await _mockUserManagementController.DeleteUser("");
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+        }
+
     }
 }

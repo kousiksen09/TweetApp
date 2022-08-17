@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -18,12 +19,14 @@ namespace UserMicroservice.Repository
         private readonly UserManager<UserDetails> _userManager;
         private readonly SignInManager<UserDetails> _signInManager;
         private readonly IConfiguration _configuration;
+        private IMapper _mapper;
+
 
         public JWTAutnenticationManager(
             UserManager<UserDetails> userManger,
             SignInManager<UserDetails> signInManager,
 
-            IConfiguration configuration)
+            IConfiguration configuration, IMapper mapper)
         {
 
 
@@ -31,11 +34,14 @@ namespace UserMicroservice.Repository
             _signInManager = signInManager;
 
             _configuration = configuration;
+            _mapper = mapper;
         }
 
-        public async Task<string> Authenticate(LogInDTO logInDTO)
+        public async Task<AuthResultDTO> Authenticate(LogInDTO logInDTO)
         {
             Helper helper = new Helper();
+            AuthResultDTO authResult = new AuthResultDTO();
+
             var userName = logInDTO.UserName;
             try
             {
@@ -70,8 +76,23 @@ namespace UserMicroservice.Repository
                     var token = jwtTokenHandler.CreateToken(tokenDescriptor);
                     var tokenForSign = jwtTokenHandler.WriteToken(token);
                     await _userManager.SetAuthenticationTokenAsync(userDetails, tokenDescriptor.Issuer, "LogInToken", tokenForSign);
-
-                    return tokenForSign;
+                    if(String.IsNullOrEmpty(tokenForSign))
+                    {
+                        authResult.User = null;
+                        authResult.AuthToken = null;
+                        authResult.Message = "Unable to generate token";
+                    }
+                    else
+                    {
+                      
+                       var user= _mapper.Map< UserDetails, TweeterUserProfile>(userDetails);
+                        user.IsActive = true;
+                        user.LastSeen= DateTime.UtcNow;
+                        authResult.User = user;
+                        authResult.AuthToken = tokenForSign;
+                        authResult.Message = "Logged In";
+                    }
+                    return authResult;
 
                 }
 
@@ -79,19 +100,23 @@ namespace UserMicroservice.Repository
             }
             catch (Exception ex)
             {
-                return null;
+                return new AuthResultDTO { Message = ex.Message };
             }
 
         }
 
-        public async Task<bool> ValidateUser(string userId)
+        public async Task<bool> ValidateUser(string userId, string parameter)
         {
             UserDetails user = await _userManager.FindByIdAsync(userId);
-            var token = await _userManager.GetAuthenticationTokenAsync(user, "https://localhost:5001", "LogInToken");
+            var token = await _userManager.GetAuthenticationTokenAsync(user, _configuration["Jwt:Audience"], "LogInToken");
             if (token == null)
                 return false;
-            var isValid = await _userManager.VerifyUserTokenAsync(user, "https://localhost:5001", "LogInToken", token);
-            return isValid;
+
+            
+            //var isValid = await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.AuthenticatorTokenProvider , "Authentication", token).ConfigureAwait(false);
+           if(parameter == token)
+            return true;
+          return false;
 
         }
 
