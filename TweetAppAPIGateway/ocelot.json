@@ -84,6 +84,18 @@
       "UpstreamPathTemplate": "/gateway/tweets/forgetPassword",
       "UpstreamHttpMethod": [ "POST" ]
     },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/DeleteUser",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "usermicroservice",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/DeleteUser",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
     //Tweet POST
     {
       "DownstreamPathTemplate": "/api/v1.0/tweets/all",
