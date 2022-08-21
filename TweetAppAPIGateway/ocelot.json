@@ -82,7 +82,7 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/tweets/forgetPassword",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "PATCH" ]
     },
     {
       "DownstreamPathTemplate": "/api/v1.0/tweets/DeleteUser",
