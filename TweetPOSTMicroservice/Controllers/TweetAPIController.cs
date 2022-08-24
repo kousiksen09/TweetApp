@@ -25,7 +25,7 @@ namespace TweetPOSTMicroservice.Controllers
         }
 
         [HttpGet]
-        [Route("all/")]
+        [Route("all")]
         public async Task<IActionResult> Get()
         {
             try

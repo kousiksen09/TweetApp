@@ -21,6 +21,8 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetAppAPIGateway", "TweetAppAPIGateway\TweetAppAPIGateway.csproj", "{3B675919-B419-463F-B40D-1829E7BA40B2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetReplyMicroservice", "Test.TweetReplyMicroservice\Test.TweetReplyMicroservice.csproj", "{0F6E41EB-93E2-47F5-BB28-17BF4D2853D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{3B675919-B419-463F-B40D-1829E7BA40B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B675919-B419-463F-B40D-1829E7BA40B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B675919-B419-463F-B40D-1829E7BA40B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F6E41EB-93E2-47F5-BB28-17BF4D2853D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F6E41EB-93E2-47F5-BB28-17BF4D2853D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F6E41EB-93E2-47F5-BB28-17BF4D2853D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F6E41EB-93E2-47F5-BB28-17BF4D2853D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6A16C04B-FBDA-46D0-BBE1-88507E0B7347} = {9F756BC1-4E81-49DB-8A75-8F4A930E7C50}
 		{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E} = {9F756BC1-4E81-49DB-8A75-8F4A930E7C50}
+		{0F6E41EB-93E2-47F5-BB28-17BF4D2853D1} = {9F756BC1-4E81-49DB-8A75-8F4A930E7C50}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F187BF96-B254-4D20-8CB9-1AE6FB4C7BEE}

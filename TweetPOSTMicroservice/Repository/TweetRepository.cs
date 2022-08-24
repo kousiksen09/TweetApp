@@ -92,15 +92,17 @@ namespace TweetPOSTMicroservice.Repository
         {
             if (Entry_Check_Update(id, userID))
             {
-                Tweet new_tweet = _mapper.Map<TweetUpsertDTO, Tweet>(tweetDTO);
-                new_tweet.TweetID = id;
-                new_tweet.PostedOn = DateTime.Now.ToString();
-                new_tweet.UserId = userID;
-                _db.Tweets.Update(new_tweet);
+                var tweet = await _db.Tweets.FirstOrDefaultAsync(x => x.TweetID == id);
+                if(tweetDTO.Body!=null)
+                    tweet.Body=tweetDTO.Body;
+                if(tweetDTO.Caption!=null)
+                    tweet.Caption=tweetDTO.Caption;
+                _db.Tweets.Update(tweet);
+
                 var value = await _db.SaveChangesAsync();
                 if (value > 0)
                 {
-                    return _mapper.Map<Tweet, TweetReadDTO>(new_tweet);
+                    return _mapper.Map<Tweet, TweetReadDTO>(tweet);
                 }
                 throw new Exception("Something went wrong with the database please check.");
             }
