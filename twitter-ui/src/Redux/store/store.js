@@ -1,28 +1,30 @@
 import rootReducer from '../reducer/RootReducer';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 
 import createSagaMiddleware from 'redux-saga';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage/session';
+import rootSaga from '../Saga';
 
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['userReducer', 'tweetPostReducer', 'tweetViewReducer'],
+  blacklist: ['UserReducer', 'RegisterAPIReducer'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
-export const store = createStore(
+const middleware = [sagaMiddleware];
+const store = createStore(
   persistedReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__
     ? compose(
         applyMiddleware(sagaMiddleware),
         window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true })
       )
-    : applyMiddleware(sagaMiddleware)
+    : applyMiddleware(middleware)
 );
 
-//sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
-export const persistor = persistStore(store);
+export default store;

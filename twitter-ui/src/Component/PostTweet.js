@@ -42,7 +42,7 @@ function PostTweet(props) {
             <SentimentSatisfiedOutlinedIcon className='iconsStack' />
           </IconButton>
           <div className='postbtnDiv'>
-            <button className='followBtn postButton'>Tweet</button>
+            <button className='postButton'>Tweet</button>
           </div>
         </Stack>
       </div>

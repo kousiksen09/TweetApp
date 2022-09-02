@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Register() {
+function Register(props) {
   const classes = useStyles();
   const [isModalOpen, setModalState] = useState(false);
   const [isLogInModalOpen, setIsLogInModalOpen] = useState(false);
@@ -163,7 +163,7 @@ function Register() {
             onClose={onModalClose}
             header='Create Your Account'
           >
-            <UserFrom />
+            <UserFrom modalError={props.error} />
           </TwModal>
         </div>
         <div className={classes.nameModal}>

@@ -60,9 +60,7 @@ function TwModal(props) {
       className='MuiPaper-root MuiDialog-paper'
     >
       <DialogTitle id='alert-dialog-title' className={classes.reportTitle}>
-        <Typography className={classes.nameTitle} variant='h5'>
-          {header}
-        </Typography>
+        <Typography className={classes.nameTitle}>{header}</Typography>
         <IconButton onClick={handleOnCloseButton}>
           <Close className='MuiButtonBase-root MuiIconButton-root' />
         </IconButton>

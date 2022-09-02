@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
 import userReducer from './UserReducer';
-import tweetPostReducer from './TweetPostReducer.Js';
-import tweetViewReducer from './TweetViewReducer';
+import { RegisterAPIReducer } from './APIReducer';
 
 const rootReducer = combineReducers({
   userReducer,
-  tweetPostReducer,
-  tweetViewReducer,
+  RegisterAPIReducer,
 });
 
 export default rootReducer;
