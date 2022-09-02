@@ -1,10 +1,10 @@
 import { IS_AUTHENTICATED, TWITTER_USER } from '../Type/UserType';
-export const isAuthenticated = (data) => ({
+export const isAuthenticated = (isAuthenticated) => ({
   type: IS_AUTHENTICATED,
-  data,
+  isAuthenticated,
 });
 
-export const userAction = (data) => ({
+export const userAction = (user) => ({
   type: TWITTER_USER,
-  data,
+  user,
 });

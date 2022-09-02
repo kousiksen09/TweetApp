@@ -84,7 +84,7 @@ export default function TweetHome() {
     );
   else
     return (
-      <div className='mainTweet'>
+      <div className='mainTweet' style={{ width: '90vw' }}>
         <PostTweet profilePic={Radhika} />
         <div className='tweetFeed'>
           <TweetCard

@@ -10,6 +10,8 @@ import {
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { registerapiFetchInitiated } from '../../Redux/Action/APIFetchAction';
 import '../../Utility/UserStyle.css';
 import {
   isPasswordValid,
@@ -17,7 +19,8 @@ import {
   validatePhoneNumber,
 } from '../HelperFunctions/FormValidation';
 
-function UserFrom() {
+function UserFrom(props) {
+  const dispatch = useDispatch();
   const [userInput, setUserInput] = useState({
     name: '',
     email: '',
@@ -117,6 +120,15 @@ function UserFrom() {
       error.ERMobileNumber === '' &&
       error.ERpassword === ''
     ) {
+      var dob = new Date(userInput.DateOfBirth);
+      const getMonthFromDob = (dob) => {
+        let m = dob.getMonth();
+        if (m < 10) {
+          var a = m + 1;
+          return '0' + a;
+        }
+        return m + 1;
+      };
       const profile = {
         Twname: userInput.name,
         Twemail: userInput.email,
@@ -125,14 +137,22 @@ function UserFrom() {
         TwCountry: userInput.Country,
         TwState: userInput.State,
         TwGender: parseInt(userInput.Gender),
-        TwDateOfBirth: new Date(userInput.DateOfBirth),
+        TwDateOfBirth:
+          dob.getFullYear() + '-' + getMonthFromDob(dob) + '-' + dob.getDate(),
       };
-      console.log(profile);
+      dispatch(registerapiFetchInitiated(profile));
     }
     return;
   };
   return (
     <form onSubmit={handleFormSubmission}>
+      <Typography
+        align='center'
+        variant='h5'
+        sx={{ color: 'red', justifyContent: 'center' }}
+      >
+        {props.modalError ? props.modalError : ''}
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField

@@ -1,11 +1,14 @@
 import { CheckBox } from '@mui/icons-material';
 import { FormControlLabel, Grid, TextField } from '@mui/material';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { logInapiFetchInitiated } from '../../Redux/Action/APIFetchAction';
 import '../../Utility/UserStyle.css';
 function LoginForm() {
   const [enterdUserName, setEnteredUsername] = useState('');
   const [password, setPassword] = useState('');
   const [remeberMe, setRemeberMe] = useState(true);
+  const dispatch = useDispatch();
   const usernameChangeHandler = (event) => {
     setEnteredUsername(event.target.value);
   };
@@ -15,8 +18,18 @@ function LoginForm() {
   const remberMeChangeHandler = (event) => {
     setRemeberMe(event.target.checked);
   };
+  const logInSubmit = (event) => {
+    event.preventDefault();
+    if (enterdUserName !== '' && password !== '') {
+      const logInCred = {
+        TWuserName: enterdUserName,
+        TWPassword: password,
+      };
+      dispatch(logInapiFetchInitiated(logInCred));
+    }
+  };
   return (
-    <form className='logInForm'>
+    <form className='logInForm' onSubmit={logInSubmit}>
       <Grid container spacing={2}>
         <Grid item sm={12} xs={12}>
           <TextField

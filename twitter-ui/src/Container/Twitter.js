@@ -1,5 +1,8 @@
 import { makeStyles } from '@mui/styles';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+import UserRegisterLogIn from './UserRegsiterLogin';
+import TweetHome from './TweetHome';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,12 +17,16 @@ const useStyles = makeStyles((theme) => ({
 
 function Twitter() {
   const classes = useStyles();
-  <div className={classes.root}>
-    <BrowserRouter>
-      <Switch></Switch>
-    </BrowserRouter>
-  </div>;
-  return <div>Twitter</div>;
+  return (
+    <div className={classes.root}>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path='/' element={<UserRegisterLogIn />} />
+          <Route path='/feed' element={<TweetHome />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  );
 }
 
 export default Twitter;

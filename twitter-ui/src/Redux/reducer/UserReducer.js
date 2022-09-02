@@ -9,12 +9,12 @@ const userReducer = (state = initialState, action) => {
     case IS_AUTHENTICATED:
       return {
         ...state,
-        isAuthenticated: action.data.isAuthenticated,
+        isAuthenticated: action.isAuthenticated,
       };
     case TWITTER_USER: {
       return {
         ...state,
-        user: action.data.user,
+        user: action.user,
       };
     }
     default:
