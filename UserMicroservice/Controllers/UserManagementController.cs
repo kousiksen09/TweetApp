@@ -89,7 +89,7 @@ namespace UserMicroservice.Controllers
                 _log4net.Info("Login Successfull for " + logInCred.UserName);
                 if(isUpdated)
                 {
-                    _response.Result = token.User;
+                    _response.Result = token;
                     _response.IsSuccess=true;
                     _response.DisplayMessage = "Logged IN";
                     return Ok(_response);
@@ -196,7 +196,7 @@ namespace UserMicroservice.Controllers
                 return BadRequest();
             }
         }
-        [AllowAnonymous]
+       
         [HttpPost]
         [Route("LogOut")]
         public async Task<IActionResult> LogOut(string userName)
@@ -215,7 +215,7 @@ namespace UserMicroservice.Controllers
                 return BadRequest(ex.Message);
             }
         }
-           
+            [AllowAnonymous]           
             [HttpDelete]
             [Route("DeleteUser")]
             public async Task<IActionResult> DeleteUser(string userId)

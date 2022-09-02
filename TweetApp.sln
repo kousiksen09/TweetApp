@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TweetView_ReplyMicroservice
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetPostMicroservice", "Test.TweetPostMicroservice\Test.TweetPostMicroservice.csproj", "{EAFFD9CA-B67F-4823-951F-8BAAC04BB35E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.TweetReplyMicroservice", "Test.TweetReplyMicroservice\Test.TweetReplyMicroservice.csproj", "{093BC85B-029E-41D1-8800-8568840697D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test.TweetReplyMicroservice", "Test.TweetReplyMicroservice\Test.TweetReplyMicroservice.csproj", "{093BC85B-029E-41D1-8800-8568840697D9}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5F98ECDD-C322-4DBA-BC02-758BF0370906}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{093BC85B-029E-41D1-8800-8568840697D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093BC85B-029E-41D1-8800-8568840697D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093BC85B-029E-41D1-8800-8568840697D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F98ECDD-C322-4DBA-BC02-758BF0370906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F98ECDD-C322-4DBA-BC02-758BF0370906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F98ECDD-C322-4DBA-BC02-758BF0370906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F98ECDD-C322-4DBA-BC02-758BF0370906}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

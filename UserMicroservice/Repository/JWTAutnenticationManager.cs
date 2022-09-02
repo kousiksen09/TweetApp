@@ -93,7 +93,8 @@ namespace UserMicroservice.Repository
 
                 }
 
-                return null;
+                return new AuthResultDTO { AuthToken= null, Message = "Wrong password", User=null};
+    
             }
             catch (Exception ex)
             {
