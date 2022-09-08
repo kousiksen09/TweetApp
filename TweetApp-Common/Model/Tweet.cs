@@ -11,7 +11,7 @@ namespace TweetApp_Common.Model
         [Required]
         public string Caption { get; set; }
         [Required]
-        public string Body { get; set; }
+        public string Image { get; set; }
         public int Like { get; set; }
         public string PostedOn { get; set; }
         [Required]

@@ -9,7 +9,7 @@ namespace TweetApp_Common.DTO
         public string MobileNumber { get; set; }
         public string Country { get; set; }
         public string State { get; set; }
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
         public bool IsActive { get; set; }
         public DateTime LastSeen { get; set; }
     }

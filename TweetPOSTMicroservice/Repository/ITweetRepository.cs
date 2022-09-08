@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 
@@ -13,5 +14,6 @@ namespace TweetPOSTMicroservice.Repository
         Task<TweetReadDTO> CreateTweet(TweetUpsertDTO tweetDTO, string userId);
         Task<bool> DeleteTweet(int tweetID);
         Task<bool> AddLike(int tweetID);
+        public Task<string> SaveImage(IFormFile imageFile);
     }
 }

@@ -25,14 +25,20 @@ namespace UserMicroservice
         {
             Configuration = configuration;
         }
-
+        private readonly string _policyName = "CorsPolicy";
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             var key = Configuration["JWT:Secret"];
-
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy(name: _policyName, builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
 
             services.AddAuthentication(options =>
             {
@@ -54,12 +60,14 @@ namespace UserMicroservice
 
                 };
             });
+            
             services.AddControllers();
             IMapper mapper = MappingConfig.RegisterMap().CreateMapper();
             services.AddSingleton(mapper);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddTransient<IUserAccount, UserAccount>();
+            services.AddScoped<IUserAccount, UserAccount>();
             services.AddTransient<IJWTAutnenticationManager, JWTAutnenticationManager>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "UserMicroservice", Version = "v1" });
@@ -85,7 +93,7 @@ namespace UserMicroservice
 
             app.UseHsts();
             //app.UseHttpsRedirection();
-
+            app.UseCors(_policyName);
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

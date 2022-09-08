@@ -28,8 +28,8 @@ namespace Test.TweetPostMicroservice
         public async Task GetAllTweetsAsync_withAllTweets_ReturnAllTweets()
         {
             _listTweets = new List<TweetReadDTO> {
-                new TweetReadDTO { Body = "India", Caption = "Country", Like = 1, TweetID = 1 },
-                new TweetReadDTO { Body = "USA", Caption = "Country", Like = 3, TweetID = 2 }
+                new TweetReadDTO { Image = "India", Caption = "Country", Like = 1, TweetID = 1 },
+                new TweetReadDTO { Image = "USA", Caption = "Country", Like = 3, TweetID = 2 }
                 };
             _repositoryStub.Setup(repo => repo.GetAllTweets()).ReturnsAsync(_listTweets);
 
@@ -62,7 +62,7 @@ namespace Test.TweetPostMicroservice
         [TestCase(1)]
         public async Task GetTweetbyIDAsync_giveTweetId_ReturnsTweetById(int id)
         {
-            _tweet = new TweetReadDTO() { TweetID = id, Like = id, Caption = "Country", Body = "UK" };
+            _tweet = new TweetReadDTO() { TweetID = id, Like = id, Caption = "Country", Image = "UK" };
             _repositoryStub.Setup(repo => repo.GetTweetById(id)).ReturnsAsync(_tweet);
 
             var result = await _tweetAPIController.Get(id);
@@ -94,8 +94,8 @@ namespace Test.TweetPostMicroservice
         public async Task GetMyTweetsAsync_giveUserId_ReturnsTweetsByUserId(string userID)
         {
             _listTweets = new List<TweetReadDTO>() {
-                    new TweetReadDTO { TweetID = 1, Like = 1, Caption = "Country", Body = "UK" },
-                    new TweetReadDTO { TweetID = 2, Like = 4, Caption = "State", Body = "WB" },
+                    new TweetReadDTO { TweetID = 1, Like = 1, Caption = "Country", Image = "UK" },
+                    new TweetReadDTO { TweetID = 2, Like = 4, Caption = "State", Image = "WB" },
                 };
             _repositoryStub.Setup(repo => repo.GetMyTweets(userID)).ReturnsAsync(_listTweets);
 
@@ -128,8 +128,8 @@ namespace Test.TweetPostMicroservice
         [TestCase("sadafsakdjk21lsdknfdslkfj")]
         public async Task PostTweetsAsync_giveUserIDandPOST_AddtoDBSuccesfully(string userID)
         {
-            var postTweet = new TweetUpsertDTO() { Caption = "Country", Body = "India" };
-            _tweet = new TweetReadDTO() { TweetID = 1, Like = 0, Caption = "Country", Body = "India" };
+            var postTweet = new TweetUpsertDTO() { Caption = "Country", Image = "India" };
+            _tweet = new TweetReadDTO() { TweetID = 1, Like = 0, Caption = "Country", Image = "India" };
             _repositoryStub.Setup(repo => repo.CreateTweet(postTweet, userID)).ReturnsAsync(_tweet);
 
             var result = await _tweetAPIController.Post(postTweet, userID);
@@ -145,7 +145,7 @@ namespace Test.TweetPostMicroservice
         [TestCase("sadafsakdjk21lsdknfdslkfj")]
         public async Task PostTweetsAsync_giveUserIDandPOST_NotAddedToDB(string userID)
         {
-            var postTweet = new TweetUpsertDTO() { Caption = "Country", Body = "India" };
+            var postTweet = new TweetUpsertDTO() { Caption = "Country", Image = "India" };
             _repositoryStub.Setup(repo => repo.CreateTweet(postTweet, userID));
 
             var result = await _tweetAPIController.Post(postTweet, userID);
@@ -161,8 +161,8 @@ namespace Test.TweetPostMicroservice
         [TestCase(2, "sadafsakdjk21lsdknfdslkfj")]
         public async Task UpdateTweetAsync_giveTweetIDandUserIDandTweet_UpdatedtoDBSuccesfully(int id, string userID)
         {
-            var postTweet = new TweetUpsertDTO() { Caption = "Country", Body = "Brazil" };
-            _tweet = new TweetReadDTO() { TweetID = id, Like = 0, Caption = "Country", Body = "Brazil" };
+            var postTweet = new TweetUpsertDTO() { Caption = "Country", Image = "Brazil" };
+            _tweet = new TweetReadDTO() { TweetID = id, Like = 0, Caption = "Country", Image = "Brazil" };
             _repositoryStub.Setup(repo => repo.UpdateTweet(postTweet, id, userID)).ReturnsAsync(_tweet);
 
             var result = await _tweetAPIController.Put(postTweet, id, userID);
@@ -178,7 +178,7 @@ namespace Test.TweetPostMicroservice
         [TestCase(2, "sadafsakdjk21lsdknfdslkfj")]
         public async Task UpdateTweetAsync_giveTweetIDandUserIDandTweet_NotUpdated(int id, string userID)
         {
-            var postTweet = new TweetUpsertDTO() { Caption = "Country", Body = "Brazil" };
+            var postTweet = new TweetUpsertDTO() { Caption = "Country", Image = "Brazil" };
             _repositoryStub.Setup(repo => repo.UpdateTweet(postTweet, id, userID));
 
             var result = await _tweetAPIController.Put(postTweet, id, userID);

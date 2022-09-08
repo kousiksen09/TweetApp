@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
@@ -15,11 +18,13 @@ namespace TweetPOSTMicroservice.Repository
     {
         private readonly TweetContext _db;
         private readonly IMapper _mapper;
+        public readonly IWebHostEnvironment hostEnvironment;
 
-        public TweetRepository(TweetContext db, IMapper mapper)
+        public TweetRepository(TweetContext db, IMapper mapper, IWebHostEnvironment _hostEnvironment)
         {
             _db = db;
             _mapper = mapper;
+            hostEnvironment = _hostEnvironment;
         }
 
         public async Task<bool> DeleteTweet(int tweetID)
@@ -137,6 +142,18 @@ namespace TweetPOSTMicroservice.Repository
                 return false;
             }
             return true;
+        }
+        public async Task<string> SaveImage(IFormFile imageFile)
+        {
+            string name = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            string imageName = name + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+            var imgPath = Path.Combine(hostEnvironment.ContentRootPath, "Images", imageName);
+            using (var fileStream = new FileStream(imgPath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+
+            return imageName;
         }
 
     }

@@ -29,4 +29,8 @@
     <ProjectReference Include="..\TweetApp-Common\TweetApp-Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\" />
+  </ItemGroup>
+
 </Project>

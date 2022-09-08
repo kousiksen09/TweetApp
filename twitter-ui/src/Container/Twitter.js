@@ -1,5 +1,6 @@
 import { makeStyles } from '@mui/styles';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Profile from './Profile';
 
 import UserRegisterLogIn from './UserRegsiterLogin';
 import TweetHome from './TweetHome';
@@ -23,6 +24,7 @@ function Twitter() {
         <Routes>
           <Route exact path='/' element={<UserRegisterLogIn />} />
           <Route path='/feed' element={<TweetHome />} />
+          <Route path='/profile' element={<Profile/>} />
         </Routes>
       </BrowserRouter>
     </div>

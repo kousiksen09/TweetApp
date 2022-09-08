@@ -1,4 +1,4 @@
-import { CheckBox } from '@mui/icons-material';
+import { AirlineSeatIndividualSuiteSharp, CheckBox } from '@mui/icons-material';
 import {
   FormControlLabel,
   FormLabel,
@@ -7,7 +7,9 @@ import {
   RadioGroup,
   TextField,
   Typography,
+  Button
 } from '@mui/material';
+import { typography } from '@mui/system';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -30,6 +32,8 @@ function UserFrom(props) {
     State: '',
     Gender: 0,
     DateOfBirth: new Date(),
+    ImageSrc: '',
+    ImageFile: null
   });
   const [error, setError] = useState({
     ERname: '',
@@ -41,7 +45,9 @@ function UserFrom(props) {
     ERGender: '',
     ERDateOfBirth: '',
   });
-
+  // const [Imagepath, setImagePath] = useState(null);
+  // userInput.ImageFile = Imagepath;
+   const [imageName, setImageName] = useState('');
   const nameChangeHandler = (event) => {
     setUserInput((prevState) => {
       return { ...prevState, name: event.target.value };
@@ -113,8 +119,20 @@ function UserFrom(props) {
       return { ...prevState, DateOfBirth: event };
     });
   };
+  const showPreview =(event) =>{
+    console.log(event.target.files[0].name);
+    
+    if(event.target.files && event.target.files[0]){
+    let imagefile= event.target.files[0];
+    setImageName(imagefile.name);
+    setUserInput((prevState) => {
+      return { ...prevState, ImageFile:imagefile};
+    });
+    }
+  }
   const handleFormSubmission = (event) => {
     event.preventDefault();
+    console.log(userInput.ImageFile);
     if (
       error.ERemail === '' &&
       error.ERMobileNumber === '' &&
@@ -138,7 +156,8 @@ function UserFrom(props) {
         TwState: userInput.State,
         TwGender: parseInt(userInput.Gender),
         TwDateOfBirth:
-          dob.getFullYear() + '-' + getMonthFromDob(dob) + '-' + dob.getDate(),
+        dob.getFullYear() + '-' + getMonthFromDob(dob) + '-' + dob.getDate(),
+        TwImageFile: userInput.ImageFile
       };
       dispatch(registerapiFetchInitiated(profile));
     }
@@ -234,7 +253,7 @@ function UserFrom(props) {
             onChange={stateChangeHandler}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <FormLabel>Gender</FormLabel>
           <RadioGroup
             row
@@ -246,7 +265,7 @@ function UserFrom(props) {
             <FormControlLabel value='0' control={<Radio />} label='Male' />
           </RadioGroup>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={4}>
           <DatePicker
             label='Date Of Birth'
             name='DOB'
@@ -256,6 +275,22 @@ function UserFrom(props) {
             onChange={dobChangeHandler}
             renderInput={(params) => <TextField {...params} />}
           />
+        </Grid>
+         <Grid item xs={12} sm={4}>
+          <FormLabel>Profile Picture</FormLabel>
+          <div>
+          <Button variant="contained" component="label">
+                     Upload 
+                <input hidden type="file" accept= "image/*" className="form-contol-file" onChange={showPreview}/>
+                
+                </Button>
+                
+                
+                {imageName && <h2>{imageName}</h2>}
+                
+                </div>
+               
+                
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
