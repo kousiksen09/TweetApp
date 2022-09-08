@@ -26,7 +26,7 @@ export default function UserRegisterLogIn() {
       navigate('/feed');
     }
     if (registerUser.status === 'Error') {
-      setErrorMsg('Something Went Wrong! Please validate the details.');
+      setErrorMsg(registerUser.APIData);
     }
   }, [registerUser.status]);
 

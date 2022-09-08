@@ -5,8 +5,10 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import HomeIcon from '@mui/icons-material/Home';
 import TagIcon from '@mui/icons-material/Tag';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import KSEN from '../Utility/image/KSEN.png';
+import { deepOrange } from '@mui/material/colors';
+//import KSEN from '../Utility/image/KSEN.png';
 import '../Utility/TweetHomeStyle.css';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   iconBtn: {
@@ -21,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 function LeftNavBar() {
   const classes = useStyles();
+  const profile = useSelector((state) => state.ProfileFetchReducer);
 
+  const SName =
+    profile.status === 'success' &&
+    profile.APIData[0].name.charAt(0).toUpperCase();
   return (
     <header className='root'>
       <div className='iconContainer'>
@@ -66,7 +72,7 @@ function LeftNavBar() {
           </IconButton>
         </Stack>
         <div className='profileAvatar'>
-          <Avatar alt='profile' src={KSEN} />
+          <Avatar sx={{ bgcolor: deepOrange[500] }}>{SName}</Avatar>
         </div>
       </div>
     </header>

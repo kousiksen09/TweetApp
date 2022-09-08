@@ -21,17 +21,16 @@ function TWUser(props) {
   return (
     <div className='userRoot'>
       <Stack direction='row' spacing={1}>
-        <Badge
-          color={props.isActive === 'true' ? 'success' : 'warning'}
-          variant='dot'
-        >
+        <Badge color={props.isActive ? 'success' : 'warning'} variant='dot'>
           <Avatar className='avatarDiv' alt='profile' src={KSEN} />
         </Badge>
         <div className='username'>
           <Stack direction='row' spacing={1}>
-            <Typography variant='h3' fontSize='1.5rem'>
-              {props.name}
-            </Typography>
+            <div className='nameDiv'>
+              <Typography variant='h3' fontSize='1.2rem'>
+                {props.name}
+              </Typography>
+            </div>
             <Verified fontSize='1rem' />
           </Stack>
           <Typography variant='h5' fontSize='1rem' className={classes.txtLight}>

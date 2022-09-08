@@ -1,12 +1,14 @@
 import { Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { pxToRem, pxToVh, pxToVw } from '../theme';
 import LoginForm from '../Utility/HelperComponent/LogInForm';
 import UserFrom from '../Utility/HelperComponent/UserForm';
 import whiteLogo from '../Utility/image/WhiteLogo.png';
 import '../Utility/UserStyle.css';
 import TwModal from '../UtilityComponent/TwModal';
+import swal from 'sweetalert';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'relative',
@@ -95,6 +97,14 @@ function Register(props) {
   const onModalLoginClose = (event, reason) => {
     if (reason !== 'backdropClick') setIsLogInModalOpen(false);
   };
+  useEffect(() => {
+    props.error &&
+      swal({
+        title: props.error,
+        icon: 'error',
+      });
+  }, [props.error]);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={0}>
@@ -163,7 +173,7 @@ function Register(props) {
             onClose={onModalClose}
             header='Create Your Account'
           >
-            <UserFrom modalError={props.error} />
+            <UserFrom />
           </TwModal>
         </div>
         <div className={classes.nameModal}>

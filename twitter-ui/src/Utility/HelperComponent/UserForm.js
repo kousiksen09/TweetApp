@@ -129,6 +129,14 @@ function UserFrom(props) {
         }
         return m + 1;
       };
+
+      const getDateFromDOB = (dob) => {
+        let d = dob.getDate();
+        if (d < 10) {
+          return '0' + d;
+        }
+        return d;
+      };
       const profile = {
         Twname: userInput.name,
         Twemail: userInput.email,
@@ -138,7 +146,11 @@ function UserFrom(props) {
         TwState: userInput.State,
         TwGender: parseInt(userInput.Gender),
         TwDateOfBirth:
-          dob.getFullYear() + '-' + getMonthFromDob(dob) + '-' + dob.getDate(),
+          dob.getFullYear() +
+          '-' +
+          getMonthFromDob(dob) +
+          '-' +
+          getDateFromDOB(dob),
       };
       dispatch(registerapiFetchInitiated(profile));
     }
@@ -146,13 +158,6 @@ function UserFrom(props) {
   };
   return (
     <form onSubmit={handleFormSubmission}>
-      <Typography
-        align='center'
-        variant='h5'
-        sx={{ color: 'red', justifyContent: 'center' }}
-      >
-        {props.modalError ? props.modalError : ''}
-      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField

@@ -4,8 +4,18 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import '../Utility/TweetHomeStyle.css';
+import { useState } from 'react';
+import Picker from 'emoji-picker-react';
 
 function PostTweet(props) {
+  const [isEmojiSildeOn, setIsEmojiSlideOn] = useState(false);
+  const [chosenEmoji, setChosenEmoji] = useState(null);
+  const emojiIconClick = (event) => {
+    setIsEmojiSlideOn((current) => !current);
+  };
+  const onEmojiClick = (event, emojiObject) => {
+    setChosenEmoji(emojiObject);
+  };
   return (
     <div className='postRoot'>
       <Typography
@@ -38,7 +48,7 @@ function PostTweet(props) {
           <IconButton aria-label='image'>
             <GifBoxOutlinedIcon className='iconsStack' />
           </IconButton>
-          <IconButton aria-label='image'>
+          <IconButton onClick={emojiIconClick} aria-label='image'>
             <SentimentSatisfiedOutlinedIcon className='iconsStack' />
           </IconButton>
           <div className='postbtnDiv'>
@@ -46,6 +56,19 @@ function PostTweet(props) {
           </div>
         </Stack>
       </div>
+      {isEmojiSildeOn && (
+        <div className='emojiDix'>
+          <Picker
+            onEmojiClick={onEmojiClick}
+            disableSkinTonePicker='true'
+            disableSearchBar='true'
+            pickerStyle={{
+              background:
+                'radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%)',
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

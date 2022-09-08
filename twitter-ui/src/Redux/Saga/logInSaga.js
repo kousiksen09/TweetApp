@@ -23,6 +23,7 @@ function* handleLogInAPI(payload) {
     //yield put(registerapiFetchInitiated(payload.data));
 
     const response = yield call(logInUser, payload);
+    console.log('response type:', response);
     yield delay(500);
     if (response.status === 200) {
       yield put(logInapiFetchSuccess(response.data));
@@ -30,7 +31,7 @@ function* handleLogInAPI(payload) {
       yield put(logInapiFetchError(response.data));
     }
   } catch (error) {
-    yield put(logInapiFetchError(error.message));
+    yield put(logInapiFetchError(error.response.data));
   }
 }
 

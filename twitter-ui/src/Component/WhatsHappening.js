@@ -1,22 +1,37 @@
 import { Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { Stack } from '@mui/system';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import '../Utility/TweetHomeStyle.css';
 import TWUser from '../UtilityComponent/TWUser';
 import SearchBar from './SearchBar';
 
-const useStyles = makeStyles((theme) => ({
-  txtLight: {
-    color: theme.palette.text.primary,
-  },
-}));
 function WhatsHappening() {
-  const classes = useStyles();
+  const nameList = useSelector((state) => state.FindUserNameReducer.APIData[0]);
+  const apiStts = useSelector((state) => state.FindUserNameReducer.status);
+  const userList = useSelector((state) => state.GetAllUserReducer.APIData[0]);
+  const userApiStts = useSelector((state) => state.GetAllUserReducer.status);
   return (
     <div className='hpRoot'>
       <Stack direction='column'>
         <div className='searchContainer'>
           <SearchBar />
+          <div className='searchResult'>
+            {apiStts === 'success' && (
+              <Typography variant='h4' marginTop='.5vh' fontSize='1.3rem'>
+                We've Found ...
+              </Typography>
+            )}
+            {apiStts === 'success' &&
+              nameList &&
+              nameList.map((data, id) => (
+                <div key={id} className='usernameList'>
+                  <Link className='userNameTxt' to={`../profile/${data}`}>
+                    @ {data}
+                  </Link>
+                </div>
+              ))}
+          </div>
         </div>
         <div className='twcss1'>
           <Typography
@@ -29,15 +44,16 @@ function WhatsHappening() {
           </Typography>
         </div>
         <div className='hapnCont'>
-          <TWUser name='Kousik Sen' isActive='true' username='kousiksen6' />
-          <TWUser name='Debashree' isActive='false' username='Debo97' />
-          <TWUser name='Cognizant' username='cts' />
-          <TWUser name='Cognizant' username='cts' />
-          <TWUser name='Cognizant' username='cts' />
-          <TWUser name='Tor Matha' username='tormatha' />
-          <TWUser name='Sexy' username='sexy' />
-          <TWUser name='Kousik Sen' username='kousiksen6' />
-          <TWUser name='Kousik Sen' username='kousiksen6' />
+          {userApiStts === 'success' &&
+            userList &&
+            userList.map((user, id) => (
+              <TWUser
+                key={id}
+                name={user.name}
+                isActive={user.isActive}
+                username={user.userName}
+              />
+            ))}
         </div>
       </Stack>
     </div>

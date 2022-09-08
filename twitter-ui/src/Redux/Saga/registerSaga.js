@@ -35,7 +35,7 @@ function* handleRegisterAPI(payload) {
       yield put(registerapiFetchError(response.data));
     }
   } catch (error) {
-    yield put(registerapiFetchError(error.message));
+    yield put(registerapiFetchError(error.response.data));
   }
 }
 
