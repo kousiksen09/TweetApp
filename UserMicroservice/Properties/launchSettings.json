@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-   
+
     "UserMicroservice": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
@@ -19,6 +19,14 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
+
 }

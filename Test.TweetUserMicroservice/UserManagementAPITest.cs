@@ -39,7 +39,7 @@ namespace Test.TweetUserMicroservice
                 MobileNumber = "923456789",
                 Country = "India",
                 State = "WB",
-                ProfilePicture = new byte[87676666]
+                propImage = "asgzngfzxmjxkufcv"
             };
     
             var a = _mockUserAccount.Setup(x => x.OnPostRegister(us)).Returns(Task.FromResult(new AuthResultDTO()));
@@ -77,8 +77,8 @@ namespace Test.TweetUserMicroservice
                 MobileNumber = "923456789",
                 Country = "India",
                 State = "WB",
-                ProfilePicture = new byte[87676666]
-            };
+                propImage = "asgzngfzxmjxkufcv"
+        };
             var actionStatus = new ActionStatusDTO { Status = false, StatusCode = StatusCodes.Status500InternalServerError, Message = "User Creation Failed!" };
             var a = _mockUserAccount.Setup(x => x.OnPostRegister(us));
 
@@ -133,8 +133,8 @@ namespace Test.TweetUserMicroservice
                 MobileNumber = "923456789",
                 Country = "India",
                 State = "WB",
-                ProfilePicture = new byte[87676666],
-                IsActive = true,
+                ProfilePicture = "asgzngfzxmjxkufcv",
+            IsActive = true,
                 LastSeen = DateTime.Now
             };
             var nameSetup = _mockUserAccount.Setup(x => x.SearchByUserName("kousik123")).ReturnsAsync(userProfile);

@@ -157,11 +157,11 @@ namespace TweetApp_Common.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Body")
+                    b.Property<string>("Caption")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Caption")
+                    b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -293,9 +293,6 @@ namespace TweetApp_Common.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("ProfilePicture")
-                        .HasColumnType("varbinary(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -312,6 +309,9 @@ namespace TweetApp_Common.Migrations
 
                     b.Property<int>("gender")
                         .HasColumnType("int");
+
+                    b.Property<string>("propImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -380,7 +380,7 @@ namespace TweetApp_Common.Migrations
             modelBuilder.Entity("TweetApp_Common.Model.Tweet", b =>
                 {
                     b.HasOne("TweetApp_Common.Model.UserDetails", "User")
-                        .WithMany("Tweets")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -411,11 +411,6 @@ namespace TweetApp_Common.Migrations
             modelBuilder.Entity("TweetApp_Common.Model.Tweet", b =>
                 {
                     b.Navigation("Replies");
-                });
-
-            modelBuilder.Entity("TweetApp_Common.Model.UserDetails", b =>
-                {
-                    b.Navigation("Tweets");
                 });
 #pragma warning restore 612, 618
         }

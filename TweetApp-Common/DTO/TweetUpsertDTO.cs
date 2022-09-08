@@ -1,8 +1,12 @@
-﻿namespace TweetApp_Common.DTO
+﻿using Microsoft.AspNetCore.Http;
+
+namespace TweetApp_Common.DTO
 {
     public class TweetUpsertDTO
     {
         public string Caption { get; set; }
-        public string Body { get; set; }
+        public string Image { get; set; }
+        
+        public IFormFile PostImage { get; set; }
     }
 }

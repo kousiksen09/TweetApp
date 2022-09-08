@@ -28,8 +28,8 @@ function TWUser(props) {
           <Stack direction='row' spacing={1}>
             <div className='nameDiv'>
               <Typography variant='h3' fontSize='1.2rem'>
-                {props.name}
-              </Typography>
+              {props.name}
+            </Typography>
             </div>
             <Verified fontSize='1rem' />
           </Stack>

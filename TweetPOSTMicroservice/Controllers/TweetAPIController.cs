@@ -126,13 +126,13 @@ namespace TweetPOSTMicroservice.Controllers
                 return BadRequest(_response);
             }
         }
-
         [HttpPost]
         [Route("{username}/add")]
-        public async Task<IActionResult> Post([FromBody] TweetUpsertDTO tweetDTO, string username)
+        public async Task<IActionResult> Post([FromForm] TweetUpsertDTO tweetDTO, string username)
         {
             try
             {
+                tweetDTO.Image = await _tweetRepository.SaveImage(tweetDTO.PostImage);
                 TweetReadDTO tweetmodel = await _tweetRepository.CreateTweet(tweetDTO, userId: username);
                 _response.Result = tweetmodel;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 
@@ -18,5 +19,6 @@ namespace UserMicroservice.Repository
         public Task<List<TweeterUserProfile>> GetAllUsers();
         public Task<bool> LogOutAsync(string userName);
         public Task<bool> DeleteUser(string userId);
+        public Task<string> SaveImage(IFormFile imageFile);
     }
 }

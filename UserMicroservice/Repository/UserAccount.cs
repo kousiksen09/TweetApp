@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -20,10 +22,13 @@ namespace UserMicroservice.Repository
         private readonly TweetUserContext _tweetUser;
         private readonly SignInManager<UserDetails> _signInManager;
         private IMapper _mapper;
+        public readonly IWebHostEnvironment hostEnvironment;
+
+   
         public UserAccount(UserManager<UserDetails> userManager,
            TweetUserContext tweetUserContext, SignInManager<UserDetails> signInManager,
  IJWTAutnenticationManager jWTAutnenticationManager,
-           IMapper mapper
+           IMapper mapper, IWebHostEnvironment _hostEnvironment
            )
 
         {
@@ -32,6 +37,7 @@ namespace UserMicroservice.Repository
             _signInManager = signInManager;
             _jwtAuthenticationManager = jWTAutnenticationManager;
             _mapper = mapper;
+            hostEnvironment = _hostEnvironment;
         }
 
         public bool AddActiveStatus(string userId)
@@ -134,12 +140,13 @@ namespace UserMicroservice.Repository
 
                     TweeterUserProfile tweeterUserProfile = new TweeterUserProfile
                     {
+                        Id = user.Id,
                         Name = user.Name,
                         UserName = user.UserName,
                         MobileNumber = user.MobileNumber,
                         Country = user.Country,
                         State = user.State,
-                        ProfilePicture = user.ProfilePicture,
+                        ProfilePicture = user.propImage,
                         IsActive = activeStts.ActiveStatus,
                         LastSeen = activeStts.LastSeen
                     };
@@ -289,12 +296,13 @@ namespace UserMicroservice.Repository
                     var activeStts = await _tweetUser.TweetUserActiveStatuses.FirstOrDefaultAsync(n => n.userDetailsId == user.Id);
                     allUsers.Add(new TweeterUserProfile
                     {
+                        Id = user.Id,
                         UserName = user.UserName,
                         Name = user.Name,
                         MobileNumber = user.MobileNumber,
                         State = user.State,
                         Country = user.Country,
-                        ProfilePicture = user.ProfilePicture,
+                        ProfilePicture = user.propImage,
                         IsActive = activeStts.ActiveStatus,
                         LastSeen = activeStts.LastSeen
                     }
@@ -350,6 +358,18 @@ namespace UserMicroservice.Repository
                 return false;
                 throw new Exception("Unable to delete your account");
             }
+        }
+        public async Task<string> SaveImage(IFormFile imageFile)
+        {
+            string name = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
+            string imageName = name + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+            var imgPath = Path.Combine(hostEnvironment.ContentRootPath, "Images", imageName);
+            using (var fileStream = new FileStream(imgPath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+
+            return imageName;
         }
 
     }

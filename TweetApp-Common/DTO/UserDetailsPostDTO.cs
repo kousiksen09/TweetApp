@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TweetApp_Common.DTO
 {
@@ -19,7 +21,9 @@ namespace TweetApp_Common.DTO
         public Gender gender { get; set; }
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
-        public byte[] ProfilePicture { get; set; }
+        public string propImage { get; set; }
+       
+        public IFormFile ProfilePicture { get; set; }
         //public bool IsActive { get; set; }
         //public DateTime LastSeen { get; set; }
     }

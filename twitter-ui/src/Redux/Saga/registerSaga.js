@@ -10,18 +10,20 @@ import {
 
 function registerUser(payload) {
   console.log(payload);
-  const userDetails = {
-    name: payload.userData.Twname,
-    passwordHash: payload.userData.Twpassword,
-    mobileNumber: payload.userData.TwMobileNumber,
-    country: payload.userData.TwCountry,
-    state: payload.userData.TwState,
-    email: payload.userData.Twemail,
-    gender: payload.userData.TwGender,
-    dateOfBirth: payload.userData.TwDateOfBirth,
-  };
-  let url = `${BaseURL}/tweets/register`;
-  return axiosInstance.post(url, userDetails);
+  const formData = new FormData()
+    formData.append('name', payload.userData.Twname)
+    formData.append('passwordHash', payload.userData.Twpassword)
+    formData.append('mobileNumber', payload.userData.TwMobileNumber)
+    formData.append('country', payload.userData.TwCountry)
+    formData.append('state', payload.userData.TwState)
+    formData.append('email', payload.userData.Twemail)
+    formData.append('gender', payload.userData.TwGender)
+    formData.append('dateOfBirth', payload.userData.TwDateOfBirth)
+    formData.append('profilepicture', payload.userData.TwImageFile)
+
+
+    let url = `${BaseURL}/tweets/register`;
+    return axiosInstance.post(url, formData);
 }
 function* handleRegisterAPI(payload) {
   try {
@@ -35,7 +37,7 @@ function* handleRegisterAPI(payload) {
       yield put(registerapiFetchError(response.data));
     }
   } catch (error) {
-    yield put(registerapiFetchError(error.response.data));
+      yield put(registerapiFetchError(error.response.data));
   }
 }
 

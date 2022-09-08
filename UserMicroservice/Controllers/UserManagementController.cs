@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TweetApp_Common.DTO;
 using UserMicroservice.Repository;
+using TweetApp_Common;
 
 namespace UserMicroservice.Controllers
 {
@@ -17,19 +20,25 @@ namespace UserMicroservice.Controllers
     {
         private static readonly log4net.ILog _log4net = log4net.LogManager.GetLogger(typeof(UserManagementController));
         private readonly IUserAccount _userAccount;
+
         private readonly IJWTAutnenticationManager _authenticationManager;
         protected ResponseDTO _response;
+        
+       
+
         public UserManagementController(IUserAccount userAccount, IJWTAutnenticationManager autnenticationManager)
         {
             _userAccount = userAccount;
-            _authenticationManager = autnenticationManager;
+            _authenticationManager = autnenticationManager;           
             _response = new ResponseDTO();
+
         }
         [AllowAnonymous]
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> RegisterUser(UserDetailsPostDTO user)
+        public async Task<IActionResult> RegisterUser([FromForm] UserDetailsPostDTO user)
         {
+
             try
             {
                 if (!ModelState.IsValid)
@@ -37,7 +46,8 @@ namespace UserMicroservice.Controllers
                     _log4net.Info("No Customer has been returned");
                     return BadRequest();
                 }
-                var result= await _userAccount.OnPostRegister(user);
+                user.propImage = await _userAccount.SaveImage(user.ProfilePicture);
+                var result = await _userAccount.OnPostRegister(user);
                 if (result == null)
                 {
                     return BadRequest();
@@ -71,7 +81,7 @@ namespace UserMicroservice.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> LogIn(LogInDTO logInCred)
+        public async Task<IActionResult> LogIn([FromForm]LogInDTO logInCred)
         {
             try
             {
@@ -87,14 +97,14 @@ namespace UserMicroservice.Controllers
                 }
                 var isUpdated = await _userAccount.UpdateActiveStatusLoggingIn(logInCred.UserName);
                 _log4net.Info("Login Successfull for " + logInCred.UserName);
-                if(isUpdated)
+                if (isUpdated)
                 {
-                    _response.Result = token.User;
-                    _response.IsSuccess=true;
+                    _response.Result = token;
+                    _response.IsSuccess = true;
                     _response.DisplayMessage = "Logged IN";
                     return Ok(_response);
                 }
-               return BadRequest();
+                return BadRequest();
             }
             catch (Exception ex)
             {
@@ -196,7 +206,7 @@ namespace UserMicroservice.Controllers
                 return BadRequest();
             }
         }
-        [AllowAnonymous]
+
         [HttpPost]
         [Route("LogOut")]
         public async Task<IActionResult> LogOut(string userName)
@@ -215,31 +225,31 @@ namespace UserMicroservice.Controllers
                 return BadRequest(ex.Message);
             }
         }
-           
-            [HttpDelete]
-            [Route("DeleteUser")]
-            public async Task<IActionResult> DeleteUser(string userId)
+        [AllowAnonymous]
+        [HttpDelete]
+        [Route("DeleteUser")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            if (userId == null)
             {
-                if (userId == null)
-                {
-                    return BadRequest(userId);
-                }
-                try
-                {
-                    var result = await _userAccount.DeleteUser(userId);
-                    if (result)
-                        return Ok("User has been deleted");
-                    return BadRequest("Failed to delete");
-
-                }
-                catch (Exception ex)
-                {
-                    _log4net.Error(ex.Message);
-                    return BadRequest(ex.Message);
-                }
+                return BadRequest(userId);
             }
+            try
+            {
+                var result = await _userAccount.DeleteUser(userId);
+                if (result)
+                    return Ok("User has been deleted");
+                return BadRequest("Failed to delete");
 
-      
+            }
+            catch (Exception ex)
+            {
+                _log4net.Error(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpGet]
         [Route("ValidateUser")]
         public async Task<IActionResult> ValidateUser(string userId, [FromHeader] string authorization)
@@ -272,6 +282,8 @@ namespace UserMicroservice.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+    
 
 
 

@@ -71,8 +71,8 @@ function LeftNavBar() {
             </Badge>
           </IconButton>
         </Stack>
-        <div className='profileAvatar'>
-          <Avatar sx={{ bgcolor: deepOrange[500] }}>{SName}</Avatar>
+              <div className='profileAvatar'>
+                  <Avatar sx={{ bgcolor: deepOrange[500] }}>{SName}</Avatar>
         </div>
       </div>
     </header>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,7 +26,9 @@ namespace TweetApp_Common.Model
         public DateTime DateOfBirth { get; set; }
         [Required]
         public Gender gender { get; set; }
-        public byte[] ProfilePicture { get; set; }
+        public string propImage { get; set; }
+       
+       // public string ProfilePicture { get; set; }
 
 
 

@@ -31,7 +31,7 @@ function SearchBar() {
   return (
     <div className={classes.root}>
       <form onSubmit={nameSearchHandler}>
-        <Stack direction='row'>
+      <Stack direction='row'>
           <input
             value={enterdUserName}
             onChange={usernameChangeHandler}
@@ -39,10 +39,10 @@ function SearchBar() {
             className='searchTerm'
             placeholder='Search Tweet'
           />
-          <button type='submit' className='searchButton'>
-            <Search />
-          </button>
-        </Stack>
+        <button type='submit' className='searchButton'>
+          <Search />
+        </button>
+      </Stack>
       </form>
     </div>
   );
