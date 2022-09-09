@@ -10,6 +10,7 @@ import TweetCard from '../UtilityComponent/TweetCard';
 import Radhika from '../Utility/image/Radhika.jfif';
 import { useEffect } from 'react';
 import { profileapiFetchInitiated } from '../Redux/Action/ProfileFetch';
+import { isAuthenticated, userAction } from '../Redux/Action/UserAction';
 import CircularLoader from '../Utility/HelperComponent/CircularLoader';
 import { getAllUserapiFetchInitiated } from '../Redux/Action/GetAllUserAction';
 
@@ -28,6 +29,13 @@ export default function TweetHome() {
     dispatch(getAllUserapiFetchInitiated(payload));
   }, [dispatch]);
   const profile = useSelector((state) => state.ProfileFetchReducer);
+
+  useEffect(() => {
+    if (profile && profile.status === 'success') {
+      dispatch(isAuthenticated(true));
+      dispatch(userAction(profile.APIData[0]));
+    }
+  });
   if (screenChange)
     return (
       <Grid container>
