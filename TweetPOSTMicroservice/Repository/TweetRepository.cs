@@ -19,12 +19,14 @@ namespace TweetPOSTMicroservice.Repository
         private readonly TweetContext _db;
         private readonly IMapper _mapper;
         public readonly IWebHostEnvironment hostEnvironment;
+        //public readonly HttpRequest httpRequest;
 
         public TweetRepository(TweetContext db, IMapper mapper, IWebHostEnvironment _hostEnvironment)
         {
             _db = db;
             _mapper = mapper;
             hostEnvironment = _hostEnvironment;
+            
         }
 
         public async Task<bool> DeleteTweet(int tweetID)
@@ -74,21 +76,48 @@ namespace TweetPOSTMicroservice.Repository
 
         public async Task<IEnumerable<TweetReadDTO>> GetAllTweets()
         {
+            List<TweetReadDTO> finaltweets = new List<TweetReadDTO>();
             List<Tweet> tweetList = await _db.Tweets.ToListAsync();
-            return _mapper.Map<List<TweetReadDTO>>(tweetList);
+            foreach (var tweets in tweetList)
+            {
+                finaltweets.Add(new TweetReadDTO
+                {
+                    Like = tweets.Like,
+                    UserId = tweets.UserId,
+                    TweetID = tweets.TweetID,
+                    Caption = tweets.Caption,
+                    Image = "http://localhost:5500/Images/" + tweets.Image
+                }
+                 );
+            }
+            return finaltweets;
         }
 
         //All tweets for a single User
         public async Task<IEnumerable<TweetReadDTO>> GetMyTweets(string userID)
         {
+            List<TweetReadDTO> finaltweets = new List<TweetReadDTO>();
             List<Tweet> tweetList = await _db.Tweets.Where(x => x.UserId == userID).ToListAsync();
-            return _mapper.Map<List<TweetReadDTO>>(tweetList);
+            foreach( var tweets in tweetList)
+            {
+                finaltweets.Add(new TweetReadDTO
+                {
+                    Like = tweets.Like,
+                    UserId = tweets.UserId,
+                    TweetID = tweets.TweetID,
+                    Caption = tweets.Caption,
+                    Image = "http://localhost:5500/Images/" + tweets.Image
+            }
+                 );
+            }
+            return finaltweets;
         }
 
         //Single tweet
         public async Task<TweetReadDTO> GetTweetById(int tweetId)
         {
             Tweet tweet = await _db.Tweets.FirstOrDefaultAsync(x => x.TweetID == tweetId);
+            tweet.Image = "http://localhost:5500/Images/" + tweet.Image;
             return _mapper.Map<TweetReadDTO>(tweet);
         }
 
@@ -105,6 +134,7 @@ namespace TweetPOSTMicroservice.Repository
                 var value = await _db.SaveChangesAsync();
                 if (value > 0)
                 {
+                    new_tweet.Image = "http://localhost:5500/Images/" + tweetDTO.Image;
                     return _mapper.Map<Tweet, TweetReadDTO>(new_tweet);
                 }
                 throw new Exception("Something went wrong with the database please check.");
@@ -123,9 +153,11 @@ namespace TweetPOSTMicroservice.Repository
             tweet.UserId = userId;
             tweet.PostedOn = DateTime.Now.ToString();
             _db.Tweets.Add(tweet);
-            var value = await _db.SaveChangesAsync();
+            var value = await _db.SaveChangesAsync();            
             if (value > 0)
             {
+                TweetReadDTO tweets = new TweetReadDTO();
+                tweet.Image = "http://localhost:5500/Images/" + tweetDTO.Image;
                 return _mapper.Map<Tweet, TweetReadDTO>(tweet);
             }
             else
