@@ -28,21 +28,26 @@ function TWUser(props) {
           <Stack direction='row' spacing={1}>
             <div className='nameDiv'>
               <Typography variant='h3' fontSize='1.2rem'>
-              {props.name}
-            </Typography>
+                {props.name}
+              </Typography>
             </div>
             <Verified fontSize='1rem' />
           </Stack>
-          <Typography variant='h5' fontSize='1rem' className={classes.txtLight}>
+          <Typography
+            variant='h5'
+            fontSize='1rem'
+            sx={{ float: 'left' }}
+            className={classes.txtLight}
+          >
             @ {props.username}
           </Typography>
         </div>
 
-        <div className='btnDiv'>
+        {/* <div className='btnDiv'>
           <button variant='contained' className={classes.followBtn}>
             Follow
           </button>
-        </div>
+        </div> */}
       </Stack>
     </div>
   );

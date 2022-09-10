@@ -5,18 +5,22 @@ import { ProfileFetchReducer } from './ProfileFetchRudcer';
 import { FindUserNameReducer } from './FindUserNameReducer';
 import { GetAllUserReducer } from './GetAllUserReducer';
 import { TweetPostReducer } from './TweetPostReducer';
-import { GetAllTweetsReducer} from './GetAllTweetsReducer';
-import {likeReducer} from './LikeReducer';
+import { GetAllTweetsReducer } from './GetAllTweetsReducer';
+import { likeReducer } from './LikeReducer';
+import { GetMyTweetsReducer } from './GetMyTweetsReducer';
+import { GetReplyReducer } from './GetReplyReducer';
 
 const rootReducer = combineReducers({
   userReducer,
-    RegisterAPIReducer,
-    ProfileFetchReducer,
-    FindUserNameReducer,
-    GetAllUserReducer,
-    TweetPostReducer,
-    GetAllTweetsReducer,
-    likeReducer,
+  RegisterAPIReducer,
+  ProfileFetchReducer,
+  FindUserNameReducer,
+  GetAllUserReducer,
+  TweetPostReducer,
+  GetAllTweetsReducer,
+  likeReducer,
+  GetMyTweetsReducer,
+  GetReplyReducer,
 });
 
 export default rootReducer;

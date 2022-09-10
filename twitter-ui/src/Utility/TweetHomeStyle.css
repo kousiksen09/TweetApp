@@ -117,7 +117,8 @@ justify-content: center;
     position: absolute;
     left: 4vw;
     flex-direction: column;
-    width: 12vw;
+    width: 21vw;
+    max-width: 15vw;
   }
 
   .followBtn{
@@ -268,31 +269,38 @@ text-align: center;
 }
 .profileAvatarss{
   position: absolute;
-  top: 20%;
+  top: 20vh;
   left: 2vw;
 }
 .profileDetails1{
-  margin-bottom: 16px;
-  padding-top: 12px;
-  padding-left: 16px;
-  padding-right: 16px;
-  height: 20vh;
+  position: relative;
+  display: inline-block;
+  padding-top: 1vh;
+  padding-left: 1.6vw;
+  padding-right: 1.3vw;
+  height: 12vh;
 }
 
 .profileInfo{
   position: relative;
-  top:10vh;
-  padding-left: 1vh;
+  left: 10vw;
 }
 .addressInfo
 {
   position: relative;
   right: 0;
   float: right;
+  top:-8vh;
 }
 .replyArea{
   margin: 0 auto;
   width: 100%;
   position: relative;
   top: 3vh;
+}
+
+.scrollableDiv{
+  position: relative;
+  height: 45vh;
+  overflow-y: scroll;
 }

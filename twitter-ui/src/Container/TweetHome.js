@@ -19,7 +19,7 @@ export default function TweetHome() {
   const theme = useTheme();
   const screenChange = useMediaQuery(theme.breakpoints.up('md'));
   const dispatch = useDispatch();
-  const tweetPost = useSelector((state)=> state.TweetPostReducer);
+  const tweetPost = useSelector((state) => state.TweetPostReducer);
 
   useEffect(() => {
     const payload = {
@@ -33,11 +33,12 @@ export default function TweetHome() {
   }, [dispatch, tweetPost]);
   const profile = useSelector((state) => state.ProfileFetchReducer);
   const tweetStatus = useSelector((state) => state.GetAllTweetsReducer.status);
-  const tweetReducer =  useSelector((state) => state.GetAllTweetsReducer.APIData[0]);
-  const allTweet=tweetReducer && tweetReducer.result;
+  const tweetReducer = useSelector(
+    (state) => state.GetAllTweetsReducer.APIData[0]
+  );
+  const allTweet = tweetReducer && tweetReducer.result;
   const userList = useSelector((state) => state.GetAllUserReducer.APIData[0]);
   const userApiStts = useSelector((state) => state.GetAllUserReducer.status);
-
 
   useEffect(() => {
     if (profile && profile.status === 'success') {
@@ -48,33 +49,35 @@ export default function TweetHome() {
   if (screenChange)
     return (
       <Grid container>
-        {profile.status === 'loading' && tweetStatus.status === 'loading' ? (
+        {profile.status === 'loading' || tweetStatus.status === 'loading' ? (
           <CircularLoader />
         ) : (
           <>
-        <LeftNavBar />
-        <WhatsHappening />
+            <LeftNavBar />
+            <WhatsHappening />
 
-        
-        <div className='mainTweet'>
-          <PostTweet profilePic={Radhika} />
-          <div className='tweetFeed'>
-          {userApiStts==='success' && tweetStatus === 'success' && 
-          allTweet &&
-          allTweet.map((tweet, id) => (
-            <TweetCard
-              profilePic={Radhika}
-              Name = {userList.find(a=> a.id === tweet.userId).name}
-              userName = {userList.find(a=> a.id === tweet.userId).userName}
-              caption = {tweet.caption}
-              postAgo='6h'
-              reactionCount= {tweet.like}
-              postImg={tweet.image} 
-              tweetId ={tweet.tweetID}                            
-            />
-           ))};
-          </div>
-        </div>
+            <div className='mainTweet'>
+              <PostTweet profilePic={Radhika} />
+              <div className='tweetFeed'>
+                {userApiStts === 'success' &&
+                  tweetStatus === 'success' &&
+                  allTweet &&
+                  allTweet.map((tweet, id) => (
+                    <TweetCard
+                      profilePic={Radhika}
+                      Name={userList.find((a) => a.id === tweet.userId).name}
+                      userName={
+                        userList.find((a) => a.id === tweet.userId).userName
+                      }
+                      caption={tweet.caption}
+                      postAgo='6h'
+                      reactionCount={tweet.like}
+                      postImg={tweet.image}
+                      tweetId={tweet.tweetID}
+                    />
+                  ))}
+              </div>
+            </div>
           </>
         )}
       </Grid>

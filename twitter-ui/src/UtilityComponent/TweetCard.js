@@ -4,13 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch } from 'react-redux';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
-import {
-  Card,
-  Avatar,
-  Typography,
-  CardContent,
-  Button,
-} from '@mui/material';
+import { Card, Avatar, Typography, CardContent, Button } from '@mui/material';
 import { Stack } from '@mui/system';
 import './utility.css';
 import { useState } from 'react';
@@ -26,11 +20,11 @@ function TweetCard(props) {
     const Payload = {
       token: localStorage.getItem('token'),
       Id: props.tweetId,
-    }
-    dispatch(likeFetchInitiated(Payload))
-    setCount(count+1);
+    };
+    dispatch(likeFetchInitiated(Payload));
+    setCount(count + 1);
   };
-//const likeCount = useSelector((state)=> state.likeReducer);
+  //const likeCount = useSelector((state)=> state.likeReducer);
   return (
     <Card variant='outlined' sx={{ width: '100%', backgroundColor: '#1b2735' }}>
       <Stack direction='row' spacing={1}>
@@ -92,13 +86,13 @@ function TweetCard(props) {
             <Button onClick={handleLikeClick}>
               {like ? (
                 <FavoriteIcon
-                  sx={{ height: 40, width: 40, color: 'rgb(29, 155, 240)' }}
+                  sx={{ height: 20, width: 20, color: 'rgb(29, 155, 240)' }}
                 />
               ) : (
-                <FavoriteBorderOutlinedIcon sx={{ height: 40, width: 40 }} />
+                <FavoriteBorderOutlinedIcon sx={{ height: 20, width: 20 }} />
               )}
               <Typography
-                fontSize='1.5rem'
+                fontSize='1.2rem'
                 fontWeight='700'
                 sx={{ marginLeft: 2 }}
               >
@@ -106,7 +100,7 @@ function TweetCard(props) {
               </Typography>
             </Button>
             <Button>
-              <CommentOutlinedIcon sx={{ height: 40, width: 40 }} />
+              <CommentOutlinedIcon sx={{ height: 20, width: 20 }} />
             </Button>
           </Stack>
         </div>
