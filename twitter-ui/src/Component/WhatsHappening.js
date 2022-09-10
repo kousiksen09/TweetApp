@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import { Stack } from '@mui/system';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -7,11 +6,6 @@ import '../Utility/TweetHomeStyle.css';
 import TWUser from '../UtilityComponent/TWUser';
 import SearchBar from './SearchBar';
 
-const useStyles = makeStyles((theme) => ({
-  txtLight: {
-    color: theme.palette.text.primary,
-  },
-}));
 function WhatsHappening() {
   const nameList = useSelector((state) => state.FindUserNameReducer.APIData[0]);
   const apiStts = useSelector((state) => state.FindUserNameReducer.status);
@@ -59,6 +53,7 @@ function WhatsHappening() {
                 name={user.name}
                 isActive={user.isActive}
                 username={user.userName}
+                image = {user.profilePicture}
               />
               </Link>
             ))}

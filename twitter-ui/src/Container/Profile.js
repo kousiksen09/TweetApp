@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import WhatsHappening from '../Component/WhatsHappening';
 import { profileapiFetchInitiated } from '../Redux/Action/ProfileFetch';
-import { userApiImage } from '../Utility/ImagePath';
+//import { userApiImage } from '../Utility/ImagePath';
 import '../Utility/TweetHomeStyle.css';
 import TabPanel from '../UtilityComponent/TabPannel';
 import { getMyTweetsapiFetchInitiated } from '../Redux/Action/GetMyTweetAction';
@@ -26,7 +26,7 @@ function a11yProps(index) {
 function Profile(props) {
   const params = useParams();
   const dispatch = useDispatch();
-  console.log(userApiImage);
+  //console.log(userApiImage);
   useEffect(() => {
     const payload = {
       token: localStorage.getItem('token'),

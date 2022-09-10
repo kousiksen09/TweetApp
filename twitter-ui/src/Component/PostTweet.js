@@ -96,16 +96,15 @@ function PostTweet(props) {
             <IconButton onClick={emojiIconClick} aria-label='image'>
               <SentimentSatisfiedOutlinedIcon className='iconsStack' />
             </IconButton>
+            <Typography variant='h4' fontSize='1.4rem' color= '#a074b3' sx={{zIndex: 100}}>
+            {imageName}
+          </Typography>
             <div className='postbtnDiv'>
               <button type='submit' className='postButton'>
                 Tweet
               </button>
             </div>
           </Stack>
-          <Typography variant='h4' fontSize='1.1 rem'>
-            {' '}
-            {imageName}
-          </Typography>
         </div>
         {isEmojiSildeOn && (
           <div className='emojiDix'>

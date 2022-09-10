@@ -1,7 +1,7 @@
 import { Verified } from '@mui/icons-material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useDispatch } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import { Card, Avatar, Typography, CardContent, Button } from '@mui/material';
@@ -16,7 +16,7 @@ function TweetCard(props) {
 
   const [count, setCount] = useState(parseInt(props.reactionCount));
   const handleLikeClick = (event) => {
-    setLike((like) => !like);
+    setLike((like) => !like)
     const Payload = {
       token: localStorage.getItem('token'),
       Id: props.tweetId,
