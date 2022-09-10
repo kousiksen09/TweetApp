@@ -13,6 +13,7 @@ using TweetApp_Common.DTO;
 using TweetApp_Common.Model;
 using UserMicroservice.Context;
 
+
 namespace UserMicroservice.Repository
 {
     public class UserAccount : IUserAccount
@@ -23,12 +24,12 @@ namespace UserMicroservice.Repository
         private readonly SignInManager<UserDetails> _signInManager;
         private IMapper _mapper;
         public readonly IWebHostEnvironment hostEnvironment;
-
-   
+        public readonly IHttpContextAccessor _request;
         public UserAccount(UserManager<UserDetails> userManager,
            TweetUserContext tweetUserContext, SignInManager<UserDetails> signInManager,
  IJWTAutnenticationManager jWTAutnenticationManager,
            IMapper mapper, IWebHostEnvironment _hostEnvironment
+            , IHttpContextAccessor httpContextAccessor
            )
 
         {
@@ -38,6 +39,8 @@ namespace UserMicroservice.Repository
             _jwtAuthenticationManager = jWTAutnenticationManager;
             _mapper = mapper;
             hostEnvironment = _hostEnvironment;
+            _request = httpContextAccessor;
+         
         }
 
         public bool AddActiveStatus(string userId)
@@ -146,7 +149,7 @@ namespace UserMicroservice.Repository
                         MobileNumber = user.MobileNumber,
                         Country = user.Country,
                         State = user.State,
-                        ProfilePicture = user.propImage,
+                        ProfilePicture = String.Format("{0}://{1}:{2}/Images/{3}", _request.HttpContext.Request.Scheme, "localhost", "5501", user.propImage),
                         IsActive = activeStts.ActiveStatus,
                         LastSeen = activeStts.LastSeen
                     };
@@ -288,6 +291,7 @@ namespace UserMicroservice.Repository
         public async Task<List<TweeterUserProfile>> GetAllUsers()
         {
             List<TweeterUserProfile> allUsers = new List<TweeterUserProfile>();
+           
             try
             {
                 var users = _userManager.Users.ToList();
@@ -302,7 +306,7 @@ namespace UserMicroservice.Repository
                         MobileNumber = user.MobileNumber,
                         State = user.State,
                         Country = user.Country,
-                        ProfilePicture = user.propImage,
+                        ProfilePicture = String.Format("{0}://{1}:{2}/Images/{3}", _request.HttpContext.Request.Scheme, "localhost", "5501", user.propImage),
                         IsActive = activeStts.ActiveStatus,
                         LastSeen = activeStts.LastSeen
                     }
@@ -364,6 +368,7 @@ namespace UserMicroservice.Repository
             string name = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
             string imageName = name + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
             var imgPath = Path.Combine(hostEnvironment.ContentRootPath, "Images", imageName);
+
             using (var fileStream = new FileStream(imgPath, FileMode.Create))
             {
                 await imageFile.CopyToAsync(fileStream);

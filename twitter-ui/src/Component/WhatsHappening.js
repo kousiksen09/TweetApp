@@ -53,12 +53,14 @@ function WhatsHappening() {
           {userApiStts === 'success' &&
             userList &&
             userList.map((user, id) => (
+              <Link className='userNameTxt' to={`../profile/${user.userName}`}>
               <TWUser
                 key={id}
                 name={user.name}
                 isActive={user.isActive}
                 username={user.userName}
               />
+              </Link>
             ))}
         </div>
       </Stack>
