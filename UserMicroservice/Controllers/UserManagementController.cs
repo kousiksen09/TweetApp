@@ -28,6 +28,7 @@ namespace UserMicroservice.Controllers
 
         public UserManagementController(IUserAccount userAccount, IJWTAutnenticationManager autnenticationManager)
         {
+           
             _userAccount = userAccount;
             _authenticationManager = autnenticationManager;           
             _response = new ResponseDTO();
