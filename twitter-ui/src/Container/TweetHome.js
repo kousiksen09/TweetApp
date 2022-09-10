@@ -1,13 +1,11 @@
 import LeftNavBar from '../Component/LeftNavBar';
 import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Grid, useMediaQuery } from '@mui/material';
 import WhatsHappening from '../Component/WhatsHappening';
 import '../Utility/TweetHomeStyle.css';
 import PostTweet from '../Component/PostTweet';
 import TweetCard from '../UtilityComponent/TweetCard';
-import Radhika from '../Utility/image/Radhika.jfif';
 import { useEffect } from 'react';
 import { profileapiFetchInitiated } from '../Redux/Action/ProfileFetch';
 import { isAuthenticated, userAction } from '../Redux/Action/UserAction';
@@ -48,7 +46,7 @@ export default function TweetHome() {
   if (screenChange)
     return (
       <Grid container>
-        {profile.status === 'loading' && tweetStatus.status === 'loading' ? (
+        {profile.status === 'loading' || tweetStatus.status === 'loading' ? (
           <CircularLoader />
         ) : (
           <>
@@ -57,94 +55,48 @@ export default function TweetHome() {
 
         
         <div className='mainTweet'>
-          <PostTweet profilePic={Radhika} />
+          <PostTweet profilePic={profile && profile.status === 'success'&& profile.APIData[0].profilePicture}/>
           <div className='tweetFeed'>
           {userApiStts==='success' && tweetStatus === 'success' && 
           allTweet &&
           allTweet.map((tweet, id) => (
             <TweetCard
-              profilePic={Radhika}
+              profilePic={userList.find(a=> a.id === tweet.userId).profilePicture}
               Name = {userList.find(a=> a.id === tweet.userId).name}
               userName = {userList.find(a=> a.id === tweet.userId).userName}
               caption = {tweet.caption}
-              postAgo='6h'
+              //postAgo='6h'
               reactionCount= {tweet.like}
               postImg={tweet.image} 
               tweetId ={tweet.tweetID}                            
             />
-           ))};
+           ))}
           </div>
         </div>
           </>
-        )}
+        )};
       </Grid>
-    );
+    )
   else
     return (
-      <div className='mainTweet' style={{ width: '90vw' }}>
-        <PostTweet profilePic={Radhika} />
-        <div className='tweetFeed'>
-          <TweetCard
-            profilePic={Radhika}
-            Name='Kousik Sen'
-            userName='@ ksen6'
-            postAgo='6h'
-            reactionCount='20'
-            postImg={
-              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
-            }
-          />
-          <TweetCard
-            profilePic={Radhika}
-            Name='Kousik Sen'
-            userName='@ ksen6'
-            postAgo='6h'
-            reactionCount='20'
-            postImg={
-              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
-            }
-          />
-          <TweetCard
-            profilePic={Radhika}
-            Name='Kousik Sen'
-            userName='@ ksen6'
-            postAgo='6h'
-            reactionCount='20'
-            postImg={
-              'https://pbs.twimg.com/media/FaBtmVOVEAEnXZk?format=jpg&name=900x900'
-            }
-          />
-          <TweetCard
-            profilePic={Radhika}
-            Name='Kousik Sen'
-            userName='@ ksen6'
-            postAgo='6h'
-            reactionCount='20'
-            postImg={
-              'https://pbs.twimg.com/media/FaA3vEMWAAEvSsL?format=jpg&name=900x900'
-            }
-          />
-          <TweetCard
-            profilePic={Radhika}
-            Name='Kousik Sen'
-            userName='@ ksen6'
-            postAgo='6h'
-            reactionCount='20'
-            postImg={
-              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
-            }
-          />
-          <TweetCard
-            profilePic={Radhika}
-            Name='Kousik Sen'
-            userName='@ ksen6'
-            postAgo='6h'
-            reactionCount='20'
-            postImg={
-              'https://pbs.twimg.com/media/FZ4cKrnWYAIaJZ2?format=jpg&name=900x900'
-            }
-          />
+      <div className='mainTweet'>
+          <PostTweet profilePic={profile.profilePicture} />
+          <div className='tweetFeed'>
+          {userApiStts==='success' && tweetStatus === 'success' && 
+          allTweet &&
+          allTweet.map((tweet, id) => (
+            <TweetCard
+              profilePic={userList.find(a=> a.id === tweet.userId).profilePicture}              
+              Name = {userList.find(a=> a.id === tweet.userId).name}
+              userName = {userList.find(a=> a.id === tweet.userId).userName}
+              caption = {tweet.caption}
+              //postAgo='6h'
+              reactionCount= {tweet.like}
+              postImg={tweet.image} 
+              tweetId ={tweet.tweetID}                            
+            />
+           ))}
+          </div>
         </div>
-      </div>
-    );
+    )
 }

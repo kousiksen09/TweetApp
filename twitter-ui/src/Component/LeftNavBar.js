@@ -5,10 +5,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import HomeIcon from '@mui/icons-material/Home';
 import TagIcon from '@mui/icons-material/Tag';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { deepOrange } from '@mui/material/colors';
 import { useSelector } from 'react-redux';
-
-//import KSEN from '../Utility/image/KSEN.png';
 import '../Utility/TweetHomeStyle.css';
 import { Link } from 'react-router-dom';
 
@@ -27,9 +24,7 @@ function LeftNavBar() {
   const classes = useStyles();
 
   const profileUser = useSelector((state) => state.userReducer);
-  const SName =
-    profileUser.isAuthenticated &&
-    profileUser.user.name.charAt(0).toUpperCase();
+
   const username = profileUser.isAuthenticated && profileUser.user.userName;
   return (
     <header className='root'>
@@ -77,7 +72,7 @@ function LeftNavBar() {
 
         <div className='profileAvatar'>
           <Link to={`../profile/${username}`}>
-            <Avatar sx={{ bgcolor: deepOrange[500] }}>{SName}</Avatar>
+            <Avatar sx={{ width: 50, height: 50 }} src ={profileUser.user && profileUser.user.profilePicture}/>
           </Link>
         </div>
       </div>

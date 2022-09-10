@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles';
 import { Verified } from '@mui/icons-material';
 import { Stack } from '@mui/system';
 import '../Utility/TweetHomeStyle.css';
-import KSEN from '../Utility/image/KSEN.png';
 
 const useStyles = makeStyles((theme) => ({
   txtLight: {
@@ -22,7 +21,7 @@ function TWUser(props) {
     <div className='userRoot'>
       <Stack direction='row' spacing={1}>
         <Badge color={props.isActive ? 'success' : 'warning'} variant='dot'>
-          <Avatar className='avatarDiv' alt='profile' src={KSEN} />
+          <Avatar className='avatarDiv' alt='profile' src={props.image} />
         </Badge>
         <div className='username'>
           <Stack direction='row' spacing={1}>
