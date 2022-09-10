@@ -5,6 +5,8 @@ import * as profileSaga from './ProfileFetchSaga';
 import * as findUserNameSaga from './FindUserNameSaga';
 import * as getAllUserSaga from './GetAllUserSaga';
 import * as tweetPostSaga from './tweetPostSaga';
+import * as getAllTweetSaga  from './GetAllTweetSaga';
+import * as likeSaga from './LikeSaga';
 
 export default function* rootSaga() {
     yield all(
@@ -15,6 +17,8 @@ export default function* rootSaga() {
             ...Object.values(findUserNameSaga),
             ...Object.values(getAllUserSaga),
             ...Object.values(tweetPostSaga),
+            ...Object.values(getAllTweetSaga),
+            ...Object.values(likeSaga),
         ].map(fork)
     );
 }

@@ -23,7 +23,7 @@ function* handlePostAPI(payload) {
 
     const response = yield call(tweetPost, payload);
     yield delay(500);
-    if (response.status === 200) {
+    if (response.status === 201 || response.status === 200) {
       yield put(tweetpostapiFetchSuccess(response.data));
     } else {
       yield put(tweetpostapiFetchError(response.data));

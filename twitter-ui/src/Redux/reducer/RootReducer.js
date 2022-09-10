@@ -5,6 +5,8 @@ import { ProfileFetchReducer } from './ProfileFetchRudcer';
 import { FindUserNameReducer } from './FindUserNameReducer';
 import { GetAllUserReducer } from './GetAllUserReducer';
 import { TweetPostReducer } from './TweetPostReducer';
+import { GetAllTweetsReducer} from './GetAllTweetsReducer';
+import {likeReducer} from './LikeReducer';
 
 const rootReducer = combineReducers({
   userReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
     FindUserNameReducer,
     GetAllUserReducer,
     TweetPostReducer,
+    GetAllTweetsReducer,
+    likeReducer,
 });
 
 export default rootReducer;

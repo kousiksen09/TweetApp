@@ -9,7 +9,7 @@ const initialState = {
   APIData: [],
 };
 
-export const GetAllUserReducer = (state = initialState, action) => {
+export const GetAllTweetsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GETALLTWEET_API_FETCH_INITIATED:
       return {

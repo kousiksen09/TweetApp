@@ -1,6 +1,7 @@
 import { Verified } from '@mui/icons-material';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useDispatch } from 'react-redux';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import {
@@ -8,27 +9,28 @@ import {
   Avatar,
   Typography,
   CardContent,
-  Grid,
   Button,
 } from '@mui/material';
 import { Stack } from '@mui/system';
 import './utility.css';
 import { useState } from 'react';
+import { likeFetchInitiated } from '../Redux/Action/LikeAction';
 
 function TweetCard(props) {
   const [like, setLike] = useState(false);
+  const dispatch = useDispatch();
+
   const [count, setCount] = useState(parseInt(props.reactionCount));
   const handleLikeClick = (event) => {
     setLike((like) => !like);
-    console.log(like);
-
-    if (like) {
-      setCount(count + 1);
-    } else {
-      setCount(count - 1);
+    const Payload = {
+      token: localStorage.getItem('token'),
+      Id: props.tweetId,
     }
+    dispatch(likeFetchInitiated(Payload))
+    setCount(count+1);
   };
-
+//const likeCount = useSelector((state)=> state.likeReducer);
   return (
     <Card variant='outlined' sx={{ width: '100%', backgroundColor: '#1b2735' }}>
       <Stack direction='row' spacing={1}>
@@ -77,8 +79,7 @@ function TweetCard(props) {
       <div className='tweetContent'>
         <CardContent>
           <Typography variant='body1' color='text.primary'>
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {props.caption}
           </Typography>
         </CardContent>
 
