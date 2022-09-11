@@ -7,3 +7,9 @@ SAS Token - ?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2022-11-29T22:15:
 BLOB SAS - https://tweetappimages.blob.core.windows.net/?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2022-11-29T22:15:14Z&st=2022-09-11T14:15:14Z&sip=0.0.0.0-255.255.255.255&spr=https,http&sig=QgDZKvIaXQgiaFFUT9aTViYG6WdUMHbm4fdkKLXQos0%3D
 
 File SAS - https://tweetappimages.file.core.windows.net/?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2022-11-29T22:15:14Z&st=2022-09-11T14:15:14Z&sip=0.0.0.0-255.255.255.255&spr=https,http&sig=QgDZKvIaXQgiaFFUT9aTViYG6WdUMHbm4fdkKLXQos0%3D
+
+
+
+
+SQL Con - 
+ConnectionString = "data source=tweetapplication.database.windows.net; Initial Catalog=Tweet_Server;user id =tweetApp; password=Password@123; MultipleActiveResultSets=true";
