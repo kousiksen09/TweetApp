@@ -6,7 +6,6 @@ import Twitter from './Container/Twitter';
 import { Provider } from 'react-redux';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-
 import { CssBaseline } from '@mui/material';
 import store from './Redux/store/store';
 

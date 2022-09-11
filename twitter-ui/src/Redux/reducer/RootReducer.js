@@ -9,6 +9,7 @@ import { GetAllTweetsReducer } from './GetAllTweetsReducer';
 import { likeReducer } from './LikeReducer';
 import { GetMyTweetsReducer } from './GetMyTweetsReducer';
 import { GetReplyReducer } from './GetReplyReducer';
+import { TweetReplyReducer } from './TweetReplyReducer';
 
 const rootReducer = combineReducers({
   userReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   likeReducer,
   GetMyTweetsReducer,
   GetReplyReducer,
+  TweetReplyReducer,
 });
 
 export default rootReducer;

@@ -16,6 +16,8 @@ import '../Utility/TweetHomeStyle.css';
 import TabPanel from '../UtilityComponent/TabPannel';
 import { getMyTweetsapiFetchInitiated } from '../Redux/Action/GetMyTweetAction';
 import TweetCard from '../UtilityComponent/TweetCard';
+import ReplyCard from '../Component/ReplyCard';
+import CircularLoader from '../Utility/HelperComponent/CircularLoader';
 
 function a11yProps(index) {
   return {
@@ -57,109 +59,131 @@ function Profile(props) {
   const allTweet = tweetReducer && tweetReducer.result;
   return (
     <Grid container>
-      <LeftNavBar />
-      <WhatsHappening />
-      {profile.status === 'success' && (
-        <div className='mainTweet'>
-          <div className='coverPhoto' />
-          <div className='profileAvatarss'>
-            <Avatar
-              sx={{ width: 120, height: 120 }}
-              alt='profile'
-              src={profile.APIData[0].profilePicture}
-            />
-          </div>
-          <div className='profileDetails1'>
-            <div className='profileInfo'>
-              <Typography variant='h3' fontSize='1.8rem'>
-                {profile.APIData[0].name}
-              </Typography>
-              <Typography variant='h4' fontSize='1.3rem' top='1vh'>
-                @ {profile.APIData[0].userName}
-              </Typography>
+      {profile.status === 'loading' || tweetStatus.status === 'loading' ? (
+        <CircularLoader />
+      ) : (
+        <>
+          <LeftNavBar />
+          <WhatsHappening />
+          {profile.status === 'success' && (
+            <div className='mainTweet'>
+              <div className='coverPhoto' />
+              <div className='profileAvatarss'>
+                <Avatar
+                  sx={{ width: 120, height: 120 }}
+                  alt='profile'
+                  src={profile.APIData[0].profilePicture}
+                />
+              </div>
+              <div className='profileDetails1'>
+                <div className='profileInfo'>
+                  <Typography variant='h3' fontSize='1.8rem'>
+                    {profile.APIData[0].name}
+                  </Typography>
+                  <Typography variant='h4' fontSize='1.3rem' top='1vh'>
+                    @ {profile.APIData[0].userName}
+                  </Typography>
+                </div>
+                <div className='addressInfo'>
+                  <Typography
+                    variant='h3'
+                    color='rgb(113, 118, 123)'
+                    fontSize='1.4rem'
+                  >
+                    <LocationOnOutlinedIcon />
+                    {profile.APIData[0].state}
+                  </Typography>
+                  <Typography
+                    color='rgb(113, 118, 123)'
+                    variant='h4'
+                    fontSize='1rem'
+                    top='1vh'
+                  >
+                    <CallOutlinedIcon sx={{ marginRight: '1vw' }} />
+                    {profile.APIData[0].mobileNumber}
+                  </Typography>
+                </div>
+              </div>
+              <div className='replyArea'>
+                <Box sx={{ width: '100%' }}>
+                  <Box sx={{ borderColor: 'rgb(249, 24, 128)' }}>
+                    <Tabs
+                      value={value}
+                      onChange={handleChange}
+                      indicatorColor='secondary'
+                      aria-label='tweets'
+                    >
+                      <Tab
+                        sx={{ fontSize: '1.3rem' }}
+                        label='Tweets'
+                        {...a11yProps(0)}
+                      />
+                      <Tab
+                        sx={{ fontSize: '1.3rem' }}
+                        label='Tweets & Replies'
+                        {...a11yProps(1)}
+                      />
+                    </Tabs>
+                    <TabPanel value={value} index={0}>
+                      <div className='scrollableDiv'>
+                        {profile.status === 'success' &&
+                          tweetStatus === 'success' &&
+                          allTweet &&
+                          allTweet.map((tweet, id) => (
+                            <>
+                              <TweetCard
+                                profilePic={profile.APIData[0].profilePicture}
+                                Name={profile.APIData[0].name}
+                                userName={profile.APIData[0].userName}
+                                caption={tweet.caption}
+                                postAgo='6h'
+                                reactionCount={tweet.like}
+                                postImg={tweet.image}
+                                tweetId={tweet.tweetID}
+                              />
+                              <ReplyCard
+                                profilePic={profile.APIData[0].profilePicture}
+                                Name={profile.APIData[0].name}
+                                userName={profile.APIData[0].userName}
+                                tweetId={tweet.tweetID}
+                              />
+                            </>
+                          ))}
+                      </div>
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                      <div className='scrollableDiv'>
+                        {profile.status === 'success' &&
+                          tweetStatus === 'success' &&
+                          allTweet &&
+                          allTweet.map((tweet, id) => (
+                            <>
+                              <TweetCard
+                                profilePic={profile.APIData[0].profilePicture}
+                                Name={profile.APIData[0].name}
+                                userName={profile.APIData[0].userName}
+                                caption={tweet.caption}
+                                postAgo='6h'
+                                reactionCount={tweet.like}
+                                postImg={tweet.image}
+                                tweetId={tweet.tweetID}
+                              />
+                              <ReplyCard
+                                profilePic={profile.APIData[0].profilePicture}
+                                Name={profile.APIData[0].name}
+                                userName={profile.APIData[0].userName}
+                                tweetId={tweet.tweetID}
+                              />
+                            </>
+                          ))}
+                      </div>
+                    </TabPanel>
+                  </Box>
+                </Box>
+              </div>
             </div>
-            <div className='addressInfo'>
-              <Typography
-                variant='h3'
-                color='rgb(113, 118, 123)'
-                fontSize='1.4rem'
-              >
-                <LocationOnOutlinedIcon />
-                {profile.APIData[0].state}
-              </Typography>
-              <Typography
-                color='rgb(113, 118, 123)'
-                variant='h4'
-                fontSize='1rem'
-                top='1vh'
-              >
-                <CallOutlinedIcon sx={{ marginRight: '1vw' }} />
-                {profile.APIData[0].mobileNumber}
-              </Typography>
-            </div>
-          </div>
-          <div className='replyArea'>
-            <Box sx={{ width: '100%' }}>
-              <Box sx={{ borderColor: 'rgb(249, 24, 128)' }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  indicatorColor='secondary'
-                  aria-label='tweets'
-                >
-                  <Tab
-                    sx={{ fontSize: '1.3rem' }}
-                    label='Tweets'
-                    {...a11yProps(0)}
-                  />
-                  <Tab
-                    sx={{ fontSize: '1.3rem' }}
-                    label='Tweets & Replies'
-                    {...a11yProps(1)}
-                  />
-                </Tabs>
-                <TabPanel value={value} index={0}>
-                  <div className='scrollableDiv'>
-                    {profile.status === 'success' &&
-                      tweetStatus === 'success' &&
-                      allTweet &&
-                      allTweet.map((tweet, id) => (
-                        <TweetCard
-                          profilePic={profile.APIData[0].profilePicture}
-                          Name={profile.APIData[0].name}
-                          userName={profile.APIData[0].userName}
-                          caption={tweet.caption}
-                          postAgo='6h'
-                          reactionCount={tweet.like}
-                          postImg={tweet.image}
-                          tweetId={tweet.tweetID}
-                        />
-                      ))}
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                  <div className='scrollableDiv'>
-                    {profile.status === 'success' &&
-                      tweetStatus === 'success' &&
-                      allTweet &&
-                      allTweet.map((tweet, id) => (
-                        <TweetCard
-                          profilePic={profile.APIData[0].profilePicture}
-                          Name={profile.APIData[0].name}
-                          userName={profile.APIData[0].userName}
-                          caption={tweet.caption}
-                          postAgo='6h'
-                          reactionCount={tweet.like}
-                          postImg={tweet.image}
-                          tweetId={tweet.tweetID}
-                        />
-                      ))}
-                  </div>
-                </TabPanel>
-              </Box>
-            </Box>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </Grid>
   );

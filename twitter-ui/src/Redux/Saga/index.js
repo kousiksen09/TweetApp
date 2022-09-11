@@ -8,6 +8,8 @@ import * as tweetPostSaga from './tweetPostSaga';
 import * as getAllTweetSaga from './GetAllTweetSaga';
 import * as likeSaga from './LikeSaga';
 import * as getMyTweets from './GetMyTweetsSaga';
+import * as getReplySaga from './GetReplySaga';
+import * as tweetreplysaga from './TweetReplySaga';
 
 export default function* rootSaga() {
   yield all(
@@ -21,6 +23,8 @@ export default function* rootSaga() {
       ...Object.values(getAllTweetSaga),
       ...Object.values(likeSaga),
       ...Object.values(getMyTweets),
+      ...Object.values(getReplySaga),
+      ...Object.values(tweetreplysaga),
     ].map(fork)
   );
 }

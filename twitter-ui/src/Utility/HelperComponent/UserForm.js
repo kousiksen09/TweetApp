@@ -1,4 +1,5 @@
-import {CheckBox } from '@mui/icons-material';
+import { CheckBox } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import {
   FormControlLabel,
   FormLabel,
@@ -7,12 +8,12 @@ import {
   RadioGroup,
   TextField,
   Typography,
-  Button
+  Button,
 } from '@mui/material';
 //import { typography } from '@mui/system';
 import { DatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { registerapiFetchInitiated } from '../../Redux/Action/APIFetchAction';
 import '../../Utility/UserStyle.css';
 import {
@@ -33,7 +34,7 @@ function UserFrom(props) {
     Gender: 0,
     DateOfBirth: new Date(),
     ImageSrc: '',
-    ImageFile: null
+    ImageFile: null,
   });
   const [error, setError] = useState({
     ERname: '',
@@ -45,7 +46,7 @@ function UserFrom(props) {
     ERGender: '',
     ERDateOfBirth: '',
   });
-   const [imageName, setImageName] = useState('');
+  const [imageName, setImageName] = useState('');
   const nameChangeHandler = (event) => {
     setUserInput((prevState) => {
       return { ...prevState, name: event.target.value };
@@ -117,17 +118,17 @@ function UserFrom(props) {
       return { ...prevState, DateOfBirth: event };
     });
   };
-  const showPreview =(event) =>{
+  const showPreview = (event) => {
     console.log(event.target.files[0].name);
-    
-    if(event.target.files && event.target.files[0]){
-    let imagefile= event.target.files[0];
-    setImageName(imagefile.name);
-    setUserInput((prevState) => {
-      return { ...prevState, ImageFile:imagefile};
-    });
+
+    if (event.target.files && event.target.files[0]) {
+      let imagefile = event.target.files[0];
+      setImageName(imagefile.name);
+      setUserInput((prevState) => {
+        return { ...prevState, ImageFile: imagefile };
+      });
     }
-  }
+  };
   const handleFormSubmission = (event) => {
     event.preventDefault();
     console.log(userInput.ImageFile);
@@ -167,12 +168,13 @@ function UserFrom(props) {
           getMonthFromDob(dob) +
           '-' +
           getDateFromDOB(dob),
-        TwImageFile: userInput.ImageFile
+        TwImageFile: userInput.ImageFile,
       };
       dispatch(registerapiFetchInitiated(profile));
     }
     return;
   };
+  const status = useSelector((state) => state.RegisterAPIReducer.status);
   return (
     <form onSubmit={handleFormSubmission}>
       <Typography
@@ -286,21 +288,22 @@ function UserFrom(props) {
             renderInput={(params) => <TextField {...params} />}
           />
         </Grid>
-         <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4}>
           <FormLabel>Profile Picture</FormLabel>
           <div>
-          <Button variant="contained" component="label">
-                     Upload 
-                <input hidden type="file" accept= "image/*" className="form-contol-file" onChange={showPreview}/>
-                
-                </Button>
-                
-                
-                {imageName && <h2>{imageName}</h2>}
-                
-                </div>
-               
-                
+            <Button variant='contained' component='label'>
+              Upload
+              <input
+                hidden
+                type='file'
+                accept='image/*'
+                className='form-contol-file'
+                onChange={showPreview}
+              />
+            </Button>
+
+            {imageName && <h2>{imageName}</h2>}
+          </div>
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
@@ -309,9 +312,15 @@ function UserFrom(props) {
           />
         </Grid>
       </Grid>
-      <button type='submit' className='btn third'>
-        Sign Up
-      </button>
+      {status === 'loading' ? (
+        <LoadingButton loading variant='contained'>
+          Submit
+        </LoadingButton>
+      ) : (
+        <button type='submit' className='btn third'>
+          Sign Up
+        </button>
+      )}
     </form>
   );
 }

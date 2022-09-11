@@ -304,3 +304,9 @@ text-align: center;
   height: 45vh;
   overflow-y: scroll;
 }
+
+.prevCommment{
+  padding-left: 4vw;
+  margin: 5px;
+  display: block;
+}

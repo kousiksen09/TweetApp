@@ -1,4 +1,5 @@
 import LeftNavBar from '../Component/LeftNavBar';
+import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, useMediaQuery } from '@mui/material';
@@ -28,7 +29,7 @@ export default function TweetHome() {
       dispatch(profileapiFetchInitiated(payload));
     dispatch(getAllUserapiFetchInitiated(payload));
     dispatch(getAllTweetsapiFetchInitiated(payload));
-  }, [dispatch, tweetPost]);
+  }, [dispatch, tweetPost === 'success']);
   const profile = useSelector((state) => state.ProfileFetchReducer);
   const tweetStatus = useSelector((state) => state.GetAllTweetsReducer.status);
   const tweetReducer = useSelector(
@@ -47,57 +48,100 @@ export default function TweetHome() {
   if (screenChange)
     return (
       <Grid container>
-        {profile.status === 'loading' || tweetStatus.status === 'loading' ? (
+        {profile.status === 'loading' ? (
           <CircularLoader />
         ) : (
           <>
             <LeftNavBar />
             <WhatsHappening />
 
-        
-        <div className='mainTweet'>
-          <PostTweet profilePic={profile && profile.status === 'success'&& profile.APIData[0].profilePicture}/>
-          <div className='tweetFeed'>
-          {userApiStts==='success' && tweetStatus === 'success' && 
-          allTweet &&
-          allTweet.map((tweet, id) => (
-            <TweetCard
-              profilePic={userList.find(a=> a.id === tweet.userId).profilePicture}
-              Name = {userList.find(a=> a.id === tweet.userId).name}
-              userName = {userList.find(a=> a.id === tweet.userId).userName}
-              caption = {tweet.caption}
-              //postAgo='6h'
-              reactionCount= {tweet.like}
-              postImg={tweet.image} 
-              tweetId ={tweet.tweetID}                            
-            />
-           ))}
-          </div>
-        </div>
+            <div className='mainTweet'>
+              <PostTweet
+                profilePic={
+                  profile &&
+                  profile.status === 'success' &&
+                  profile.APIData[0].profilePicture
+                }
+              />
+              {tweetStatus === 'loading' ? (
+                <>
+                  <Skeleton
+                    animation='wave'
+                    variant='circular'
+                    width={40}
+                    height={40}
+                  />
+                  <Skeleton
+                    animation='wave'
+                    height={10}
+                    width='80%'
+                    style={{ marginBottom: 6 }}
+                  />
+                  <Skeleton animation='wave' height={10} width='40%' />
+                  <Skeleton
+                    sx={{ height: 190 }}
+                    animation='wave'
+                    variant='rectangular'
+                  />
+                  <Skeleton
+                    animation='wave'
+                    height={10}
+                    style={{ marginBottom: 6 }}
+                  />
+                  <Skeleton animation='wave' height={10} width='80%' />
+                </>
+              ) : (
+                <div className='tweetFeed'>
+                  {userApiStts === 'success' &&
+                    allTweet &&
+                    allTweet.map((tweet, id) => (
+                      <TweetCard
+                        profilePic={
+                          userList.find((a) => a.id === tweet.userId)
+                            .profilePicture
+                        }
+                        Name={userList.find((a) => a.id === tweet.userId).name}
+                        userName={
+                          userList.find((a) => a.id === tweet.userId).userName
+                        }
+                        caption={tweet.caption}
+                        //postAgo='6h'
+                        reactionCount={tweet.like}
+                        postImg={tweet.image}
+                        tweetId={tweet.tweetID}
+                      />
+                    ))}
+                </div>
+              )}
+            </div>
           </>
-        )};
+        )}
+        ;
       </Grid>
-    )
+    );
   else
     return (
       <div className='mainTweet'>
-          <PostTweet profilePic={profile.profilePicture} />
-          <div className='tweetFeed'>
-          {userApiStts==='success' && tweetStatus === 'success' && 
-          allTweet &&
-          allTweet.map((tweet, id) => (
-            <TweetCard
-              profilePic={userList.find(a=> a.id === tweet.userId).profilePicture}              
-              Name = {userList.find(a=> a.id === tweet.userId).name}
-              userName = {userList.find(a=> a.id === tweet.userId).userName}
-              caption = {tweet.caption}
-              //postAgo='6h'
-              reactionCount= {tweet.like}
-              postImg={tweet.image} 
-              tweetId ={tweet.tweetID}                            
-            />
-           ))}
-          </div>
+        <PostTweet profilePic={profile.profilePicture} />
+        <div className='tweetFeed'>
+          {userApiStts === 'success' &&
+            tweetStatus === 'success' &&
+            allTweet &&
+            allTweet.map((tweet, id) => (
+              <TweetCard
+                profilePic={
+                  userList.find((a) => a.id === tweet.userId).profilePicture
+                }
+                Name={userList.find((a) => a.id === tweet.userId).name}
+                userName={userList.find((a) => a.id === tweet.userId).userName}
+                caption={tweet.caption}
+                //postAgo='6h'
+                reactionCount={tweet.like}
+                postImg={tweet.image}
+                tweetId={tweet.tweetID}
+              />
+            ))}
         </div>
-    )
+      </div>
+    );
 }

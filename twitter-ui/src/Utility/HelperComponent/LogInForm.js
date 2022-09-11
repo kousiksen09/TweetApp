@@ -1,7 +1,8 @@
 import { CheckBox } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import { FormControlLabel, Grid, TextField } from '@mui/material';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logInapiFetchInitiated } from '../../Redux/Action/APIFetchAction';
 import '../../Utility/UserStyle.css';
 function LoginForm() {
@@ -28,6 +29,8 @@ function LoginForm() {
       dispatch(logInapiFetchInitiated(logInCred));
     }
   };
+  const status = useSelector((state) => state.RegisterAPIReducer.status);
+
   return (
     <form className='logInForm' onSubmit={logInSubmit}>
       <Grid container spacing={2}>
@@ -63,9 +66,15 @@ function LoginForm() {
           />
         </Grid>
       </Grid>
-      <button type='submit' className='btn third logInButton'>
-        Log In
-      </button>
+      {status === 'loading' ? (
+        <LoadingButton loading variant='contained'>
+          Submit
+        </LoadingButton>
+      ) : (
+        <button type='submit' className='btn third logInButton'>
+          Sign Up
+        </button>
+      )}
     </form>
   );
 }

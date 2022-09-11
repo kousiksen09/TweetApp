@@ -14,7 +14,6 @@ import rootSaga from '../Saga';
 
 //const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
-const middleware = [sagaMiddleware];
 const store = createStore(
   rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__
@@ -22,7 +21,7 @@ const store = createStore(
         applyMiddleware(sagaMiddleware),
         window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true })
       )
-    : applyMiddleware(middleware)
+    : applyMiddleware(sagaMiddleware)
 );
 
 sagaMiddleware.run(rootSaga);

@@ -1,12 +1,23 @@
 import { Typography } from '@mui/material';
 import { Stack } from '@mui/system';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getAllUserapiFetchInitiated } from '../Redux/Action/GetAllUserAction';
 import '../Utility/TweetHomeStyle.css';
 import TWUser from '../UtilityComponent/TWUser';
 import SearchBar from './SearchBar';
 
 function WhatsHappening() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const payload = {
+      token: localStorage.getItem('token'),
+      id: localStorage.getItem('userName'),
+    };
+    dispatch(getAllUserapiFetchInitiated(payload));
+  }, []);
   const nameList = useSelector((state) => state.FindUserNameReducer.APIData[0]);
   const apiStts = useSelector((state) => state.FindUserNameReducer.status);
   const userList = useSelector((state) => state.GetAllUserReducer.APIData[0]);
@@ -48,13 +59,13 @@ function WhatsHappening() {
             userList &&
             userList.map((user, id) => (
               <Link className='userNameTxt' to={`../profile/${user.userName}`}>
-              <TWUser
-                key={id}
-                name={user.name}
-                isActive={user.isActive}
-                username={user.userName}
-                image = {user.profilePicture}
-              />
+                <TWUser
+                  key={id}
+                  name={user.name}
+                  isActive={user.isActive}
+                  username={user.userName}
+                  image={user.profilePicture}
+                />
               </Link>
             ))}
         </div>

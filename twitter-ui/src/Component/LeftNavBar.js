@@ -30,49 +30,60 @@ function LeftNavBar() {
     <header className='root'>
       <div className='iconContainer'>
         <Stack direction='column' justifyContent='center' spacing={2}>
-          <IconButton
-            classes={{ root: classes.iconBtn }}
-            aria-label='Tweet'
-            component='label'
-          >
-            <TwitterIcon className='MuiButtonBase-root MuiIconButton-root' />
-          </IconButton>
-          <IconButton
-            classes={{ root: classes.iconBtn }}
-            aria-label='Tweet'
-            component='label'
-          >
-            <HomeIcon className='MuiButtonBase-root MuiIconButton-root' />
-          </IconButton>
-          <IconButton
-            classes={{ root: classes.iconBtn }}
-            aria-label='Tweet'
-            component='label'
-          >
-            <TagIcon className='MuiButtonBase-root MuiIconButton-root' />
-          </IconButton>
-          <IconButton
-            classes={{ root: classes.iconBtn }}
-            aria-label='Tweet'
-            component='label'
-          >
-            <Badge
-              badgeContent={3}
-              color='error'
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              className={classes.badge}
+          <Link to='/feed'>
+            <IconButton
+              classes={{ root: classes.iconBtn }}
+              aria-label='Tweet'
+              component='label'
             >
-              <NotificationsIcon className='MuiButtonBase-root MuiIconButton-root' />
-            </Badge>
-          </IconButton>
+              <TwitterIcon className='MuiButtonBase-root MuiIconButton-root' />
+            </IconButton>
+          </Link>
+          <Link to='/feed'>
+            <IconButton
+              classes={{ root: classes.iconBtn }}
+              aria-label='Tweet'
+              component='label'
+            >
+              <HomeIcon className='MuiButtonBase-root MuiIconButton-root' />
+            </IconButton>
+          </Link>
+          <Link to='/'>
+            <IconButton
+              classes={{ root: classes.iconBtn }}
+              aria-label='Tweet'
+              component='label'
+            >
+              <TagIcon className='MuiButtonBase-root MuiIconButton-root' />
+            </IconButton>
+          </Link>
+          <Link to='/'>
+            <IconButton
+              classes={{ root: classes.iconBtn }}
+              aria-label='Tweet'
+              component='label'
+            >
+              <Badge
+                badgeContent={3}
+                color='error'
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                className={classes.badge}
+              >
+                <NotificationsIcon className='MuiButtonBase-root MuiIconButton-root' />
+              </Badge>
+            </IconButton>
+          </Link>
         </Stack>
 
         <div className='profileAvatar'>
           <Link to={`../profile/${username}`}>
-            <Avatar sx={{ width: 50, height: 50 }} src ={profileUser.user && profileUser.user.profilePicture}/>
+            <Avatar
+              sx={{ width: 50, height: 50 }}
+              src={profileUser.user && profileUser.user.profilePicture}
+            />
           </Link>
         </div>
       </div>
