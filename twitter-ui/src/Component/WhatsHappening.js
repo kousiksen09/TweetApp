@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Avatar, Skeleton, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,14 +10,14 @@ import SearchBar from './SearchBar';
 
 function WhatsHappening() {
   const dispatch = useDispatch();
-
+  const arr = [1, 2, 3, 4, 5, 6];
   useEffect(() => {
     const payload = {
       token: localStorage.getItem('token'),
       id: localStorage.getItem('userName'),
     };
     dispatch(getAllUserapiFetchInitiated(payload));
-  }, []);
+  }, [dispatch]);
   const nameList = useSelector((state) => state.FindUserNameReducer.APIData[0]);
   const apiStts = useSelector((state) => state.FindUserNameReducer.status);
   const userList = useSelector((state) => state.GetAllUserReducer.APIData[0]);
@@ -55,6 +55,22 @@ function WhatsHappening() {
           </Typography>
         </div>
         <div className='hapnCont'>
+          {userApiStts === 'loading' &&
+            arr.map(() => (
+              <>
+                <Stack direction='row' spacing={2}>
+                  <Skeleton variant='circular'>
+                    <Avatar />
+                  </Skeleton>
+                  <Skeleton width='100%'>
+                    <Typography>.</Typography>
+                  </Skeleton>
+                </Stack>
+                <Skeleton width='50%'>
+                  <Typography>.</Typography>
+                </Skeleton>
+              </>
+            ))}
           {userApiStts === 'success' &&
             userList &&
             userList.map((user, id) => (

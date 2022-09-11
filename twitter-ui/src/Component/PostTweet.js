@@ -4,10 +4,11 @@ import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import GifBoxOutlinedIcon from '@mui/icons-material/GifBoxOutlined';
 import SentimentSatisfiedOutlinedIcon from '@mui/icons-material/SentimentSatisfiedOutlined';
 import '../Utility/TweetHomeStyle.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Picker from 'emoji-picker-react';
 import { tweetpostapiFetchInitiated } from '../Redux/Action/TweetPostAPIAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { LoadingButton } from '@mui/lab';
 
 function PostTweet(props) {
   const [caption, setCaption] = useState('');
@@ -49,6 +50,10 @@ function PostTweet(props) {
     setCaption('');
     setImageName('');
   };
+  const tweetPostSTTS = useSelector((state) => state.TweetPostReducer.status);
+  useEffect(() => {
+    if (tweetPostSTTS === 'success') window.location.reload();
+  });
 
   return (
     <div className='postRoot'>
@@ -96,13 +101,24 @@ function PostTweet(props) {
             <IconButton onClick={emojiIconClick} aria-label='image'>
               <SentimentSatisfiedOutlinedIcon className='iconsStack' />
             </IconButton>
-            <Typography variant='h4' fontSize='1.4rem' color= '#a074b3' sx={{zIndex: 100}}>
-            {imageName}
-          </Typography>
+            <Typography
+              variant='h4'
+              fontSize='1.4rem'
+              color='#a074b3'
+              sx={{ zIndex: 100 }}
+            >
+              {imageName}
+            </Typography>
             <div className='postbtnDiv'>
-              <button type='submit' className='postButton'>
-                Tweet
-              </button>
+              {tweetPostSTTS === 'loading' ? (
+                <LoadingButton loading variant='outlined'>
+                  Submit
+                </LoadingButton>
+              ) : (
+                <button type='submit' className='postButton'>
+                  Tweet
+                </button>
+              )}
             </div>
           </Stack>
         </div>

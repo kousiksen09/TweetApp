@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import LeftNavBar from '../Component/LeftNavBar';
 import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@emotion/react';
@@ -13,12 +14,13 @@ import { isAuthenticated, userAction } from '../Redux/Action/UserAction';
 import CircularLoader from '../Utility/HelperComponent/CircularLoader';
 import { getAllUserapiFetchInitiated } from '../Redux/Action/GetAllUserAction';
 import { getAllTweetsapiFetchInitiated } from '../Redux/Action/GetAllTweetsAction';
+import { Navigate } from 'react-router-dom';
 
 export default function TweetHome() {
   const theme = useTheme();
   const screenChange = useMediaQuery(theme.breakpoints.up('md'));
   const dispatch = useDispatch();
-  const tweetPost = useSelector((state) => state.TweetPostReducer);
+  //const tweetPost = useSelector((state) => state.TweetPostReducer);
 
   useEffect(() => {
     const payload = {
@@ -29,7 +31,7 @@ export default function TweetHome() {
       dispatch(profileapiFetchInitiated(payload));
     dispatch(getAllUserapiFetchInitiated(payload));
     dispatch(getAllTweetsapiFetchInitiated(payload));
-  }, [dispatch, tweetPost === 'success']);
+  }, []);
   const profile = useSelector((state) => state.ProfileFetchReducer);
   const tweetStatus = useSelector((state) => state.GetAllTweetsReducer.status);
   const tweetReducer = useSelector(
@@ -38,6 +40,7 @@ export default function TweetHome() {
   const allTweet = tweetReducer && tweetReducer.result;
   const userList = useSelector((state) => state.GetAllUserReducer.APIData[0]);
   const userApiStts = useSelector((state) => state.GetAllUserReducer.status);
+  const isAuth = localStorage.getItem('authenticated');
 
   useEffect(() => {
     if (profile && profile.status === 'success') {
@@ -48,7 +51,9 @@ export default function TweetHome() {
   if (screenChange)
     return (
       <Grid container>
-        {profile.status === 'loading' ? (
+        {!isAuth ? (
+          <Navigate to='/' replace={true} />
+        ) : profile.status === 'loading' ? (
           <CircularLoader />
         ) : (
           <>
@@ -93,6 +98,7 @@ export default function TweetHome() {
               ) : (
                 <div className='tweetFeed'>
                   {userApiStts === 'success' &&
+                    tweetStatus === 'success' &&
                     allTweet &&
                     allTweet.map((tweet, id) => (
                       <TweetCard
@@ -116,7 +122,6 @@ export default function TweetHome() {
             </div>
           </>
         )}
-        ;
       </Grid>
     );
   else

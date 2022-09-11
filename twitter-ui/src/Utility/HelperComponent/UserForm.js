@@ -233,6 +233,7 @@ function UserFrom(props) {
             name='password'
             required
             fullWidth
+            type='password'
             id='password'
             error={error.ERpassword}
             label='Password'

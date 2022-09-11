@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Avatar, Grid, Typography } from '@mui/material';
+import { Avatar, Grid, Skeleton, Typography } from '@mui/material';
 import CallOutlinedIcon from '@mui/icons-material/CallOutlined';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import WhatsHappening from '../Component/WhatsHappening';
 import { profileapiFetchInitiated } from '../Redux/Action/ProfileFetch';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 //import { userApiImage } from '../Utility/ImagePath';
 import '../Utility/TweetHomeStyle.css';
 import TabPanel from '../UtilityComponent/TabPannel';
@@ -126,6 +127,63 @@ function Profile(props) {
                     </Tabs>
                     <TabPanel value={value} index={0}>
                       <div className='scrollableDiv'>
+                        {tweetStatus === 'loading' && (
+                          <>
+                            <Skeleton
+                              animation='wave'
+                              variant='circular'
+                              width={40}
+                              height={40}
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              width='80%'
+                              style={{ marginBottom: 6 }}
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              width='40%'
+                            />
+                            <Skeleton
+                              sx={{ height: 190 }}
+                              animation='wave'
+                              variant='rectangular'
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              style={{ marginBottom: 6 }}
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              width='80%'
+                            />
+                          </>
+                        )}
+                        {tweetStatus === 'Error' && (
+                          <>
+                            <div style={{ width: '100px', margin: 'auto' }}>
+                              <SentimentVeryDissatisfiedIcon
+                                sx={{
+                                  height: '100px',
+                                  width: '100px',
+                                  color: 'GrayText',
+                                }}
+                              />
+                            </div>
+                            <Typography
+                              sx={{ color: 'GrayText', textAlign: 'center' }}
+                              variant='h4'
+                              textAlign='center'
+                              fontSize='1.9rem'
+                            >
+                              Hmm!! Looks like there are no Tweets!!
+                            </Typography>
+                          </>
+                        )}
                         {profile.status === 'success' &&
                           tweetStatus === 'success' &&
                           allTweet &&
@@ -153,6 +211,63 @@ function Profile(props) {
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                       <div className='scrollableDiv'>
+                        {tweetStatus === 'loading' && (
+                          <>
+                            <Skeleton
+                              animation='wave'
+                              variant='circular'
+                              width={40}
+                              height={40}
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              width='80%'
+                              style={{ marginBottom: 6 }}
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              width='40%'
+                            />
+                            <Skeleton
+                              sx={{ height: 190 }}
+                              animation='wave'
+                              variant='rectangular'
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              style={{ marginBottom: 6 }}
+                            />
+                            <Skeleton
+                              animation='wave'
+                              height={10}
+                              width='80%'
+                            />
+                          </>
+                        )}
+                        {tweetStatus === 'Error' && (
+                          <>
+                            <div style={{ width: '100px', margin: 'auto' }}>
+                              <SentimentVeryDissatisfiedIcon
+                                sx={{
+                                  height: '100px',
+                                  width: '100px',
+                                  color: 'GrayText',
+                                }}
+                              />
+                            </div>
+                            <Typography
+                              sx={{ color: 'GrayText', textAlign: 'center' }}
+                              variant='h4'
+                              textAlign='center'
+                              fontSize='1.9rem'
+                            >
+                              Hmm!! Looks like there are no Tweets!!
+                            </Typography>
+                          </>
+                        )}
                         {profile.status === 'success' &&
                           tweetStatus === 'success' &&
                           allTweet &&

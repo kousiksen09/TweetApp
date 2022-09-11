@@ -5,9 +5,10 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import HomeIcon from '@mui/icons-material/Home';
 import TagIcon from '@mui/icons-material/Tag';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { useSelector } from 'react-redux';
 import '../Utility/TweetHomeStyle.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   iconBtn: {
@@ -22,10 +23,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 function LeftNavBar() {
   const classes = useStyles();
-
+  let navigate = useNavigate();
   const profileUser = useSelector((state) => state.userReducer);
 
   const username = profileUser.isAuthenticated && profileUser.user.userName;
+  const logOut = () => {
+    localStorage.clear();
+    navigate('/', { replace: true });
+  };
   return (
     <header className='root'>
       <div className='iconContainer'>
@@ -79,12 +84,23 @@ function LeftNavBar() {
         </Stack>
 
         <div className='profileAvatar'>
-          <Link to={`../profile/${username}`}>
-            <Avatar
-              sx={{ width: 50, height: 50 }}
-              src={profileUser.user && profileUser.user.profilePicture}
-            />
-          </Link>
+          <Stack justifyContent='center' spacing={2} direction='column'>
+            <IconButton
+              classes={{ root: classes.iconBtn }}
+              aria-label='Tweet'
+              component='label'
+              sx={{ paddingBottom: '5vh' }}
+              onClick={logOut}
+            >
+              <LogoutIcon className='MuiButtonBase-root MuiIconButton-root' />
+            </IconButton>
+            <Link to={`../profile/${username}`}>
+              <Avatar
+                sx={{ width: 50, height: 50 }}
+                src={profileUser.user && profileUser.user.profilePicture}
+              />
+            </Link>
+          </Stack>
         </div>
       </div>
     </header>

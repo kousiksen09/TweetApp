@@ -18,6 +18,7 @@
     height:60%;
     width: auto;
     max-width: 75%;
+    min-width: 20%;
     top:5vh;
 }
 .MuiButtonBase-root .MuiIconButton-root
@@ -75,9 +76,11 @@
   .logInForm{
     position: absolute;
     justify-content: center;
+    width: 15vw;
+    margin: auto;
 
   }
   .logInButton{
-    width: 80%;
+    width: 100%;
     justify-content: center;
   }

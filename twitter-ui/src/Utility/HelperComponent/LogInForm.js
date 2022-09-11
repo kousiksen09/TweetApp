@@ -72,7 +72,7 @@ function LoginForm() {
         </LoadingButton>
       ) : (
         <button type='submit' className='btn third logInButton'>
-          Sign Up
+          Log In
         </button>
       )}
     </form>
