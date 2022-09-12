@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 //import { typography } from '@mui/system';
 import { DatePicker } from '@mui/x-date-pickers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerapiFetchInitiated } from '../../Redux/Action/APIFetchAction';
 import '../../Utility/UserStyle.css';
@@ -21,6 +21,7 @@ import {
   isValidEmail,
   validatePhoneNumber,
 } from '../HelperFunctions/FormValidation';
+import {uploadfIle} from '../HelperFunctions/FileUpload';
 
 function UserFrom(props) {
   const dispatch = useDispatch();
@@ -119,7 +120,6 @@ function UserFrom(props) {
     });
   };
   const showPreview = (event) => {
-    console.log(event.target.files[0].name);
 
     if (event.target.files && event.target.files[0]) {
       let imagefile = event.target.files[0];
@@ -172,9 +172,17 @@ function UserFrom(props) {
       };
       dispatch(registerapiFetchInitiated(profile));
     }
+  
     return;
   };
   const status = useSelector((state) => state.RegisterAPIReducer.status);
+  const registeredUser = useSelector((state) => state.RegisterAPIReducer.APIData[0]);
+  useEffect(() => {
+    if(status==='success')
+    {
+      uploadfIle(userInput.ImageFile, registeredUser.result.user.profilePicture);
+    }
+  })
   return (
     <form onSubmit={handleFormSubmission}>
       <Typography
