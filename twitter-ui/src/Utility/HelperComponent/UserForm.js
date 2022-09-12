@@ -1,5 +1,5 @@
-import { CheckBox } from '@mui/icons-material';
-import { LoadingButton } from '@mui/lab';
+import { CheckBox } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   FormControlLabel,
   FormLabel,
@@ -9,44 +9,63 @@ import {
   TextField,
   Typography,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 //import { typography } from '@mui/system';
-import { DatePicker } from '@mui/x-date-pickers';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { registerapiFetchInitiated } from '../../Redux/Action/APIFetchAction';
-import '../../Utility/UserStyle.css';
+import { DatePicker } from "@mui/x-date-pickers";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { registerapiFetchInitiated } from "../../Redux/Action/APIFetchAction";
+import "../../Utility/UserStyle.css";
 import {
   isPasswordValid,
   isValidEmail,
   validatePhoneNumber,
-} from '../HelperFunctions/FormValidation';
+} from "../HelperFunctions/FormValidation";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
+import { sasToken } from "../ImagePath";
 
 function UserFrom(props) {
+  async function uploadfIle(Imagefile, ImagefileName) {
+    const blobService = new BlobServiceClient(
+      "https://tweetappimages.blob.core.windows.net/?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2022-09-30T03:21:54Z&st=2022-09-12T19:21:54Z&spr=https,http&sig=sQnoqSZYkA9fn1DoVKODAZNwdX2p4Mt5afVT5EIdi1E%3D"
+    );
+    const containerClient = blobService.getContainerClient("tweetappimages");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+    // await createBlobInContainer(containerClient, Imagefile);
+    const blobClient = containerClient.getBlockBlobClient(ImagefileName);
+
+    const options = {
+      blobHTTPHeaders: { blobContentType: Imagefile.type },
+    };
+    await blobClient.uploadData(Imagefile, options);
+  }
+
   const dispatch = useDispatch();
   const [userInput, setUserInput] = useState({
-    name: '',
-    email: '',
-    password: '',
-    MobileNumber: '',
-    Country: '',
-    State: '',
+    name: "",
+    email: "",
+    password: "",
+    MobileNumber: "",
+    Country: "",
+    State: "",
     Gender: 0,
     DateOfBirth: new Date(),
-    ImageSrc: '',
+    ImageSrc: "",
     ImageFile: null,
   });
   const [error, setError] = useState({
-    ERname: '',
-    ERemail: '',
-    ERpassword: '',
-    ERMobileNumber: '',
-    ERCountry: '',
-    ERState: '',
-    ERGender: '',
-    ERDateOfBirth: '',
+    ERname: "",
+    ERemail: "",
+    ERpassword: "",
+    ERMobileNumber: "",
+    ERCountry: "",
+    ERState: "",
+    ERGender: "",
+    ERDateOfBirth: "",
   });
-  const [imageName, setImageName] = useState('');
+  const [imageName, setImageName] = useState("");
   const nameChangeHandler = (event) => {
     setUserInput((prevState) => {
       return { ...prevState, name: event.target.value };
@@ -58,11 +77,11 @@ function UserFrom(props) {
     });
     if (!isValidEmail(event.target.value)) {
       setError((prevState) => {
-        return { ...prevState, ERemail: 'Email is not valid' };
+        return { ...prevState, ERemail: "Email is not valid" };
       });
     } else {
       setError((prevState) => {
-        return { ...prevState, ERemail: '' };
+        return { ...prevState, ERemail: "" };
       });
     }
   };
@@ -75,12 +94,12 @@ function UserFrom(props) {
         return {
           ...prevState,
           ERpassword:
-            'Password should be with 7-15 charecter, should contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character',
+            "Password should be with 7-15 charecter, should contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character",
         };
       });
     } else {
       setError((prevState) => {
-        return { ...prevState, ERpassword: '' };
+        return { ...prevState, ERpassword: "" };
       });
     }
   };
@@ -90,11 +109,11 @@ function UserFrom(props) {
     });
     if (!validatePhoneNumber(event.target.value)) {
       setError((prevState) => {
-        return { ...prevState, ERMobileNumber: 'Mobile Number is not valid' };
+        return { ...prevState, ERMobileNumber: "Mobile Number is not valid" };
       });
     } else {
       setError((prevState) => {
-        return { ...prevState, ERMobileNumber: '' };
+        return { ...prevState, ERMobileNumber: "" };
       });
     }
   };
@@ -119,7 +138,7 @@ function UserFrom(props) {
     });
   };
   const showPreview = (event) => {
-    console.log(event.target.files[0].name);
+    console.log(event.target.files[0]);
 
     if (event.target.files && event.target.files[0]) {
       let imagefile = event.target.files[0];
@@ -129,20 +148,24 @@ function UserFrom(props) {
       });
     }
   };
+  const profileUser = useSelector((state) => state.userReducer);
+  const imageBlobName =
+    profileUser.isAuthenticated && profileUser.user.profilePicture;
+
   const handleFormSubmission = (event) => {
     event.preventDefault();
     console.log(userInput.ImageFile);
     if (
-      error.ERemail === '' &&
-      error.ERMobileNumber === '' &&
-      error.ERpassword === ''
+      error.ERemail === "" &&
+      error.ERMobileNumber === "" &&
+      error.ERpassword === ""
     ) {
       var dob = new Date(userInput.DateOfBirth);
       const getMonthFromDob = (dob) => {
         let m = dob.getMonth();
         if (m < 10) {
           var a = m + 1;
-          return '0' + a;
+          return "0" + a;
         }
         return m + 1;
       };
@@ -150,7 +173,7 @@ function UserFrom(props) {
       const getDateFromDOB = (dob) => {
         let d = dob.getDate();
         if (d < 10) {
-          return '0' + d;
+          return "0" + d;
         }
         return d;
       };
@@ -164,34 +187,36 @@ function UserFrom(props) {
         TwGender: parseInt(userInput.Gender),
         TwDateOfBirth:
           dob.getFullYear() +
-          '-' +
+          "-" +
           getMonthFromDob(dob) +
-          '-' +
+          "-" +
           getDateFromDOB(dob),
         TwImageFile: userInput.ImageFile,
       };
+      uploadfIle(userInput.ImageFile, imageBlobName);
       dispatch(registerapiFetchInitiated(profile));
     }
     return;
   };
   const status = useSelector((state) => state.RegisterAPIReducer.status);
+
   return (
     <form onSubmit={handleFormSubmission}>
       <Typography
-        align='center'
-        variant='h5'
-        sx={{ color: 'red', justifyContent: 'center' }}
+        align="center"
+        variant="h5"
+        sx={{ color: "red", justifyContent: "center" }}
       >
-        {props.modalError ? props.modalError : ''}
+        {props.modalError ? props.modalError : ""}
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
-            name='Name'
+            name="Name"
             required
             fullWidth
-            id='Name'
-            label='Name'
+            id="Name"
+            label="Name"
             value={userInput.name}
             autoFocus
             onChange={nameChangeHandler}
@@ -199,68 +224,68 @@ function UserFrom(props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            name='Email'
+            name="Email"
             required
             fullWidth
             error={error.ERemail}
-            id='email'
-            label='Email Address'
+            id="email"
+            label="Email Address"
             autoFocus
             onChange={emailChangeHandler}
           />
-          <Typography variant='body2' color='error'>
+          <Typography variant="body2" color="error">
             {error.ERemail}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            type='number'
-            name='Mobile'
+            type="number"
+            name="Mobile"
             required
             fullWidth
             error={error.ERMobileNumber}
-            id='mobile'
-            label='Phone Number'
+            id="mobile"
+            label="Phone Number"
             autoFocus
             onChange={mobileChangeHandler}
           />
-          <Typography variant='body2' color='error'>
+          <Typography variant="body2" color="error">
             {error.ERMobileNumber}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            name='password'
+            name="password"
             required
             fullWidth
-            id='password'
+            id="password"
             error={error.ERpassword}
-            label='Password'
+            label="Password"
             autoFocus
             onChange={passwordChangeHandler}
           />
-          <Typography variant='body2' color='error'>
+          <Typography variant="body2" color="error">
             {error.ERpassword}
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            name='country'
+            name="country"
             required
             fullWidth
-            id='country'
-            label='Country'
+            id="country"
+            label="Country"
             autoFocus
             onChange={countryChangeHandler}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            name='state'
+            name="state"
             required
             fullWidth
-            id='state'
-            label='State'
+            id="state"
+            label="State"
             autoFocus
             onChange={stateChangeHandler}
           />
@@ -269,21 +294,21 @@ function UserFrom(props) {
           <FormLabel>Gender</FormLabel>
           <RadioGroup
             row
-            name='Gender'
-            defaultValue='1'
+            name="Gender"
+            defaultValue="1"
             onChange={genderChangeHandler}
           >
-            <FormControlLabel value='1' control={<Radio />} label='Female' />
-            <FormControlLabel value='0' control={<Radio />} label='Male' />
+            <FormControlLabel value="1" control={<Radio />} label="Female" />
+            <FormControlLabel value="0" control={<Radio />} label="Male" />
           </RadioGroup>
         </Grid>
         <Grid item xs={12} sm={4}>
           <DatePicker
-            label='Date Of Birth'
-            name='DOB'
+            label="Date Of Birth"
+            name="DOB"
             value={userInput.DateOfBirth}
-            openTo='year'
-            views={['year', 'month', 'day']}
+            openTo="year"
+            views={["year", "month", "day"]}
             onChange={dobChangeHandler}
             renderInput={(params) => <TextField {...params} />}
           />
@@ -291,13 +316,13 @@ function UserFrom(props) {
         <Grid item xs={12} sm={4}>
           <FormLabel>Profile Picture</FormLabel>
           <div>
-            <Button variant='contained' component='label'>
+            <Button variant="contained" component="label">
               Upload
               <input
                 hidden
-                type='file'
-                accept='image/*'
-                className='form-contol-file'
+                type="file"
+                accept="image/*"
+                className="form-contol-file"
                 onChange={showPreview}
               />
             </Button>
@@ -307,17 +332,17 @@ function UserFrom(props) {
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
-            control={<CheckBox value='allowExtraEmails' color='secondary' />}
-            label='I want to receive inspiration, marketing promotions and updates via email.'
+            control={<CheckBox value="allowExtraEmails" color="secondary" />}
+            label="I want to receive inspiration, marketing promotions and updates via email."
           />
         </Grid>
       </Grid>
-      {status === 'loading' ? (
-        <LoadingButton loading variant='contained'>
+      {status === "loading" ? (
+        <LoadingButton loading variant="contained">
           Submit
         </LoadingButton>
       ) : (
-        <button type='submit' className='btn third'>
+        <button type="submit" className="btn third">
           Sign Up
         </button>
       )}

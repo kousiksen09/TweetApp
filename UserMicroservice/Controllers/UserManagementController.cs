@@ -47,7 +47,14 @@ namespace UserMicroservice.Controllers
                     _log4net.Info("No Customer has been returned");
                     return BadRequest();
                 }
-                user.propImage = await _userAccount.SaveImage(user.ProfilePicture);
+                if(user.ProfilePicture != null)
+                {
+                    user.propImage = await _userAccount.SaveImage(user.ProfilePicture);
+                }
+                else
+                {
+                    user.propImage = null;
+                }
                 var result = await _userAccount.OnPostRegister(user);
                 if (result == null)
                 {
