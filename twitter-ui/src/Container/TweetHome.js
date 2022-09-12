@@ -51,9 +51,8 @@ export default function TweetHome() {
   if (screenChange)
     return (
       <Grid container>
-        {!isAuth ? (
-          <Navigate to='/' replace={true} />
-        ) : profile.status === 'loading' ? (
+        { 
+        profile.status === 'loading' ? (
           <CircularLoader />
         ) : (
           <>
