@@ -86,7 +86,7 @@ namespace TweetPOSTMicroservice.Repository
                     UserId = tweets.UserId,
                     TweetID = tweets.TweetID,
                     Caption = tweets.Caption,
-                    Image = "http://localhost:5500/Images/" + tweets.Image
+                    Image = tweets.Image
                 }
                  );
             }
