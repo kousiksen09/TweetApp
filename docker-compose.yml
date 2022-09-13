@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  tweetpostmicroservice:
+    image: ${DOCKER_REGISTRY-}tweetpostmicroservice
+    build:
+      context: .
+      dockerfile: TweetPOSTMicroservice/Dockerfile
+
+  usermicroservice:
+    image: ${DOCKER_REGISTRY-}usermicroservice
+    build:
+      context: .
+      dockerfile: UserMicroservice/Dockerfile
+
+  tweetdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+    - SA_PASSWORD=Password@123
+    - ACCEPT_EULA=Y
+    ports:
+    - "1450:1433"
+
+
+  tweetview_replymicroservice:
+    image: ${DOCKER_REGISTRY-}tweetviewreplymicroservice
+    build:
+      context: .
+      dockerfile: TweetView_ReplyMicroservice/Dockerfile
+
+
+  tweetappapigateway:
+    image: ${DOCKER_REGISTRY-}tweetappapigateway
+    build:
+      context: .
+      dockerfile: TweetAppAPIGateway/Dockerfile
+    links:
+      - tweetpostmicroservice
+      - usermicroservice
+      - tweetview_replymicroservice
+    depends_on:
+      - tweetpostmicroservice
+      - usermicroservice
+      - tweetview_replymicroservice
+

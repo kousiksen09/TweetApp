@@ -1,0 +1,222 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/search/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.183.148",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/search/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/getAllUsers",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.183.148",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/getAllUsers",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/getUsername/{name}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.183.148",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/getUsername/{name}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/login",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.183.148",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/login",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/LogOut",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.183.148",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/LogOut",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/register",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.183.148",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/register",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/forgetPassword",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.183.148",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/forgetPassword",
+      "UpstreamHttpMethod": [ "PATCH" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/all",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.207.90.218",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/all",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/getMyTweets/{username}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.207.90.218",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/getMyTweets/{username}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/getTweet/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.207.90.218",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/getTweet/{id}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/{username}/add",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.207.90.218",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/{username}/add",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/like/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.207.90.218",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/like/{id}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/{username}/update/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.207.90.218",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/{username}/update/{id}",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/v1.0/tweets/delete/{id}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.207.90.218",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/tweets/delete/{id}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/TweetReply/{userid}/add",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.208.158",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/TweetReply/{userid}/add",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/TweetReply/tweetreplies/{tweetId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.208.158",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/TweetReply/tweetreplies/{tweetId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/TweetReply/getreply/{userid}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.208.158",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/TweetReply/getreply/{userid}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/TweetReply/deletereply/{replyTweetId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "20.219.208.158",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/TweetReply/deletereply/{replyTweetId}",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    }
+
+  ]
+
+}

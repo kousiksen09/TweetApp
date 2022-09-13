@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: twusermicroservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: twusermicroservice
+    spec:
+      containers:
+        - name: usermicroservice
+          image: debasreec/usermicroservice:djdinesh
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://*:80
+  selector:
+    matchLabels:
+      app: twusermicroservice
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: twusermicroservice
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+    app: twusermicroservice
