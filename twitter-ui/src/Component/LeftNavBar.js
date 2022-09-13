@@ -1,24 +1,24 @@
-import '../Utility/TweetHomeStyle.css';
-import { IconButton, Stack, Avatar, Badge } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import HomeIcon from '@mui/icons-material/Home';
-import TagIcon from '@mui/icons-material/Tag';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import LogoutIcon from '@mui/icons-material/Logout';
-import { useSelector } from 'react-redux';
-import '../Utility/TweetHomeStyle.css';
-import { Link, useNavigate } from 'react-router-dom';
+import "../Utility/TweetHomeStyle.css";
+import { IconButton, Stack, Avatar, Badge } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import HomeIcon from "@mui/icons-material/Home";
+import TagIcon from "@mui/icons-material/Tag";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { useSelector } from "react-redux";
+import "../Utility/TweetHomeStyle.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   iconBtn: {
-    position: 'relative',
-    margin: '2rem',
-    top: '4vh',
+    position: "relative",
+    margin: "2rem",
+    top: "4vh",
   },
   badge: {
     padding: 0,
-    marginRight: '1vw',
+    marginRight: "1vw",
   },
 }));
 function LeftNavBar() {
@@ -29,75 +29,77 @@ function LeftNavBar() {
   const username = profileUser.isAuthenticated && profileUser.user.userName;
   const logOut = () => {
     localStorage.clear();
-    navigate('/', { replace: true });
+    navigate("/", { replace: true });
   };
   return (
-    <header className='root'>
-      <div className='iconContainer'>
-        <Stack direction='column' justifyContent='center' spacing={2}>
-          <Link to='/feed'>
+    <header className="root">
+      <div className="iconContainer">
+        <Stack direction="column" justifyContent="center" spacing={2}>
+          <Link to="/feed">
             <IconButton
               classes={{ root: classes.iconBtn }}
-              aria-label='Tweet'
-              component='label'
+              aria-label="Tweet"
+              component="label"
             >
-              <TwitterIcon className='MuiButtonBase-root MuiIconButton-root' />
+              <TwitterIcon className="MuiButtonBase-root MuiIconButton-root" />
             </IconButton>
           </Link>
-          <Link to='/feed'>
+          <Link to="/feed">
             <IconButton
               classes={{ root: classes.iconBtn }}
-              aria-label='Tweet'
-              component='label'
+              aria-label="Tweet"
+              component="label"
             >
-              <HomeIcon className='MuiButtonBase-root MuiIconButton-root' />
+              <HomeIcon className="MuiButtonBase-root MuiIconButton-root" />
             </IconButton>
           </Link>
-          <Link to='/'>
+          <Link to="/">
             <IconButton
               classes={{ root: classes.iconBtn }}
-              aria-label='Tweet'
-              component='label'
+              aria-label="Tweet"
+              component="label"
             >
-              <TagIcon className='MuiButtonBase-root MuiIconButton-root' />
+              <TagIcon className="MuiButtonBase-root MuiIconButton-root" />
             </IconButton>
           </Link>
-          <Link to='/'>
+          <Link to="/">
             <IconButton
               classes={{ root: classes.iconBtn }}
-              aria-label='Tweet'
-              component='label'
+              aria-label="Tweet"
+              component="label"
             >
               <Badge
                 badgeContent={3}
-                color='error'
+                color="error"
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'right',
+                  vertical: "bottom",
+                  horizontal: "right",
                 }}
                 className={classes.badge}
               >
-                <NotificationsIcon className='MuiButtonBase-root MuiIconButton-root' />
+                <NotificationsIcon className="MuiButtonBase-root MuiIconButton-root" />
               </Badge>
             </IconButton>
           </Link>
         </Stack>
 
-        <div className='profileAvatar'>
-          <Stack justifyContent='center' spacing={2} direction='column'>
+        <div className="profileAvatar">
+          <Stack justifyContent="center" spacing={2} direction="column">
             <IconButton
               classes={{ root: classes.iconBtn }}
-              aria-label='Tweet'
-              component='label'
-              sx={{ paddingBottom: '5vh' }}
+              aria-label="Tweet"
+              component="label"
+              sx={{ paddingBottom: "5vh" }}
               onClick={logOut}
             >
-              <LogoutIcon className='MuiButtonBase-root MuiIconButton-root' />
+              <LogoutIcon className="MuiButtonBase-root MuiIconButton-root" />
             </IconButton>
             <Link to={`../profile/${username}`}>
               <Avatar
                 sx={{ width: 50, height: 50 }}
-                src={profileUser.user && profileUser.user.profilePicture}
+                src={`https://tweetappimages.blob.core.windows.net/tweetappimages/${
+                  profileUser.user && profileUser.user.profilePicture
+                }`}
               />
             </Link>
           </Stack>
