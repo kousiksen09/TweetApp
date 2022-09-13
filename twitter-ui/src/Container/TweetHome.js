@@ -40,7 +40,7 @@ export default function TweetHome() {
   const allTweet = tweetReducer && tweetReducer.result;
   const userList = useSelector((state) => state.GetAllUserReducer.APIData[0]);
   const userApiStts = useSelector((state) => state.GetAllUserReducer.status);
-  const isAuth = localStorage.getItem('authenticated');
+  //const isAuth = localStorage.getItem('authenticated');
 
   useEffect(() => {
     if (profile && profile.status === 'success') {
