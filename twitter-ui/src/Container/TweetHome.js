@@ -14,7 +14,7 @@ import { isAuthenticated, userAction } from '../Redux/Action/UserAction';
 import CircularLoader from '../Utility/HelperComponent/CircularLoader';
 import { getAllUserapiFetchInitiated } from '../Redux/Action/GetAllUserAction';
 import { getAllTweetsapiFetchInitiated } from '../Redux/Action/GetAllTweetsAction';
-import { Navigate } from 'react-router-dom';
+
 
 export default function TweetHome() {
   const theme = useTheme();
@@ -51,9 +51,7 @@ export default function TweetHome() {
   if (screenChange)
     return (
       <Grid container>
-        {!isAuth ? (
-          <Navigate to='/' replace={true} />
-        ) : profile.status === 'loading' ? (
+        { profile.status === 'loading' ? (
           <CircularLoader />
         ) : (
           <>
