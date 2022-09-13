@@ -3,3 +3,7 @@ Server=tcp:tweetapplication-prod.database.windows.net,1433;Initial Catalog=Tweet
 
 
 https://twitterapplication.azurewebsites.net/
+
+
+
+result.User.ProfilePicture = user.propImage;
