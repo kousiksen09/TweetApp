@@ -7,3 +7,13 @@ https://twitterapplication.azurewebsites.net/
 
 
 result.User.ProfilePicture = user.propImage;
+
+User Name	Azure Balance check ID	Password	URL
+Track	Azure User ID	Password	URL	 
+Debojyoti Saha	debojyoti.saha1@mml.local
+wVH61zT6	https://iihtedu.cloud.builder.ai/
+Azure	bc_wallet_220909_1e9fq5c1nx@BuilderCloudProvisioning.onmicrosoft.com
+DPcPYkB7!	https://portal.azure.com
+ 
+
+
