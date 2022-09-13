@@ -150,7 +150,7 @@ namespace UserMicroservice.Repository
                         MobileNumber = user.MobileNumber,
                         Country = user.Country,
                         State = user.State,
-                        ProfilePicture = String.Format("{0}://{1}:{2}/Images/{3}", _request.HttpContext.Request.Scheme, "localhost", "5501", user.propImage),
+                        ProfilePicture = user.propImage,
                         IsActive = activeStts.ActiveStatus,
                         LastSeen = activeStts.LastSeen
                     };
@@ -223,7 +223,7 @@ namespace UserMicroservice.Repository
                 userStatus.ActiveStatus = false;
                 userStatus.LastSeen = DateTime.Now;
                 var res = _tweetUser.SaveChanges();
-                await _userManager.RemoveAuthenticationTokenAsync(user, "https://localhost:5001", "LogInToken");
+                await _userManager.RemoveAuthenticationTokenAsync(user, "https://twitterapplication.azurewebsites.net/", "LogInToken");
 
                 if (res >= 1)
                     return true;
@@ -307,7 +307,7 @@ namespace UserMicroservice.Repository
                         MobileNumber = user.MobileNumber,
                         State = user.State,
                         Country = user.Country,
-                        ProfilePicture = String.Format("{0}://{1}:{2}/Images/{3}", _request.HttpContext.Request.Scheme, "localhost", "5501", user.propImage),
+                        ProfilePicture = user.propImage,
                         IsActive = activeStts.ActiveStatus,
                         LastSeen = activeStts.LastSeen
                     }

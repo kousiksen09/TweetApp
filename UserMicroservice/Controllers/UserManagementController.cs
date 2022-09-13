@@ -47,7 +47,14 @@ namespace UserMicroservice.Controllers
                     _log4net.Info("No Customer has been returned");
                     return BadRequest();
                 }
-                user.propImage = await _userAccount.SaveImage(user.ProfilePicture);
+                if (user.ProfilePicture != null)
+                {
+                    user.propImage = await _userAccount.SaveImage(user.ProfilePicture);
+                }
+                else
+                {
+                    user.propImage = null;
+                }
                 var result = await _userAccount.OnPostRegister(user);
                 if (result == null)
                 {
@@ -58,6 +65,7 @@ namespace UserMicroservice.Controllers
                     _response.IsSuccess = true;
                     _response.DisplayMessage = "User Has been Created";
                     _response.ErrorMessages = null;
+                    result.User.ProfilePicture = user.propImage;
                     _response.Result = result;
                     _log4net.Info(_response.DisplayMessage);
                     return Ok(_response);
