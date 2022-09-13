@@ -368,12 +368,13 @@ namespace UserMicroservice.Repository
         {
             string name = new string(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
             string imageName = name + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
-            var imgPath = Path.Combine(hostEnvironment.ContentRootPath, "Images", imageName);
 
-            using (var fileStream = new FileStream(imgPath, FileMode.Create))
-            {
-                await imageFile.CopyToAsync(fileStream);
-            }
+            //var imgPath = Path.Combine(hostEnvironment.ContentRootPath, "Images", imageName);
+
+            //using (var fileStream = new FileStream(imgPath, FileMode.Create))
+            //{
+            //    await imageFile.CopyToAsync(fileStream);
+            //}
 
             return imageName;
         }
