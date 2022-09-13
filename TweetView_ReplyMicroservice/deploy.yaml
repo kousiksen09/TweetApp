@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tweetreplymicroservice
+  name: twtweetreplymicroservice
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: tweetreplymicroservice
+        app: twtweetreplymicroservice
     spec:
       containers:
-        - name: tweetreplymicroservice
+        - name: twtweetreplymicroservice
           image: debasreec/tweetviewreplymicroservice:djdinesh
           ports:
             - containerPort: 80
@@ -20,15 +20,15 @@ spec:
               value: http://*:80
   selector:
     matchLabels:
-      app: tweetreplymicroservice
+      app: twtweetreplymicroservice
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: tweetreplymicroservice
+  name: twtweetreplymicroservice
 spec:
   type: LoadBalancer
   ports:
     - port: 80
   selector:
-    app: tweetreplymicroservice
+    app: twtweetreplymicroservice
