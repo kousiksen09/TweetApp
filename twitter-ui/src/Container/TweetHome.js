@@ -3,7 +3,7 @@ import LeftNavBar from '../Component/LeftNavBar';
 import Skeleton from '@mui/material/Skeleton';
 import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, useMediaQuery } from '@mui/material';
+import { Grid, useMediaQuery, Typography } from '@mui/material';
 import WhatsHappening from '../Component/WhatsHappening';
 import '../Utility/TweetHomeStyle.css';
 import PostTweet from '../Component/PostTweet';
@@ -14,6 +14,8 @@ import { isAuthenticated, userAction } from '../Redux/Action/UserAction';
 import CircularLoader from '../Utility/HelperComponent/CircularLoader';
 import { getAllUserapiFetchInitiated } from '../Redux/Action/GetAllUserAction';
 import { getAllTweetsapiFetchInitiated } from '../Redux/Action/GetAllTweetsAction';
+import swal from 'sweetalert';
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 
 
 export default function TweetHome() {
@@ -32,15 +34,19 @@ export default function TweetHome() {
     dispatch(getAllUserapiFetchInitiated(payload));
     dispatch(getAllTweetsapiFetchInitiated(payload));
   }, []);
+
   const profile = useSelector((state) => state.ProfileFetchReducer);
   const tweetStatus = useSelector((state) => state.GetAllTweetsReducer.status);
   const tweetReducer = useSelector(
     (state) => state.GetAllTweetsReducer.APIData[0]
   );
-  const allTweet = tweetReducer && tweetReducer.result;
+  const all_Tweet = tweetReducer && tweetReducer.result;
+  const allTweet = all_Tweet && [].concat(all_Tweet).reverse();
   const userList = useSelector((state) => state.GetAllUserReducer.APIData[0]);
   const userApiStts = useSelector((state) => state.GetAllUserReducer.status);
   //const isAuth = localStorage.getItem('authenticated');
+  const tweetPostSTTS = useSelector((state) => state.TweetPostReducer.status);
+
 
   useEffect(() => {
     if (profile && profile.status === 'success') {
@@ -48,6 +54,26 @@ export default function TweetHome() {
       dispatch(userAction(profile.APIData[0]));
     }
   });
+
+  // useEffect(() => {
+  //   const payload = {
+  //     token: localStorage.getItem('token'),
+  //     id: localStorage.getItem('userName'),
+  //   };
+  //   if(tweetPostSTTS === "success"){
+  //   dispatch(getAllTweetsapiFetchInitiated(payload));
+  //   }
+    
+  // }, []);
+
+  useEffect(() => {
+    if(tweetPostSTTS === 'Error')  {  
+      swal({
+        title: "Please provide a image",
+        icon: 'error',
+      });}
+  }, [tweetPostSTTS === 'Error']);
+
   if (screenChange)
     return (
       <Grid container>
@@ -56,6 +82,7 @@ export default function TweetHome() {
         ) : (
           <>
             <LeftNavBar />
+
             <WhatsHappening />
 
             <div className='mainTweet'>
@@ -66,6 +93,27 @@ export default function TweetHome() {
                   profile.APIData[0].profilePicture
                 }
               />
+              {tweetStatus === "Error" && (
+                          <>
+                            <div style={{ width: "100px", margin: "auto" }}>
+                              <SentimentVeryDissatisfiedIcon
+                                sx={{
+                                  height: "100px",
+                                  width: "100px",
+                                  color: "GrayText",
+                                }}
+                              />
+                            </div>
+                            <Typography
+                              sx={{ color: "GrayText", textAlign: "center" }}
+                              variant="h4"
+                              textAlign="center"
+                              fontSize="1.9rem"
+                            >
+                              Hmm!! Looks like there are no Tweets!!
+                            </Typography>
+                          </>
+                        )}
               {tweetStatus === 'loading' ? (
                 <>
                   <Skeleton

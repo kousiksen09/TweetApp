@@ -75,6 +75,7 @@ function TweetCard(props) {
             {props.caption}
           </Typography>
         </CardContent>
+        {props.postImg !== null ? 
 
         <div className="imgCont">
           <img
@@ -82,7 +83,8 @@ function TweetCard(props) {
             className="postImg"
             alt={props.caption}
           />
-        </div>
+        </div> : ""
+        }
 
         <div className="reactionCont">
           <Stack direction="row" spacing={3}>

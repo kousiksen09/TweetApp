@@ -124,7 +124,7 @@ function ReplyCard(props) {
                   <Avatar
                     sx={{ width: 46, height: 46 }}
                     alt="profile"
-                    src={user && user.profilePicture}
+                    src={`https://tweetappimages.blob.core.windows.net/tweetappimages/${user && user.profilePicture}`}
                   />
 
                   <Input

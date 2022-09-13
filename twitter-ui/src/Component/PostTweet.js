@@ -59,7 +59,7 @@ function PostTweet(props) {
   );
   useEffect(() => {
     if (tweetPostSTTS === "success") {
-      console.log("Image", imageRef.imagepost);
+            
       uploadfIle(
         imageRef.imagepost,
         tweetPostReducer && tweetPostReducer.result.image
