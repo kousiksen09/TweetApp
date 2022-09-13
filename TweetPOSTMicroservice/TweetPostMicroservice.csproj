@@ -36,13 +36,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TweetApp-Common\TweetApp-Common.csproj" />
-    <ProjectReference Include="..\TweetAppAPIGateway\TweetAppAPIGateway.csproj">
-      <TreatAsUsed>true</TreatAsUsed>
-    </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Images\" />
   </ItemGroup>
 
 </Project>

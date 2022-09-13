@@ -83,11 +83,6 @@ namespace TweetPOSTMicroservice
             //app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
-                RequestPath = "/Images"
-            });
 
             app.UseAuthentication();
             app.UseAuthorization();

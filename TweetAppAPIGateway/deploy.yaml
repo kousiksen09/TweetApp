@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tweetappapigateway
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tweetappapigateway
+    spec:
+      containers:
+        - name: tweetappapigateway
+          image: kousiksen09/tweetappapigateway:djdinesh
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://*:80
+  selector:
+    matchLabels:
+      app: tweetappapigateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tweetappapigateway
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+    app: tweetappapigateway

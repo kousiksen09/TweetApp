@@ -9,7 +9,6 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["TweetPOSTMicroservice/TweetPostMicroservice.csproj", "TweetPOSTMicroservice/"]
 COPY ["TweetApp-Common/TweetApp-Common.csproj", "TweetApp-Common/"]
-COPY ["TweetAppAPIGateway/TweetAppAPIGateway.csproj", "TweetAppAPIGateway/"]
 RUN dotnet restore "TweetPOSTMicroservice/TweetPostMicroservice.csproj"
 COPY . .
 WORKDIR "/src/TweetPOSTMicroservice"

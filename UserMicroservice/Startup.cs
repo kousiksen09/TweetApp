@@ -94,11 +94,11 @@ namespace UserMicroservice
             }
 
             app.UseHsts();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
-                RequestPath="/Images"
-            });
+            //app.UseStaticFiles(new StaticFileOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
+            //    RequestPath="/Images"
+            //});
             //app.UseHttpsRedirection();
             app.UseCors(_policyName);
             app.UseRouting();

@@ -86,7 +86,7 @@ namespace TweetPOSTMicroservice.Repository
                     UserId = tweets.UserId,
                     TweetID = tweets.TweetID,
                     Caption = tweets.Caption,
-                    Image = "http://localhost:5500/Images/" + tweets.Image
+                    Image = tweets.Image
                 }
                  );
             }
@@ -106,7 +106,7 @@ namespace TweetPOSTMicroservice.Repository
                     UserId = tweets.UserId,
                     TweetID = tweets.TweetID,
                     Caption = tweets.Caption,
-                    Image = "http://localhost:5500/Images/" + tweets.Image
+                    Image =  tweets.Image
             }
                  );
             }
@@ -117,7 +117,7 @@ namespace TweetPOSTMicroservice.Repository
         public async Task<TweetReadDTO> GetTweetById(int tweetId)
         {
             Tweet tweet = await _db.Tweets.FirstOrDefaultAsync(x => x.TweetID == tweetId);
-            tweet.Image = "http://localhost:5500/Images/" + tweet.Image;
+            tweet.Image =  tweet.Image;
             return _mapper.Map<TweetReadDTO>(tweet);
         }
 
@@ -134,7 +134,7 @@ namespace TweetPOSTMicroservice.Repository
                 var value = await _db.SaveChangesAsync();
                 if (value > 0)
                 {
-                    new_tweet.Image = "http://localhost:5500/Images/" + tweetDTO.Image;
+                    new_tweet.Image =  tweetDTO.Image;
                     return _mapper.Map<Tweet, TweetReadDTO>(new_tweet);
                 }
                 throw new Exception("Something went wrong with the database please check.");
@@ -157,7 +157,7 @@ namespace TweetPOSTMicroservice.Repository
             if (value > 0)
             {
                 TweetReadDTO tweets = new TweetReadDTO();
-                tweet.Image = "http://localhost:5500/Images/" + tweetDTO.Image;
+                tweet.Image =  tweetDTO.Image;
                 return _mapper.Map<Tweet, TweetReadDTO>(tweet);
             }
             else

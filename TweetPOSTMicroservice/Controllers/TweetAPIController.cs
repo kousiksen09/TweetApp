@@ -132,7 +132,14 @@ namespace TweetPOSTMicroservice.Controllers
         {
             try
             {
-                tweetDTO.Image = await _tweetRepository.SaveImage(tweetDTO.PostImage);
+                if(tweetDTO.PostImage != null)
+                {
+                    tweetDTO.Image = await _tweetRepository.SaveImage(tweetDTO.PostImage);
+                }
+                else
+                {
+                    tweetDTO.Image = null;
+                }
                 TweetReadDTO tweetmodel = await _tweetRepository.CreateTweet(tweetDTO, userId: username);
                 _response.Result = tweetmodel;
 
