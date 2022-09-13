@@ -10,4 +10,4 @@ export const axios_instance = axios.create({
   },
 });
 
-export const BaseURL = 'http://localhost:5503/gateway';
+export const BaseURL = 'http://20.219.225.7/gateway';
