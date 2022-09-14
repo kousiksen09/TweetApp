@@ -1,1 +1,11 @@
 TweetApp
+
+
+bc_wallet_220909_1e9fq5c1nx@BuilderCloudProvisioning.onmicrosoft.com
+
+DPcPYkB7!
+
+https://portal.azure.com
+
+
+
