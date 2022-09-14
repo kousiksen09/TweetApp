@@ -10,4 +10,7 @@ export const axios_instance = axios.create({
   },
 });
 
+// export const BaseURL = 'https://20.244.76.63/gateway';
+
 export const BaseURL = 'http://20.219.225.7/gateway';
+

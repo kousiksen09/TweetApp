@@ -9,6 +9,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useSelector } from "react-redux";
 import "../Utility/TweetHomeStyle.css";
 import { Link, useNavigate } from "react-router-dom";
+import finalPropsSelectorFactory from "react-redux/es/connect/selectorFactory";
 
 const useStyles = makeStyles((theme) => ({
   iconBtn: {
@@ -28,14 +29,17 @@ function LeftNavBar() {
 
   const username = profileUser.isAuthenticated && profileUser.user.userName;
   const logOut = () => {
-    localStorage.clear();
-    navigate("/", { replace: true });
+    localStorage.setItem('authenticated', false);
+    localStorage.removeItem('token');
+    localStorage.clear();    
+    if(!(localStorage.getItem('authenticated'))){
+    navigate("/", { replace: true });}
   };
   return (
     <header className="root">
       <div className="iconContainer">
         <Stack direction="column" justifyContent="center" spacing={2}>
-          <Link to="/feed">
+          <Link to="/">
             <IconButton
               classes={{ root: classes.iconBtn }}
               aria-label="Tweet"
@@ -44,7 +48,7 @@ function LeftNavBar() {
               <TwitterIcon className="MuiButtonBase-root MuiIconButton-root" />
             </IconButton>
           </Link>
-          <Link to="/feed">
+          <Link to="/">
             <IconButton
               classes={{ root: classes.iconBtn }}
               aria-label="Tweet"
@@ -53,7 +57,7 @@ function LeftNavBar() {
               <HomeIcon className="MuiButtonBase-root MuiIconButton-root" />
             </IconButton>
           </Link>
-          <Link to="/">
+          <Link to="/feed">
             <IconButton
               classes={{ root: classes.iconBtn }}
               aria-label="Tweet"
@@ -62,7 +66,7 @@ function LeftNavBar() {
               <TagIcon className="MuiButtonBase-root MuiIconButton-root" />
             </IconButton>
           </Link>
-          <Link to="/">
+          <Link to="/feed">
             <IconButton
               classes={{ root: classes.iconBtn }}
               aria-label="Tweet"
