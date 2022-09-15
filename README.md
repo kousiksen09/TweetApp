@@ -14,3 +14,10 @@ gMpZgdks!
 
 https://portal.azure.com
 
+
+bc_wallet_220911_xdmqjkjqhl@BuilderCloudProvisioning.onmicrosoft.com
+
+0hOWeEIb!
+
+https://portal.azure.com
+
