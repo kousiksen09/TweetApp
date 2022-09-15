@@ -8,4 +8,9 @@ DPcPYkB7!
 https://portal.azure.com
 
 
+bc_wallet_220821_zpaty67yit@BuilderCloudProvisioning.onmicrosoft.com
+
+gMpZgdks!
+
+https://portal.azure.com
 
